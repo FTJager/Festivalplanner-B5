@@ -13,21 +13,21 @@ public class Stage {
     }
 
     public String getStageName() {
-        return stageName;
+        return this.stageName;
     }
     public void setStageName(String stageName){
         this.stageName = stageName;
     }
 
     public int getSize() {
-        return size;
+        return this.size;
     }
     public void setSize(int size){
         this.size = size;
     }
 
     public boolean getInUse() {
-        return inUse;
+        return this.inUse;
     }
     public void setInUse(boolean inUse){
         this.inUse = inUse;
