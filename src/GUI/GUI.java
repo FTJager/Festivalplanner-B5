@@ -1,6 +1,5 @@
 package GUI;
 
-import Data.Artist;
 import Data.Show;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -8,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -16,12 +14,26 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.IOError;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUI extends Application {
+
+    private Button newButton;
+    private Button editButton;
+    private Button deleteButton;
+    private Button doneButton;
+    private Button yesButton;
+    private Button noButton;
+
+    private HBox buttonBox = new HBox();
+    private TableView<TableColumn> tableView = new TableView<>();
+    private Popup newAndEditPopup;
+    private Popup delPopup;
+
+    private ArrayList<Show> shows;
+    private Stage stage;
+
 
     public static void main(String[] args) {
         launch(GUI.class);
@@ -29,16 +41,120 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-//        ArrayList<String> artists = new ArrayList<>();
-//        ArrayList<String> stages = new ArrayList<>();
-//        ArrayList<Integer> beginTimes = new ArrayList<>();
-//        ArrayList<Integer> endTimes = new ArrayList<>();
-//        ArrayList<Integer> popularity = new ArrayList<>();
+        this.stage = stage;
 
-        ArrayList<Show> shows = new ArrayList<>();
+        initialiseButtons();
+        initialiseButtonActions();
 
+        newAndEditPopup();
+        delPopup();
+
+        tableView();
+
+        initialiseMainScene();
+    }
+
+
+
+    //Initialises the main scene
+    public void initialiseMainScene(){
+        this.shows = new ArrayList<>();
+        VBox vBox = new VBox();
+        vBox.setSpacing(10);
+        vBox.getChildren().addAll(tableView);
+        BorderPane pane = new BorderPane();
+
+        pane.setCenter(vBox);
+        pane.setBottom(this.buttonBox);
+
+        this.stage.setWidth(900);
+        this.stage.setHeight(500);
+        this.stage.setTitle("Festival Agenda");
+
+        Scene scene = new Scene(new Group());
+        ((Group) scene.getRoot()).getChildren().addAll(pane);
+        this.stage.setScene(scene);
+        this.stage.show();
+
+
+    }
+
+    //Making Buttons
+    public void initialiseButtons() {
+        this.newButton = new Button("New");
+        this.editButton = new Button("Edit");
+        this.deleteButton = new Button("Delete");
+        this.doneButton = new Button("Done");
+        this.yesButton = new Button("Yes");
+        this.noButton = new Button("No");
+    }
+
+    //Making Button Actions
+    public void initialiseButtonActions() {
+        buttonBox.setSpacing(50);
+        buttonBox.getChildren().addAll(newButton, editButton, deleteButton);
+
+        newButton.setOnAction(event -> {
+            if (!newAndEditPopup.isShowing() && !delPopup.isShowing()){
+                newAndEditPopup.show(stage);
+//                artists.add(artistField.getText());
+//                stages.add(stageField.getText());
+//                beginTimes.add(Integer.parseInt(beginTimeField.getText()));
+//                endTimes.add(Integer.parseInt(endTimeField.getText()));
+            }
+        });
+
+        editButton.setOnAction(event ->{
+            if(!newAndEditPopup.isShowing() && !delPopup.isShowing()){
+                newAndEditPopup.show(stage);
+            }
+        });
+
+//        doneButton.setOnAction (event -> {
+//            try {
+//                if(newAndEditPopup.isShowing()) {
+//                    for (Show show : shows){
+//                        if (!shows.contains(show)){
+//                            shows.add(new Show(artistField.getText(), Integer.parseInt(beginTimeField.getText()),
+//                                    Integer.parseInt(endTimeField.getText()), Integer.parseInt(popularityField.getText()), Integer.parseInt(stageField.getText())));
+//                        }
+//                    }
+//                    System.out.println(shows);
+//                    this.newAndEditPopup.hide();
+//                }
+//            }
+//
+//
+//            catch (IOError e) {
+//                e.printStackTrace();
+//            }
+//            catch (NullPointerException e){
+//                System.out.println("is null");
+//            }
+//        });
+
+        deleteButton.setOnAction(event ->{
+            if(!delPopup.isShowing() && !newAndEditPopup.isShowing()){
+                delPopup.show(stage);
+            }
+        });
+
+        noButton.setOnAction(event -> {
+            if(delPopup.isShowing()){
+                delPopup.hide();
+            }
+        });
+
+        yesButton.setOnAction(event -> {
+            if(delPopup.isShowing()){
+                delPopup.hide();
+            }
+        });
+}
+
+    //Makes the table on the main scene
+    public void tableView() {
         //TABLE
-        TableView tableView = new TableView();
         TableColumn timeColumn = new TableColumn("Time:");
         TableColumn mainStageColumn = new TableColumn("Main stage:");
         TableColumn backStageColumn = new TableColumn("Back stage:");
@@ -51,39 +167,18 @@ public class GUI extends Application {
         sideStageColumn.setPrefWidth(200);
         smallStageColumn.setPrefWidth(200);
 
-        tableView.getColumns().addAll(timeColumn,
+        this.tableView.getColumns().addAll(timeColumn,
                 mainStageColumn,
                 backStageColumn,
                 sideStageColumn,
                 smallStageColumn);
-        tableView.setEditable(false);
-        VBox vBox = new VBox();
-        vBox.setSpacing(10);
-        vBox.getChildren().addAll(tableView);
-        BorderPane pane = new BorderPane();
+        this.tableView.setEditable(false);
+    }
 
-        //BUTTONS
-        Button newButton = new Button("New");
-        Button editButton = new Button("Edit");
-        Button deleteButton = new Button("Delete");
-        HBox buttonBox = new HBox();
-        buttonBox.setSpacing(50);
-        buttonBox.getChildren().addAll(newButton, editButton, deleteButton);
+    //Makes the popup when you click on "New" or "Edit"
+    public void newAndEditPopup() {
+         Popup newAndEditPopup = new Popup();
 
-        pane.setCenter(vBox);
-        pane.setBottom(buttonBox);
-
-        stage.setWidth(900);
-        stage.setHeight(500);
-        stage.setTitle("Festival Agenda");
-
-        Scene scene = new Scene(new Group());
-        ((Group) scene.getRoot()).getChildren().addAll(pane);
-        stage.setScene(scene);
-        stage.show();
-
-        //NEW AND EDIT POPUP ASSETS
-        Popup popup = new Popup();
         Label artistLabel = new Label("Artist: ");
         TextField artistField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
@@ -98,6 +193,7 @@ public class GUI extends Application {
         Button doneButton = new Button("Done");
 
         VBox labelBox = new VBox();
+
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
         VBox fieldBox = new VBox();
@@ -115,10 +211,14 @@ public class GUI extends Application {
         popupPane.setStyle("-fx-background-color: #b8b8b8;");
         popupPane.getChildren().addAll(popupVBox);
 
-        popup.getContent().addAll(popupPane);
-        popup.setAutoHide(false);
+        newAndEditPopup.getContent().addAll(popupPane);
+        newAndEditPopup.setAutoHide(false);
 
-        //DELETE POPUP ASSETS
+        this.newAndEditPopup = newAndEditPopup;
+    }
+
+    //Makes the popup when the "Delete" button is clicked
+    public void delPopup() {
         Popup delPopup = new Popup();
         Label delPopupLabel = new Label("Are you sure?");
         Button yesButton = new Button("Yes");
@@ -136,61 +236,6 @@ public class GUI extends Application {
         delPopup.getContent().addAll(delPopupPane);
         delPopup.setAutoHide(false);
 
-        //BUTTON ACTIONS
-        newButton.setOnAction(event -> {
-            if (!popup.isShowing() && !delPopup.isShowing()){
-                popup.show(stage);
-//                artists.add(artistField.getText());
-//                stages.add(stageField.getText());
-//                beginTimes.add(Integer.parseInt(beginTimeField.getText()));
-//                endTimes.add(Integer.parseInt(endTimeField.getText()));
-            }
-
-        });
-
-        editButton.setOnAction(event ->{
-            if(!popup.isShowing() && !delPopup.isShowing()){
-                popup.show(stage);
-            }
-        });
-
-        doneButton.setOnAction (event -> {
-            try {
-                if(popup.isShowing()) {
-                    for (Show show : shows){
-                        if (!shows.contains(show)){
-                            shows.add(new Show(artistField.getText(), Integer.parseInt(beginTimeField.getText()),
-                                    Integer.parseInt(endTimeField.getText()), Integer.parseInt(popularityField.getText()), Integer.parseInt(stageField.getText())));
-                        }
-                    }
-                    System.out.println(shows);
-                    popup.hide();
-                }
-            }
-            catch (IOError e) {
-                e.printStackTrace();
-            }
-            catch (NullPointerException e){
-                System.out.println("is null");
-            }
-        });
-
-        deleteButton.setOnAction(event ->{
-            if(!delPopup.isShowing() && !popup.isShowing()){
-                delPopup.show(stage);
-            }
-        });
-
-       noButton.setOnAction(event -> {
-           if(delPopup.isShowing()){
-               delPopup.hide();
-           }
-       });
-
-       yesButton.setOnAction(event -> {
-           if(delPopup.isShowing()){
-               delPopup.hide();
-           }
-       });
+        this.delPopup = delPopup;
     }
 }
