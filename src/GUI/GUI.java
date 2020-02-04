@@ -16,10 +16,8 @@ public class GUI extends Application {
 
     private HBox buttonBox = new HBox();
     private TableView<TableColumn> tableView = new TableView<>();
-
     private ArrayList<Show> shows;
     private Stage stage;
-
 
     public static void main(String[] args) {
         launch(GUI.class);
