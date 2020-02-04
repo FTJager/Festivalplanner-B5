@@ -26,7 +26,7 @@ public class DeleteStage {
             delStage.close();
         });
 
-        noButton.setOnAction(e ->{
+        noButton.setOnAction(e -> {
             delStage.close();
         });
 
