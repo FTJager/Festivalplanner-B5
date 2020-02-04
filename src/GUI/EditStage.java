@@ -18,7 +18,7 @@ public class EditStage {
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 300, 300);
 
         Label artistLabel = new Label("Artist: ");
         TextField artistField = new TextField();
