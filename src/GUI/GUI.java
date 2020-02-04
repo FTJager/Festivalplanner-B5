@@ -11,6 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.io.IOError;
+
 public class GUI extends Application {
 
     public static void main(String[] args) {
@@ -107,14 +109,12 @@ public class GUI extends Application {
         doneButton.setOnAction (event -> {
             try {
                 if(popup.isShowing()) {
-                    if (artistField.getText().equals(dataStore.Artists.getArtists())) {
-                        //if everything is fine and the times do not overlap,
-                        //put that shit up on the table
-                        popup.hide();
-                    }
+                    popup.hide();
                 }
             }
-            catch (//give a warning for overlappig times) // whatever i dont get it
+            catch (IOError e) {
+                e.printStackTrace();
+            }
         });
 
     }
