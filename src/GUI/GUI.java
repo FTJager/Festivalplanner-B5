@@ -2,6 +2,8 @@ package GUI;
 
 import Data.Show;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -155,6 +157,7 @@ public class GUI extends Application {
     //Makes the table on the main scene
     public void tableView() {
         //TABLE
+        TableView tableView = new TableView();
         TableColumn timeColumn = new TableColumn("Time:");
         TableColumn mainStageColumn = new TableColumn("Main stage:");
         TableColumn backStageColumn = new TableColumn("Back stage:");
