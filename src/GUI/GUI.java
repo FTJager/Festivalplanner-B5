@@ -1,6 +1,6 @@
 package GUI;
 
-import Data.Show;
+import data.Show;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

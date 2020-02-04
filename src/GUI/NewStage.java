@@ -1,6 +1,6 @@
 package GUI;
 
-import Data.Show;
+import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
