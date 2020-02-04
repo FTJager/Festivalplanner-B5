@@ -6,12 +6,12 @@ import java.time.LocalDateTime;
 
 public class Show {
     private String show;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private int startTime;
+    private int endTime;
     private int popularity;
     private int stage;
 
-    public Show(String show, LocalDateTime startTime, LocalDateTime endTime, int popularity, int stage) {
+    public Show(String show, int startTime, int endTime, int popularity, int stage) {
         this.show = show;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -27,19 +27,19 @@ public class Show {
         this.show = show;
     }
 
-    public LocalDateTime getStartTime() {
+    public int getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(int startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public int getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(int endTime) {
         this.endTime = endTime;
     }
 
