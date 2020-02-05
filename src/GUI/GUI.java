@@ -2,11 +2,16 @@ package GUI;
 
 import Data.Show;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -37,17 +42,17 @@ public class GUI extends Application {
         VBox vBox = new VBox();
         vBox.setSpacing(10);
         vBox.getChildren().addAll(tableView);
-        BorderPane pane = new BorderPane();
 
-        pane.setCenter(vBox);
-        pane.setBottom(this.buttonBox);
+        FlowPane root = new FlowPane();
+        root.setAlignment(Pos.CENTER);
 
         this.stage.setWidth(900);
         this.stage.setHeight(500);
         this.stage.setTitle("Festival Agenda");
 
-        Scene scene = new Scene(new Group());
-        ((Group) scene.getRoot()).getChildren().addAll(pane);
+        Scene scene = new Scene(root, 900, 500);
+        root.getChildren().addAll(vBox, this.buttonBox);
+
         this.stage.setScene(scene);
         this.stage.show();
     }
@@ -82,17 +87,20 @@ public class GUI extends Application {
         TableColumn sideStageColumn = new TableColumn("Side stage:");
         TableColumn smallStageColumn = new TableColumn("Small stage:");
 
+        this.tableView.getColumns().addAll(timeColumn,
+                mainStageColumn,
+                backStageColumn,
+                sideStageColumn,
+                smallStageColumn);
+
         timeColumn.setPrefWidth(80);
         mainStageColumn.setPrefWidth(200);
         backStageColumn.setPrefWidth(200);
         sideStageColumn.setPrefWidth(200);
         smallStageColumn.setPrefWidth(200);
 
-        this.tableView.getColumns().addAll(timeColumn,
-                mainStageColumn,
-                backStageColumn,
-                sideStageColumn,
-                smallStageColumn);
+
+
         this.tableView.setEditable(false);
     }
 }
