@@ -102,5 +102,6 @@ public class GUI extends Application {
 
 
         this.tableView.setEditable(false);
+
     }
 }
