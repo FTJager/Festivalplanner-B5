@@ -18,11 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.swing.text.Position;
 import java.awt.*;
-import java.awt.font.GlyphVector;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -33,6 +30,7 @@ public class GUI extends Application {
     private ArrayList<Show> shows;
     private Stage stage;
     private Canvas canvas;
+    private NewStage newStage;
 
     public static void main(String[] args) {
         launch(GUI.class);
@@ -150,7 +148,7 @@ public class GUI extends Application {
     public void Buttoninteraction(){
         canvas.setOnMouseClicked(event -> {
             if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
-                NewStage newStage = new NewStage(shows);
+                newStage = new NewStage(shows);
             }
             if(event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {
                 EditStage editStage = new EditStage();
