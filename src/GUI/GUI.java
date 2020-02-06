@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,6 +16,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 public class GUI extends Application {
@@ -33,7 +36,12 @@ public class GUI extends Application {
         this.stage = stage;
         initialiseButtons();
         tableView();
-        initialiseMainScene();
+//        initialiseMainScene();
+        BorderPane borderPane = new BorderPane();
+        Canvas canvas = new Canvas();
+        borderPane.setRight(canvas);
+
+        stage.show();
     }
 
     //Initialises the main scene
