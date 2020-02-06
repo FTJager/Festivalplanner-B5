@@ -60,6 +60,7 @@ public class GUI extends Application {
 
         this.stage.setWidth(900);
         this.stage.setHeight(500);
+        this.stage.setResizable(false);
         this.stage.setTitle("Festival Agenda");
 
         Scene scene = new Scene(root, 900, 500);
@@ -119,7 +120,7 @@ public class GUI extends Application {
             tablePath.lineTo(canvas.getWidth(), beginY);
             tablePath.lineTo(canvas.getWidth(), beginY + 20);
             tablePath.lineTo(beginX, beginY + 20);
-            if(i%2 == 0) {
+            if(i % 2 == 0) {
                 graphics.setColor(Color.getHSBColor(0, 0, 0.78f));
                 graphics.fill(tablePath);
             }
