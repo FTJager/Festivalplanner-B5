@@ -45,12 +45,7 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e ->{
-            for(Show show : shows){
-                if(!shows.contains(show)){
-                    shows.add(show);
-                }
-            }
-            System.out.println("New shows: " + shows);
+//            Show newShow = new Show(artistField.getText(), Integer.parseInt(beginTimeField.getText()), Integer.parseInt(endTimeField.getText()), Integer.parseInt(popularityField.getText()), Integer.parseInt(stageField.getText()));
             newStage.close();
         });
 

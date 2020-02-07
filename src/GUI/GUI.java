@@ -18,6 +18,8 @@ public class GUI extends Application {
     private Stage stage;
     private Canvas canvas;
     private NewStage newStage;
+    private static final int BUTTON_ARC = 3;
+
 
     public static void main(String[] args) {
         launch(GUI.class);
@@ -25,11 +27,12 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.canvas = new Canvas(800, 630);
+        this.canvas = new Canvas(900, 630);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
+        this.stage.setResizable(false);
         this.stage.show();
         Buttoninteraction();
     }
@@ -45,7 +48,7 @@ public class GUI extends Application {
         topPath.lineTo(canvas.getWidth(), 57);
         topPath.lineTo(0, 57);
         topPath.lineTo(0,0);
-        graphics.setColor(Color.getHSBColor(0, 0, 0.5f));
+        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
         graphics.fill(topPath);
 
         //Makes the small black line at the top of the table
@@ -57,6 +60,19 @@ public class GUI extends Application {
         topLine.lineTo(0, 60);
         graphics.setColor(Color.black);
         graphics.fill(topLine);
+
+
+        //werkt niet? Weet niet waarom.
+//        //Makes the bottom part
+//        GeneralPath bottomPath = new GeneralPath();
+//        bottomPath.moveTo(0, 560);
+//        bottomPath.moveTo(canvas.getWidth(), 560);
+//        bottomPath.moveTo(canvas.getWidth(), canvas.getHeight());
+//        bottomPath.moveTo(0, canvas.getHeight());
+//        bottomPath.moveTo(0, 560);
+//        graphics.setColor(Color.getHSBColor(0, 0, 1));
+//        graphics.fill(bottomPath);
+//        graphics.draw(bottomPath);
 
         //Makes the main table
         float beginX = 0;
@@ -70,7 +86,7 @@ public class GUI extends Application {
             tablePath.lineTo(beginX, beginY + 20);
             //Makes the table in 2 colors
             if(i % 2 == 0) {
-                graphics.setColor(Color.getHSBColor(0, 0, 0.78f));
+                graphics.setColor(Color.getHSBColor(0.953f, 0.20f, 0.95f));
                 graphics.fill(tablePath);
             }
             else {
@@ -78,25 +94,41 @@ public class GUI extends Application {
                 graphics.fill(tablePath);
             }
             graphics.setColor(Color.black);
-            graphics.drawString(i + "", beginX + 10, beginY + 15);
+            if(i < 10) {
+                graphics.drawString("0"+  i, beginX + 15, beginY + 15);
+            }
+            else graphics.drawString(i + "", beginX + 15, beginY + 15);
             beginY += 20;
         }
 
+        //Makes the text for the stages
+        graphics.setColor(Color.white);
+        Font GUIFont = new Font("Roboto", Font.BOLD, 20);
+        graphics.setFont(GUIFont);
+        graphics.drawString("Time", 15, 45);
+        graphics.drawString("Main Stage", 100, 45);
+        graphics.drawString("Side Stage", 300, 45);
+        graphics.drawString("Back Stage", 500, 45);
+        graphics.drawString("Small Stage", 700, 45);
+
         //Makes the buttons "New", "Edit" and "Delete"
-        graphics.setColor(Color.black);
-        RoundRectangle2D newButton = new RoundRectangle2D.Double(30, 570.0, 80, 30, 8, 8);
-        RoundRectangle2D editButton = new RoundRectangle2D.Double(135, 570.0, 80, 30, 8, 8);
-        RoundRectangle2D deleteButton = new RoundRectangle2D.Double(240, 570.0, 80, 30, 8, 8);
+        RoundRectangle2D newButton = new RoundRectangle2D.Double(30, canvas.getHeight() - 50, 80, 30, BUTTON_ARC, BUTTON_ARC);
+        RoundRectangle2D editButton = new RoundRectangle2D.Double(135, canvas.getHeight() - 50, 80, 30, BUTTON_ARC, BUTTON_ARC);
+        RoundRectangle2D deleteButton = new RoundRectangle2D.Double(240, canvas.getHeight() - 50, 80, 30, BUTTON_ARC, BUTTON_ARC);
 
-        Font buttonFont = new Font("Arial", Font.PLAIN, 25);
-        graphics.setFont(buttonFont);
-        graphics.drawString("new", 45, 590);
-        graphics.drawString("edit", 150, 590);
-        graphics.drawString("delete", 250, 590);
+        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
+        graphics.fill(newButton);
+        graphics.fill(editButton);
+        graphics.fill(deleteButton);
 
-        graphics.draw(newButton);
-        graphics.draw(editButton);
-        graphics.draw(deleteButton);
+
+        graphics.setColor(Color.white);
+        graphics.setFont(GUIFont);
+        graphics.drawString("new", 51, (int)canvas.getHeight() - 30);
+        graphics.drawString("edit", 158, (int)canvas.getHeight() - 30);
+        graphics.drawString("delete", 252, (int)canvas.getHeight() - 30);
+
+
     }
 
 
