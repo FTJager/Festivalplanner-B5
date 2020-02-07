@@ -1,6 +1,7 @@
-package GUI;
+package gui;
 
-import Data.Show;
+import data.DataStore;
+import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class NewStage {
     ArrayList<Show> shows;
@@ -25,8 +28,9 @@ public class NewStage {
     private Stage newStage;
 
 
-    public NewStage(ArrayList<Show> shows){
-
+    public NewStage(ArrayList<Show> shows) {
+        DataStore dataStore = new DataStore();
+        List<Show> showList = new ArrayList<>();
         this.shows = shows;
 
         this.newStage = new Stage();
@@ -44,13 +48,18 @@ public class NewStage {
 
         Button doneButton = new Button("Done");
 
-        doneButton.setOnAction(e ->{
-            for(Show show : shows){
-                if(!shows.contains(show)){
-                    shows.add(show);
-                }
+        doneButton.setOnAction(e -> {
+            dataStore.setShow(new Show(artistField.getText(),
+                    Integer.parseInt(beginTimeField.getText()),
+                    Integer.parseInt(endTimeField.getText()),
+                    Integer.parseInt(popularityField.getText()),
+                    Integer.parseInt(stageField.getText())));
+            showList.add(dataStore.getShow());
+
+            for(Show show : showList){
+                System.out.println(show.getEndTime());
             }
-            System.out.println("New shows: " + shows);
+
             newStage.close();
         });
 
