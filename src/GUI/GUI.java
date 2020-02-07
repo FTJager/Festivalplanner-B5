@@ -1,6 +1,7 @@
-package GUI;
+package gui;
 
-import Data.Show;
+
+import data.Show;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class GUI extends Application {
 
-    private ArrayList<Show> shows;
+    private ArrayList<Show> shows1;
     private Stage stage;
     private Canvas canvas;
     private NewStage newStage;
@@ -62,17 +63,16 @@ public class GUI extends Application {
         graphics.fill(topLine);
 
 
-        //werkt niet? Weet niet waarom.
-//        //Makes the bottom part
-//        GeneralPath bottomPath = new GeneralPath();
-//        bottomPath.moveTo(0, 560);
-//        bottomPath.moveTo(canvas.getWidth(), 560);
-//        bottomPath.moveTo(canvas.getWidth(), canvas.getHeight());
-//        bottomPath.moveTo(0, canvas.getHeight());
-//        bottomPath.moveTo(0, 560);
-//        graphics.setColor(Color.getHSBColor(0, 0, 1));
-//        graphics.fill(bottomPath);
-//        graphics.draw(bottomPath);
+       //Lower bar of the GUI
+        GeneralPath bottomPath = new GeneralPath();
+        bottomPath.moveTo(0, 560);
+        bottomPath.lineTo(canvas.getWidth(), 560);
+        bottomPath.lineTo(canvas.getWidth(), canvas.getHeight());
+        bottomPath.lineTo(0, canvas.getHeight());
+        bottomPath.lineTo(0, 560);
+        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
+        graphics.fill(bottomPath);
+        graphics.draw(bottomPath);
 
         //Makes the main table
         float beginX = 0;
@@ -137,7 +137,7 @@ public class GUI extends Application {
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
             if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
-                newStage = new NewStage(shows);
+                newStage = new NewStage(shows1);
             }
             //Event for "Edit" button
             if(event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {

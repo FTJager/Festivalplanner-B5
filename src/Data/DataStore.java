@@ -4,19 +4,23 @@ import data.Artist;
 import data.Show;
 import data.Stage;
 
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class DataStore {
     private Artist artist;
     private Show show;
     private Stage stage;
     private ArrayList<Artist> artists;
-    private HashMap<String, Artist> shows;
+    private ArrayList<Show> showsA;
+    private HashMap<String, Artist> showsH;
 
     public DataStore() {
         this.artists = new ArrayList<>();
-        this.shows = new HashMap<>();
+        this.showsH = new HashMap<>();
+        this.showsA = new ArrayList<>();
     }
 
 
@@ -68,15 +72,26 @@ public class DataStore {
         }
     }
 
-    public void setShows(HashMap<String, Artist> shows){
-        this.shows = shows;
+    public List<Show> getShowsA(List<Show> showsA){
+        if(this.showsA == null){
+            throw new NullPointerException("The list has not been initialized yet!");
+        }
+        return this.showsA;
+    }
+
+    public void setShowsA(ArrayList<Show> showsA){
+        this.showsA = showsA;
+    }
+
+    public void setShowsH(HashMap<String, Artist> shows){
+        this.showsH = shows;
     }
 
     public HashMap<String, Artist> getShows(){
-        if(this.shows == null){
+        if(this.showsH == null){
             throw new NullPointerException("Ya doofus, ya did again!");
         } else {
-            return this.shows;
+            return this.showsH;
         }
     }
 }
