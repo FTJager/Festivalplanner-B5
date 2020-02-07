@@ -15,11 +15,21 @@ import java.util.ArrayList;
 
 public class NewStage {
     ArrayList<Show> shows;
+
+    private TextField artistField = new TextField();
+    private TextField stageField = new TextField();
+    private TextField popularityField = new TextField();
+    private TextField beginTimeField = new TextField();
+    private TextField endTimeField = new TextField();
+
+    private Stage newStage;
+
+
     public NewStage(ArrayList<Show> shows){
 
         this.shows = shows;
 
-        Stage newStage = new Stage();
+        this.newStage = new Stage();
         newStage.setTitle("New show");
 
         FlowPane root = new FlowPane();
@@ -27,25 +37,15 @@ public class NewStage {
         Scene scene = new Scene(root, 300, 300);
 
         Label artistLabel = new Label("Artist: ");
-        TextField artistField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
-        TextField popularityField = new TextField();
         Label stageLabel = new Label("Stage:");
-        TextField stageField = new TextField();
         Label beginTimeLabel = new Label("BeginTime: ");
-        TextField beginTimeField = new TextField();
         Label endTimeLabel = new Label("EndTime: ");
-        TextField endTimeField = new TextField();
 
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e ->{
-            for(Show show : shows){
-                if(!shows.contains(show)){
-                    shows.add(show);
-                }
-            }
-            System.out.println("New shows: " + shows);
+//            Show newShow = new Show(artistField.getText(), Integer.parseInt(beginTimeField.getText()), Integer.parseInt(endTimeField.getText()), Integer.parseInt(popularityField.getText()), Integer.parseInt(stageField.getText()));
             newStage.close();
         });
 
@@ -67,5 +67,4 @@ public class NewStage {
         newStage.setScene(scene);
         newStage.show();
     }
-
 }
