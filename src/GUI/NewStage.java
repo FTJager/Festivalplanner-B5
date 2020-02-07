@@ -13,8 +13,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
+/**
+ * TODO Error catching for the empty textfields (Can be fixed through the done button)
+ */
 
 public class NewStage {
     ArrayList<Show> shows;
@@ -29,56 +32,56 @@ public class NewStage {
 
 
     public NewStage(ArrayList<Show> shows) {
-        DataStore dataStore = new DataStore();
-        List<Show> showList = new ArrayList<>();
-        this.shows = shows;
+            DataStore dataStore = new DataStore();
+            List<Show> showList = new ArrayList<>();
+            this.shows = shows;
 
-        this.newStage = new Stage();
-        newStage.setTitle("New show");
+            this.newStage = new Stage();
+            newStage.setTitle("New show");
 
-        FlowPane root = new FlowPane();
-        root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 300);
+            FlowPane root = new FlowPane();
+            root.setAlignment(Pos.CENTER);
+            Scene scene = new Scene(root, 300, 300);
 
-        Label artistLabel = new Label("Artist: ");
-        Label popularityLabel = new Label("Popularity: ");
-        Label stageLabel = new Label("Stage:");
-        Label beginTimeLabel = new Label("BeginTime: ");
-        Label endTimeLabel = new Label("EndTime: ");
+            Label artistLabel = new Label("Artist: ");
+            Label popularityLabel = new Label("Popularity: ");
+            Label stageLabel = new Label("Stage:");
+            Label beginTimeLabel = new Label("BeginTime: ");
+            Label endTimeLabel = new Label("EndTime: ");
 
-        Button doneButton = new Button("Done");
+            Button doneButton = new Button("Done");
 
-        doneButton.setOnAction(e -> {
-            dataStore.setShow(new Show(artistField.getText(),
-                    Integer.parseInt(beginTimeField.getText()),
-                    Integer.parseInt(endTimeField.getText()),
-                    Integer.parseInt(popularityField.getText()),
-                    Integer.parseInt(stageField.getText())));
-            showList.add(dataStore.getShow());
+            doneButton.setOnAction(e -> {
+                dataStore.setShow(new Show(artistField.getText(),
+                        Integer.parseInt(beginTimeField.getText()),
+                        Integer.parseInt(endTimeField.getText()),
+                        Integer.parseInt(popularityField.getText()),
+                        Integer.parseInt(stageField.getText())));
+                showList.add(dataStore.getShow());
 
-            for(Show show : showList){
-                System.out.println(show.getEndTime());
-            }
+                for (Show show : showList) {
+                    System.out.println(show.getEndTime());
+                }
 
-            newStage.close();
-        });
+                newStage.close();
+            });
 
-        VBox labelBox = new VBox();
-        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(35);
-        VBox fieldBox = new VBox();
-        fieldBox.getChildren().addAll(artistField, popularityField, stageField, beginTimeField, endTimeField);
-        fieldBox.setSpacing(20);
+            VBox labelBox = new VBox();
+            labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
+            labelBox.setSpacing(35);
+            VBox fieldBox = new VBox();
+            fieldBox.getChildren().addAll(artistField, popularityField, stageField, beginTimeField, endTimeField);
+            fieldBox.setSpacing(20);
 
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(labelBox, fieldBox);
-        hBox.setSpacing(10);
-        VBox popupVBox = new VBox();
-        popupVBox.getChildren().addAll(hBox, doneButton);
-        popupVBox.setSpacing(15);
+            HBox hBox = new HBox();
+            hBox.getChildren().addAll(labelBox, fieldBox);
+            hBox.setSpacing(10);
+            VBox popupVBox = new VBox();
+            popupVBox.getChildren().addAll(hBox, doneButton);
+            popupVBox.setSpacing(15);
 
-        root.getChildren().addAll(popupVBox);
-        newStage.setScene(scene);
-        newStage.show();
+            root.getChildren().addAll(popupVBox);
+            newStage.setScene(scene);
+            newStage.show();
     }
 }
