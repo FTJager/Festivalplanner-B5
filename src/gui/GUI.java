@@ -13,6 +13,7 @@ import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
+import java.io.EOFException;
 import java.util.ArrayList;
 
 public class GUI extends Application {
@@ -41,7 +42,11 @@ public class GUI extends Application {
         this.stage.show();
         Buttoninteraction();
 
-        serializer.Write(new ArrayList<Show>());
+        try{
+            System.out.println("Current saved shows: " + deserializer.Read().size());
+        }catch (NullPointerException n){
+            n.printStackTrace();
+        }
     }
 
 

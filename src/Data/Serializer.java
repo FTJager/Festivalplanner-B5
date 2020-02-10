@@ -27,4 +27,19 @@ public class Serializer implements Serializable{
         }
 
     }
+
+    public void Clear(){
+        try {
+            FileOutputStream fileOut = new FileOutputStream("Resources/dataStore.ser");
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+
+            objOut.writeObject(new ArrayList<Show>());
+
+            objOut.close();
+            fileOut.close();
+
+        }catch (IOException i){
+            i.printStackTrace();
+        }
+    }
 }
