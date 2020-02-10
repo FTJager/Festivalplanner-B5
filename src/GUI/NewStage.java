@@ -1,6 +1,8 @@
 package gui;
 
 import data.DataStore;
+import data.Deserializer;
+import data.Serializer;
 import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,13 +14,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NewStage {
-    ArrayList<Show> shows;
+public class NewStage implements Serializable {
+    List<Show> showList = new ArrayList<>();
 
+    Serializer serializer = new Serializer();
+    Deserializer deserializer = new Deserializer();
     private TextField artistField = new TextField();
     private TextField stageField = new TextField();
     private TextField popularityField = new TextField();
@@ -28,10 +33,10 @@ public class NewStage {
     private Stage newStage;
 
 
-    public NewStage(ArrayList<Show> shows) {
+    public NewStage() {
         DataStore dataStore = new DataStore();
-        List<Show> showList = new ArrayList<>();
-        this.shows = shows;
+
+        showList = deserializer.Read();
 
         this.newStage = new Stage();
         newStage.setTitle("New show");
@@ -54,13 +59,23 @@ public class NewStage {
                     Integer.parseInt(endTimeField.getText()),
                     Integer.parseInt(popularityField.getText()),
                     Integer.parseInt(stageField.getText())));
-            showList.add(dataStore.getShow());
+            this.showList.add(dataStore.getShow());
 
-            for(Show show : showList){
+            for(Show show : this.showList){
                 System.out.println(show.getEndTime());
             }
 
             newStage.close();
+            System.out.println(this.showList);
+            if (!this.showList.isEmpty()){
+                serializer.Write(this.showList);
+            }
+
+            //TEMP, TEST
+            System.out.println(deserializer.Read());
+            for (Show show : showList){
+                System.out.println(show.getShow());
+            }
         });
 
         VBox labelBox = new VBox();

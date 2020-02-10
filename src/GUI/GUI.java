@@ -1,6 +1,8 @@
 package gui;
 
 
+import data.Deserializer;
+import data.Serializer;
 import data.Show;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 
 public class GUI extends Application {
 
+    Serializer serializer = new Serializer();
+    Deserializer deserializer = new Deserializer();
     private ArrayList<Show> shows1;
     private Stage stage;
     private Canvas canvas;
@@ -63,7 +67,7 @@ public class GUI extends Application {
         graphics.fill(topLine);
 
 
-       //Lower bar of the GUI
+       //Lower bar of the gui
         GeneralPath bottomPath = new GeneralPath();
         bottomPath.moveTo(0, 560);
         bottomPath.lineTo(canvas.getWidth(), 560);
@@ -137,7 +141,7 @@ public class GUI extends Application {
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
             if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
-                newStage = new NewStage(shows1);
+                newStage = new NewStage();
             }
             //Event for "Edit" button
             if(event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {
