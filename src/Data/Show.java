@@ -1,11 +1,11 @@
-package Data;
+package data;
 
-import com.sun.org.apache.bcel.internal.generic.LoadClass;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Show {
     private String show;
+    private HashMap<String, Artist> artistH;
     private int startTime;
     private int endTime;
     private int popularity;
@@ -13,6 +13,7 @@ public class Show {
 
     public Show(String show, int startTime, int endTime, int popularity, int stage) {
         this.show = show;
+        this.artistH = new HashMap<>();
         this.startTime = startTime;
         this.endTime = endTime;
         this.popularity = popularity;
@@ -57,5 +58,20 @@ public class Show {
 
     public void setStage(int stage) {
         this.stage = stage;
+    }
+
+    public HashMap<String, Artist> getArtistH() {
+        return artistH;
+    }
+
+    public void setArtistH(HashMap<String, Artist> artistH) {
+        this.artistH = artistH;
+    }
+
+    public void addArtists(Artist artist){
+        String name = artist.getName().toLowerCase();
+        if(!this.artistH.containsKey(name) && name.equalsIgnoreCase(artist.getName())){
+            this.artistH.put(name, artist);
+        }
     }
 }
