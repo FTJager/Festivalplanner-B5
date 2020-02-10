@@ -37,9 +37,7 @@ public class NewStage {
     public NewStage() {
         DataStore dataStore = new DataStore();
 
-        if (!deserializer.Read().isEmpty()){
-            showList = deserializer.Read();
-        }
+        showList = deserializer.Read();
 
         this.newStage = new Stage();
         newStage.setTitle("New show");
