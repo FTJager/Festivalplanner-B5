@@ -57,29 +57,50 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-            if(Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
+            if(!artistField.getText().isEmpty()){
                 newShow.setShow(artistField.getText());
+            } else {
+                artistField.setText("please type in a name");
+            }
+            if(!beginTimeField.getText().isEmpty()
+                    && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
                 newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+            } else {
+                newShow.setStartTime(0);
+            }
+            if(!endTimeField.getText().isEmpty()){
                 newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+            } else {
+                newShow.setEndTime(0);
+            }
+            if(!popularityField.getText().isEmpty()){
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
+            } else {
+                newShow.setPopularity(0);
+            }
+            if(!stageField.getText().isEmpty()){
                 newShow.setStage(Integer.parseInt(stageField.getText()));
-                this.showList.add(newShow);
-                for(Show show : this.showList){
-                    System.out.println(show.getEndTime());
-                }
+            } else {
+                newShow.setStage(0);
+            }
 
-                newStage.close();
-                System.out.println(this.showList);
-                if (!this.showList.isEmpty()){
-                    serializer.Write(this.showList);
-                }
+            this.showList.add(newShow);
 
-                //TEMP, TEST
-                System.out.println(deserializer.Read());
-                for (Show show : showList){
-                    System.out.println(show.getShow());
-                }
+            for(Show show : this.showList){
+                System.out.println(show.getEndTime());
+            }
+
+            newStage.close();
+            System.out.println(this.showList);
+            if (!this.showList.isEmpty()){
+                serializer.Write(this.showList);
+            }
+
+            //TEMP, TEST
+            System.out.println(deserializer.Read());
+            for (Show show : showList){
+                System.out.println(show.getShow());
             }
         });
 
