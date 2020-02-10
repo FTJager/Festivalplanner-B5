@@ -1,9 +1,10 @@
 package data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Show {
+public class Show implements Serializable {
     private String show;
     private HashMap<String, Artist> artistH;
     private int startTime;
@@ -11,14 +12,18 @@ public class Show {
     private int popularity;
     private int stage;
 
-    public Show(String show, int startTime, int endTime, int popularity, int stage) {
-        this.show = show;
-        this.artistH = new HashMap<>();
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.popularity = popularity;
-        this.stage = stage;
+
+    public Show() {
     }
+
+//    public Show(String show, int startTime, int endTime, int popularity, int stage) {
+//        this.show = show;
+//        this.artistH = new HashMap<>();
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.popularity = popularity;
+//        this.stage = stage;
+//    }
 
     public String getShow() {
         return show;
