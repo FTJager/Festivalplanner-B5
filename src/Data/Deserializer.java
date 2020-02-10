@@ -1,13 +1,11 @@
 package data;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Deserializer implements Serializable{
+    Serializer serializer = new Serializer();
 
     public Deserializer() {
     }
@@ -25,6 +23,8 @@ public class Deserializer implements Serializable{
             fileIn.close();
         }catch (IOException i){
             i.printStackTrace();
+            serializer.Clear();
+            System.out.println("Please restart the program");
             return null;
         }catch (ClassNotFoundException c){
             System.out.println("Show class not found");
