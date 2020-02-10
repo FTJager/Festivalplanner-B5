@@ -33,7 +33,7 @@ public class DeleteStage {
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 300, 300);
 
         Label artistLabel = new Label("Artist: ");
         TextField artistField = new TextField();
@@ -53,16 +53,18 @@ public class DeleteStage {
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
         VBox fieldBox = new VBox();
-        fieldBox.getChildren().add(artistField);
-        fieldBox.getChildren().addAll(popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
-        fieldBox.setSpacing(20);
+        fieldBox.getChildren().addAll(artistField, popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
+        fieldBox.setSpacing(31);
 
         HBox hBox = new HBox();
         hBox.getChildren().addAll(labelBox, fieldBox);
         hBox.setSpacing(10);
+        HBox buttonBox = new HBox();
+        buttonBox.getChildren().addAll(doneButton, searchButton);
+        buttonBox.setSpacing(25);
         VBox popupVBox = new VBox();
-        popupVBox.getChildren().addAll(hBox, doneButton, searchButton);
-        popupVBox.setSpacing(15);
+        popupVBox.getChildren().addAll(hBox, buttonBox);
+        popupVBox.setSpacing(20);
 
         root.getChildren().addAll(popupVBox);
         delStage.setScene(scene);

@@ -57,38 +57,35 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-//            dataStore.setShow(new Show(artistField.getText(),
-//                    Integer.parseInt(beginTimeField.getText()),
-//                    Integer.parseInt(endTimeField.getText()),
-//                    Integer.parseInt(popularityField.getText()),
-//                    Integer.parseInt(stageField.getText())));
-            newShow.setShow(artistField.getText());
-            newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
-            newShow.setPopularity(Integer.parseInt(popularityField.getText()));
-            newShow.setStage(Integer.parseInt(stageField.getText()));
-            this.showList.add(newShow);
+            if(Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
+                newShow.setShow(artistField.getText());
+                newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+                newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+                newShow.setPopularity(Integer.parseInt(popularityField.getText()));
+                newShow.setStage(Integer.parseInt(stageField.getText()));
+                this.showList.add(newShow);
+                for(Show show : this.showList){
+                    System.out.println(show.getEndTime());
+                }
 
-            for(Show show : this.showList){
-                System.out.println(show.getEndTime());
-            }
+                newStage.close();
+                System.out.println(this.showList);
+                if (!this.showList.isEmpty()){
+                    serializer.Write(this.showList);
+                }
 
-            newStage.close();
-            System.out.println(this.showList);
-            if (!this.showList.isEmpty()){
-                serializer.Write(this.showList);
-            }
-
-            //TEMP, TEST
-            System.out.println(deserializer.Read());
-            for (Show show : showList){
-                System.out.println(show.getShow());
+                //TEMP, TEST
+                System.out.println(deserializer.Read());
+                for (Show show : showList){
+                    System.out.println(show.getShow());
+                }
             }
         });
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(35);
+        labelBox.setSpacing(30);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().addAll(artistField, popularityField, stageField, beginTimeField, endTimeField);
         fieldBox.setSpacing(20);
