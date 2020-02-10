@@ -1,5 +1,8 @@
 package gui;
 
+import data.Deserializer;
+import data.Serializer;
+import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,9 +11,15 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DeleteStage {
-    DeleteStage(){
+public class SureStage {
+    Deserializer deserializer = new Deserializer();
+    Serializer serializer = new Serializer();
+    List<Show> showList = new ArrayList<Show>();
+
+    SureStage(int index){
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
@@ -23,6 +32,11 @@ public class DeleteStage {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
+            if (!deserializer.Read().isEmpty()){
+                showList = deserializer.Read();
+            }
+            showList.remove(index);
+            serializer.Write(showList);
             delStage.close();
         });
 
