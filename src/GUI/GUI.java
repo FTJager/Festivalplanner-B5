@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 
 import data.Show;
@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GUI extends Application {
 
@@ -28,8 +29,9 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.canvas = new Canvas(900, 630);
+        this.canvas = new Canvas(900, 1000);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
@@ -78,12 +80,12 @@ public class GUI extends Application {
         float beginX = 0;
         float beginY = 60;
 
-        for(int i = 0; i < 25; i++ ) {
+        for(int i = 0; i < 50; i++ ) {
             GeneralPath tablePath = new GeneralPath();
             tablePath.moveTo(beginX, beginY);
             tablePath.lineTo(canvas.getWidth(), beginY);
-            tablePath.lineTo(canvas.getWidth(), beginY + 20);
-            tablePath.lineTo(beginX, beginY + 20);
+            tablePath.lineTo(canvas.getWidth(), beginY + 12);
+            tablePath.lineTo(beginX, beginY + 12);
             //Makes the table in 2 colors
             if(i % 2 == 0) {
                 graphics.setColor(Color.getHSBColor(0.953f, 0.20f, 0.95f));
@@ -94,11 +96,14 @@ public class GUI extends Application {
                 graphics.fill(tablePath);
             }
             graphics.setColor(Color.black);
-            if(i < 10) {
-                graphics.drawString("0"+  i, beginX + 15, beginY + 15);
+            if(i % 2 == 0) {
+                if(i < 20) {
+                    graphics.drawString("0"+  (i / 2), beginX + 15, beginY + 12);
+                }
+                else graphics.drawString((i / 2) + "", beginX + 15, beginY + 12);
             }
-            else graphics.drawString(i + "", beginX + 15, beginY + 15);
-            beginY += 20;
+
+            beginY += 12;
         }
 
         //Makes the text for the stages
@@ -127,8 +132,6 @@ public class GUI extends Application {
         graphics.drawString("new", 51, (int)canvas.getHeight() - 30);
         graphics.drawString("edit", 158, (int)canvas.getHeight() - 30);
         graphics.drawString("delete", 252, (int)canvas.getHeight() - 30);
-
-
     }
 
 
@@ -148,5 +151,58 @@ public class GUI extends Application {
                 DeleteStage deleteStage = new DeleteStage();
             }
         });
+    }
+
+    public void drawArtist(FXGraphics2D graphics) {
+        HashMap<Integer, String> showWaardes = new HashMap<>();
+        for(int i = 0; i < 4; i++) {
+            int stage = (int)(Math.random() * 4);
+            int x = 0;
+            int beginTime = (int)(Math.random() * 48);
+            int endTime = (int)(Math.random() * 48);
+
+            while(beginTime >= endTime && (endTime - beginTime < 8)) {
+                beginTime = (int)(Math.random() * 48);
+                endTime = (int)(Math.random() * 48);
+            }
+
+
+            beginTime = beginTime * 12 + 60;
+            endTime = endTime * 12 + 60;
+            switch (stage) {
+                case 0:
+                    x = 100;
+                    break;
+                case 1:
+                    x = 300;
+                    break;
+                case 2:
+                    x = 500;
+                    break;
+                case 3:
+                    x = 700;
+                    break;
+            }
+
+            graphics.setColor(Color.getHSBColor(0, 0, 0.01f));
+            GeneralPath artistField = new GeneralPath();
+            artistField.moveTo(x, beginTime);
+            artistField.lineTo(x + 150, beginTime);
+            artistField.lineTo(x + 150, endTime);
+            artistField.lineTo(x, endTime);
+            artistField.lineTo(x, beginTime);
+
+            graphics.draw(artistField);
+            graphics.setColor(Color.getHSBColor(0.95f, 0.9f, 0.87f));
+            graphics.fill(artistField);
+
+            graphics.setColor(Color.getHSBColor(0, 0, 1));
+            graphics.drawString("Artist: ", x + 7, beginTime + 25);
+            graphics.drawString("Time"+ beginTime + " " + endTime, x + 7, beginTime + 50);
+
+            showWaardes.put(x, "" + beginTime + endTime);
+        }
+
+
     }
 }

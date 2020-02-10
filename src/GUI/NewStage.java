@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 import data.DataStore;
 import data.Show;
