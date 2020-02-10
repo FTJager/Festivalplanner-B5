@@ -49,13 +49,9 @@ public class EditStage {
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
 
-
-
-
-
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(35);
+        labelBox.setSpacing(30);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().add(artistField);
         fieldBox.setSpacing(20);
@@ -63,8 +59,11 @@ public class EditStage {
         HBox hBox = new HBox();
         hBox.getChildren().addAll(labelBox, fieldBox);
         hBox.setSpacing(10);
+        HBox buttonBox = new HBox();
+        buttonBox.getChildren().addAll(doneButton, searchButton);
+        buttonBox.setSpacing(20);
         VBox popupVBox = new VBox();
-        popupVBox.getChildren().addAll(hBox, doneButton, searchButton);
+        popupVBox.getChildren().addAll(hBox, buttonBox);
         popupVBox.setSpacing(15);
 
         root.getChildren().addAll(popupVBox);
@@ -85,19 +84,22 @@ public class EditStage {
                 this.index++;
             }
         });
+
         doneButton.setOnAction(e ->{
+            if(Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
+                changedShow.setShow(artistField.getText());
+                changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+                changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+                changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
+                changedShow.setStage(Integer.parseInt(stageField.getText()));
 
-            changedShow.setShow(artistField.getText());
-            changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
-            changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
-            changedShow.setStage(Integer.parseInt(stageField.getText()));
-
-            editStage.close();
-            showList.remove(this.showIndex);
-            showList.add(changedShow);
-            serializer.Write(showList);
-            this.showIndex = 0;
+                editStage.close();
+                showList.remove(this.showIndex);
+                showList.add(changedShow);
+                serializer.Write(showList);
+                this.showIndex = 0;
+            }
         });
     }
 }

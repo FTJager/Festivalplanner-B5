@@ -14,9 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class NewStage {
@@ -55,16 +53,34 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-//            dataStore.setShow(new Show(artistField.getText(),
-//                    Integer.parseInt(beginTimeField.getText()),
-//                    Integer.parseInt(endTimeField.getText()),
-//                    Integer.parseInt(popularityField.getText()),
-//                    Integer.parseInt(stageField.getText())));
-            newShow.setShow(artistField.getText());
-            newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
-            newShow.setPopularity(Integer.parseInt(popularityField.getText()));
-            newShow.setStage(Integer.parseInt(stageField.getText()));
+            if(!artistField.getText().isEmpty()){
+                newShow.setShow(artistField.getText());
+            } else {
+                artistField.setText("please type in a name");
+            }
+            if(!beginTimeField.getText().isEmpty()
+                    && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
+                newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+            } else {
+                newShow.setStartTime(0);
+            }
+            if(!endTimeField.getText().isEmpty()){
+                newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+            } else {
+                newShow.setEndTime(0);
+            }
+            if(!popularityField.getText().isEmpty()){
+                newShow.setPopularity(Integer.parseInt(popularityField.getText()));
+            } else {
+                newShow.setPopularity(0);
+            }
+            if(!stageField.getText().isEmpty()){
+                newShow.setStage(Integer.parseInt(stageField.getText()));
+            } else {
+                newShow.setStage(0);
+            }
+
             this.showList.add(newShow);
 
             for(Show show : this.showList){
@@ -86,7 +102,7 @@ public class NewStage {
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(35);
+        labelBox.setSpacing(30);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().addAll(artistField, popularityField, stageField, beginTimeField, endTimeField);
         fieldBox.setSpacing(20);
