@@ -29,7 +29,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        this.canvas = new Canvas(900, 1000);
+        this.canvas = new Canvas(900, 725);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
         drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
@@ -80,7 +80,7 @@ public class GUI extends Application {
         float beginX = 0;
         float beginY = 60;
 
-        for(int i = 0; i < 50; i++ ) {
+        for(int i = 0; i < 48; i++ ) {
             GeneralPath tablePath = new GeneralPath();
             tablePath.moveTo(beginX, beginY);
             tablePath.lineTo(canvas.getWidth(), beginY);
@@ -139,33 +139,32 @@ public class GUI extends Application {
     public void Buttoninteraction(){
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
-            if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
+            if(event.getX() > 30 && event.getX() < 110 && event.getY() > canvas.getHeight() - 50 && event.getY() < canvas.getHeight() - 20) {
                 newStage = new NewStage(shows1);
             }
             //Event for "Edit" button
-            if(event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {
+            if(event.getX() > 135 && event.getX() < 215 && event.getY() > canvas.getHeight() - 50 && event.getY() >canvas.getHeight() - 30) {
                 EditStage editStage = new EditStage();
             }
             //Event for "Delete" button.
-            if(event.getX() > 240 && event.getX() < 320 && event.getY() > 570 && event.getY() < 600) {
+            if(event.getX() > 240 && event.getX() < 320 && event.getY() > canvas.getHeight() - 50 && event.getY() < canvas.getHeight() - 30) {
                 DeleteStage deleteStage = new DeleteStage();
             }
         });
     }
 
+    //Makes a box for the artist in the GUI
     public void drawArtist(FXGraphics2D graphics) {
-        HashMap<Integer, String> showWaardes = new HashMap<>();
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 10; i++) {
             int stage = (int)(Math.random() * 4);
             int x = 0;
-            int beginTime = (int)(Math.random() * 48);
-            int endTime = (int)(Math.random() * 48);
+            int beginTime = (int)(Math.random() * 47);
+            int endTime = (int)(Math.random() * 49);
 
-            while(beginTime >= endTime && (endTime - beginTime < 8)) {
-                beginTime = (int)(Math.random() * 48);
-                endTime = (int)(Math.random() * 48);
+            while(beginTime >= endTime ) {
+                beginTime = (int)(Math.random() * 47);
+                endTime = (int)(Math.random() * 49);
             }
-
 
             beginTime = beginTime * 12 + 60;
             endTime = endTime * 12 + 60;
@@ -199,10 +198,6 @@ public class GUI extends Application {
             graphics.setColor(Color.getHSBColor(0, 0, 1));
             graphics.drawString("Artist: ", x + 7, beginTime + 25);
             graphics.drawString("Time"+ beginTime + " " + endTime, x + 7, beginTime + 50);
-
-            showWaardes.put(x, "" + beginTime + endTime);
         }
-
-
     }
 }
