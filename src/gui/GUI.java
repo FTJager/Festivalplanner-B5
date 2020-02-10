@@ -40,6 +40,8 @@ public class GUI extends Application {
         this.stage.setResizable(false);
         this.stage.show();
         Buttoninteraction();
+
+        serializer.Write(new ArrayList<Show>());
     }
 
 

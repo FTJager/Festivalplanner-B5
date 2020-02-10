@@ -19,11 +19,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NewStage implements Serializable {
+public class NewStage {
     List<Show> showList = new ArrayList<>();
+    Show newShow = new Show();
 
-    Serializer serializer = new Serializer();
-    Deserializer deserializer = new Deserializer();
+    transient Serializer serializer = new Serializer();
+    transient Deserializer deserializer = new Deserializer();
     private TextField artistField = new TextField();
     private TextField stageField = new TextField();
     private TextField popularityField = new TextField();
@@ -36,7 +37,9 @@ public class NewStage implements Serializable {
     public NewStage() {
         DataStore dataStore = new DataStore();
 
-        showList = deserializer.Read();
+        if (!deserializer.Read().isEmpty()){
+            showList = deserializer.Read();
+        }
 
         this.newStage = new Stage();
         newStage.setTitle("New show");
@@ -54,12 +57,17 @@ public class NewStage implements Serializable {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-            dataStore.setShow(new Show(artistField.getText(),
-                    Integer.parseInt(beginTimeField.getText()),
-                    Integer.parseInt(endTimeField.getText()),
-                    Integer.parseInt(popularityField.getText()),
-                    Integer.parseInt(stageField.getText())));
-            this.showList.add(dataStore.getShow());
+//            dataStore.setShow(new Show(artistField.getText(),
+//                    Integer.parseInt(beginTimeField.getText()),
+//                    Integer.parseInt(endTimeField.getText()),
+//                    Integer.parseInt(popularityField.getText()),
+//                    Integer.parseInt(stageField.getText())));
+            newShow.setShow(artistField.getText());
+            newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+            newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+            newShow.setPopularity(Integer.parseInt(popularityField.getText()));
+            newShow.setStage(Integer.parseInt(stageField.getText()));
+            this.showList.add(newShow);
 
             for(Show show : this.showList){
                 System.out.println(show.getEndTime());

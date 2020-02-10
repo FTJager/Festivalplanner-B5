@@ -16,41 +16,48 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeleteStage {
+public class EditStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
     List<Show> showList = new ArrayList<>();
     private int showIndex;
+    private Show changedShow = new Show();
     private int index = 0;
 
-    DeleteStage(){
-        Stage delStage = new Stage();
-        delStage.setTitle("Delete show");
+    EditStage(){
+        if (!deserializer.Read().isEmpty()){
+            showList = deserializer.Read();
+        }
+        Stage editStage = new Stage();
+        editStage.setTitle("Edit show");
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 200);
+        Scene scene = new Scene(root, 300, 300);
 
         Label artistLabel = new Label("Artist: ");
         TextField artistField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
-        Label popularityDisplay = new Label();
+        TextField popularityField = new TextField();
         Label stageLabel = new Label("Stage:");
-        Label stageDisplay = new Label();
+        TextField stageField = new TextField();
         Label beginTimeLabel = new Label("BeginTime: ");
-        Label beginTimeDisplay = new Label();
+        TextField beginTimeField = new TextField();
         Label endTimeLabel = new Label("EndTime: ");
-        Label endtimeDisplay = new Label();
+        TextField endTimeField = new TextField();
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
+
+
+
+
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().add(artistField);
-        fieldBox.getChildren().addAll(popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
         fieldBox.setSpacing(20);
 
         HBox hBox = new HBox();
@@ -61,23 +68,35 @@ public class DeleteStage {
         popupVBox.setSpacing(15);
 
         root.getChildren().addAll(popupVBox);
-        delStage.setScene(scene);
-        delStage.show();
+        editStage.setScene(scene);
+        editStage.show();
 
         searchButton.setOnAction(e ->{
+            fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
             for (Show show : showList){
+                System.out.println(show.getShow());
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
-                    popularityDisplay.setText(Integer.toString(show.getPopularity()));
-                    stageDisplay.setText(Integer.toString(show.getStage()));
-                    beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
-                    endtimeDisplay.setText(Integer.toString(show.getEndTime()));
+                    popularityField.setText(Integer.toString(show.getPopularity()));
+                    stageField.setText(Integer.toString(show.getStage()));
+                    beginTimeField.setText(Integer.toString(show.getStartTime()));
+                    endTimeField.setText(Integer.toString(show.getEndTime()));
                 }
                 this.index++;
             }
         });
         doneButton.setOnAction(e ->{
-            SureStage stage = new SureStage(this.showIndex);
+
+            changedShow.setShow(artistField.getText());
+            changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+            changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+            changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
+            changedShow.setStage(Integer.parseInt(stageField.getText()));
+
+            editStage.close();
+            showList.remove(this.showIndex);
+            showList.add(changedShow);
+            serializer.Write(showList);
             this.showIndex = 0;
         });
     }

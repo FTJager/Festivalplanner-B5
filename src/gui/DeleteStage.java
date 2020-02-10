@@ -16,46 +16,45 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditStage {
+public class DeleteStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
     List<Show> showList = new ArrayList<>();
     private int showIndex;
-    private Show changedShow;
     private int index = 0;
 
-    EditStage(){
-        showList = deserializer.Read();
-        Stage editStage = new Stage();
-        editStage.setTitle("Edit show");
+    DeleteStage(){
+        Stage delStage = new Stage();
+        delStage.setTitle("Delete show");
+
+        if (!deserializer.Read().isEmpty()){
+            showList = deserializer.Read();
+        }
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 300, 300);
+        Scene scene = new Scene(root, 300, 200);
 
         Label artistLabel = new Label("Artist: ");
         TextField artistField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
-        TextField popularityField = new TextField();
+        Label popularityDisplay = new Label();
         Label stageLabel = new Label("Stage:");
-        TextField stageField = new TextField();
+        Label stageDisplay = new Label();
         Label beginTimeLabel = new Label("BeginTime: ");
-        TextField beginTimeField = new TextField();
+        Label beginTimeDisplay = new Label();
         Label endTimeLabel = new Label("EndTime: ");
-        TextField endTimeField = new TextField();
+        Label endtimeDisplay = new Label();
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
-
-
-
-
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().add(artistField);
+        fieldBox.getChildren().addAll(popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
         fieldBox.setSpacing(20);
 
         HBox hBox = new HBox();
@@ -66,31 +65,25 @@ public class EditStage {
         popupVBox.setSpacing(15);
 
         root.getChildren().addAll(popupVBox);
-        editStage.setScene(scene);
-        editStage.show();
+        delStage.setScene(scene);
+        delStage.show();
 
         searchButton.setOnAction(e ->{
-            fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
             for (Show show : showList){
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
-                    popularityField.setText(Integer.toString(show.getPopularity()));
-                    stageField.setText(Integer.toString(show.getStage()));
-                    beginTimeField.setText(Integer.toString(show.getStartTime()));
-                    endTimeField.setText(Integer.toString(show.getEndTime()));
+                    popularityDisplay.setText(Integer.toString(show.getPopularity()));
+                    stageDisplay.setText(Integer.toString(show.getStage()));
+                    beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
+                    endtimeDisplay.setText(Integer.toString(show.getEndTime()));
                 }
                 this.index++;
             }
         });
         doneButton.setOnAction(e ->{
-            changedShow = new Show(artistField.getText(),Integer.parseInt(beginTimeField.getText()),
-                    Integer.parseInt(endTimeField.getText()), Integer.parseInt(popularityField.getText()),
-                    Integer.parseInt(stageField.getText()));
-            editStage.close();
-            showList.remove(this.showIndex);
-            showList.add(changedShow);
-            serializer.Write(showList);
+            SureStage stage = new SureStage(this.showIndex);
             this.showIndex = 0;
+            delStage.close();
         });
     }
 }
