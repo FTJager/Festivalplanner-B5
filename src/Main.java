@@ -1,5 +1,13 @@
+import data.Artist;
+import data.DataStore;
+import data.Show;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("test");
+
+        DataStore dataStore = new DataStore();
+
+
+        System.out.println(dataStore.getShow());
     }
 }
