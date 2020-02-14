@@ -144,6 +144,7 @@ public class GUI extends Application {
 
 
     //Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved.
+    //TODO make the rest of the buttons privates, just in case
     public void Buttoninteraction(){
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button

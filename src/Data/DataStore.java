@@ -2,7 +2,7 @@ package data;
 
 import data.Artist;
 import data.Show;
-import data.Stage;
+
 
 import java.awt.geom.Area;
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class DataStore {
     private Artist artist;
     private Show show;
-    private Stage stage;
+//    private Stage stage;
     private ArrayList<Artist> artists;
     private ArrayList<Show> showsA;
     private HashMap<String, Artist> showsH;
@@ -48,17 +48,17 @@ public class DataStore {
         }
     }
 
-    public void setStage(Stage stage) throws IllegalArgumentException{
-        this.stage = stage;
-    }
-
-    public Stage getStage(){
-        if(this.stage == null){
-            throw new IllegalArgumentException("Stage does not exist!");
-        } else {
-            return this.stage;
-        }
-    }
+//    public void setStage(Stage stage) throws IllegalArgumentException{
+//        this.stage = stage;
+//    }
+//
+//    public Stage getStage(){
+//        if(this.stage == null){
+//            throw new IllegalArgumentException("Stage does not exist!");
+//        } else {
+//            return this.stage;
+//        }
+//    }
 
     public void setArtists(ArrayList<Artist> artists){
         this.artists = artists;
@@ -94,6 +94,8 @@ public class DataStore {
             return this.showsH;
         }
     }
+
+
 }
 
 

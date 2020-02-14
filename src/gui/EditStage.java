@@ -73,7 +73,7 @@ public class EditStage {
         searchButton.setOnAction(e ->{
             fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
             for (Show show : showList){
-                System.out.println(show.getShow());
+//                System.out.println(show.getShow());
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityField.setText(Integer.toString(show.getPopularity()));
@@ -86,19 +86,49 @@ public class EditStage {
         });
 
         doneButton.setOnAction(e ->{
-            if(Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
-                changedShow.setShow(artistField.getText());
+            boolean inputValid = false;
+            boolean timeValid = false;
+            boolean timeChanged;
+            if ((Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText()))){
+                timeValid = true;
+            }
+
+            if (showList.get(showIndex).getStartTime() == Integer.parseInt(beginTimeField.getText()) ||
+                    showList.get(showIndex).getEndTime() == Integer.parseInt(endTimeField.getText())){
+                timeChanged = false;
+            } else {
+                timeChanged = true;
+            }
+
+//            System.out.println("timeChanged: " + timeChanged);
+//            System.out.println("timeValid: " + timeValid);
+//            System.out.println("inputValid: " + inputValid);
+
+            if(timeValid == true || timeChanged == false) {
+                if (!artistField.getText().isEmpty() && artistField.getText() != null) {
+                    inputValid = true;
+                    changedShow.setShow(artistField.getText());
+                }
+                if (popularityField.getText().isEmpty()) {
+                    popularityField.setText("0");
+                }
+                if (stageField.getText().isEmpty()) {
+                    stageField.setText("0");
+                }
+
+
                 changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
                 changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                 changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
                 changedShow.setStage(Integer.parseInt(stageField.getText()));
-
-                editStage.close();
-                showList.remove(this.showIndex);
-                showList.add(changedShow);
-                serializer.Write(showList);
-                this.showIndex = 0;
+                if (inputValid) {
+                    editStage.close();
+                    showList.remove(this.showIndex);
+                    showList.add(changedShow);
+                    serializer.Write(showList);
+                    this.showIndex = 0;
+                }
             }
         });
     }

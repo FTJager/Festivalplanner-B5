@@ -32,12 +32,17 @@ public class SureStage {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
-            if (!deserializer.Read().isEmpty()){
-                showList = deserializer.Read();
+            if (index == -1){
+                serializer.Clear();
+            }else {
+                if (!deserializer.Read().isEmpty()){
+                    showList = deserializer.Read();
+                }
+                showList.remove(index);
+                serializer.Write(showList);
             }
-            showList.remove(index);
-            serializer.Write(showList);
             delStage.close();
+            System.out.println("Current saved shows: " + showList.size());
         });
 
         noButton.setOnAction(e -> {

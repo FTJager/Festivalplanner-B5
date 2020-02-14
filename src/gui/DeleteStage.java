@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO if there is a nullpointer, it should not be put into the .ser file. (Hotfix)
 public class DeleteStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
@@ -48,6 +49,7 @@ public class DeleteStage {
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
+        Button clearAllButton = new Button("Clear all");
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
@@ -60,7 +62,7 @@ public class DeleteStage {
         hBox.getChildren().addAll(labelBox, fieldBox);
         hBox.setSpacing(10);
         HBox buttonBox = new HBox();
-        buttonBox.getChildren().addAll(doneButton, searchButton);
+        buttonBox.getChildren().addAll(doneButton, searchButton, clearAllButton);
         buttonBox.setSpacing(25);
         VBox popupVBox = new VBox();
         popupVBox.getChildren().addAll(hBox, buttonBox);
@@ -84,6 +86,11 @@ public class DeleteStage {
         });
         doneButton.setOnAction(e ->{
             SureStage stage = new SureStage(this.showIndex);
+            this.showIndex = 0;
+            delStage.close();
+        });
+        clearAllButton.setOnAction(event -> {
+            SureStage stage = new SureStage(-1);
             this.showIndex = 0;
             delStage.close();
         });
