@@ -1,5 +1,6 @@
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -12,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.omg.CORBA.DATA_CONVERSION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +21,13 @@ import java.util.List;
 public class EditStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
-    List<Show> showList = new ArrayList<>();
     private int showIndex;
     private Show changedShow = new Show();
     private int index = 0;
 
     EditStage(){
         if (!deserializer.Read().isEmpty()){
-            showList = deserializer.Read();
+            DataStore.setShowsA(deserializer.Read());
         }
         Stage editStage = new Stage();
         editStage.setTitle("Edit show");
@@ -72,7 +73,7 @@ public class EditStage {
 
         searchButton.setOnAction(e ->{
             fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
-            for (Show show : showList){
+            for (Show show : DataStore.getShowsA()){
 //                System.out.println(show.getShow());
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
@@ -94,16 +95,13 @@ public class EditStage {
                 timeValid = true;
             }
 
-            if (showList.get(showIndex).getStartTime() == Integer.parseInt(beginTimeField.getText()) ||
-                    showList.get(showIndex).getEndTime() == Integer.parseInt(endTimeField.getText())){
+            if (DataStore.getShowsA().get(showIndex).getStartTime() == Integer.parseInt(beginTimeField.getText()) ||
+                    DataStore.getShowsA().get(showIndex).getEndTime() == Integer.parseInt(endTimeField.getText())){
                 timeChanged = false;
             } else {
                 timeChanged = true;
             }
 
-//            System.out.println("timeChanged: " + timeChanged);
-//            System.out.println("timeValid: " + timeValid);
-//            System.out.println("inputValid: " + inputValid);
 
             if(timeValid == true || timeChanged == false) {
                 if (!artistField.getText().isEmpty() && artistField.getText() != null) {
@@ -124,9 +122,9 @@ public class EditStage {
                 changedShow.setStage(Integer.parseInt(stageField.getText()));
                 if (inputValid) {
                     editStage.close();
-                    showList.remove(this.showIndex);
-                    showList.add(changedShow);
-                    serializer.Write(showList);
+                    DataStore.getShowsA().remove(this.showIndex);
+                    DataStore.getShowsA().add(changedShow);
+                    serializer.Write(DataStore.getShowsA());
                     this.showIndex = 0;
                 }
             }

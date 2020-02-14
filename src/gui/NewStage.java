@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewStage {
-    List<Show> showList = new ArrayList<>();
     Show newShow = new Show();
 
     transient Serializer serializer = new Serializer();
@@ -34,7 +33,7 @@ public class NewStage {
 
     public NewStage() {
 
-        showList = deserializer.Read();
+        DataStore.setShowsA(deserializer.Read());
 
         this.newStage = new Stage();
         newStage.setTitle("New show");
@@ -86,10 +85,10 @@ public class NewStage {
             }
 
             if (inputValid){
-                this.showList.add(newShow);
+                DataStore.getShowsA().add(newShow);
                 newStage.close();
-                if (!this.showList.isEmpty()){
-                    serializer.Write(this.showList);
+                if (!DataStore.getShowsA().isEmpty()){
+                    serializer.Write(DataStore.getShowsA());
                 }
             }
 
@@ -101,7 +100,7 @@ public class NewStage {
 
             //TEMP, TEST
             System.out.println(deserializer.Read());
-            for (Show show : showList){
+            for (Show show : DataStore.getShowsA()){
                 System.out.println(show.getShow());
             }
         });

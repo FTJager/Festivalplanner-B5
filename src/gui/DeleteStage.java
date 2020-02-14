@@ -1,5 +1,6 @@
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -20,7 +21,7 @@ import java.util.List;
 public class DeleteStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
-    List<Show> showList = new ArrayList<>();
+
     private int showIndex;
     private int index = 0;
 
@@ -29,7 +30,7 @@ public class DeleteStage {
         delStage.setTitle("Delete show");
 
         if (!deserializer.Read().isEmpty()){
-            showList = deserializer.Read();
+            DataStore.setShowsA(deserializer.Read());
         }
 
         FlowPane root = new FlowPane();
@@ -73,7 +74,7 @@ public class DeleteStage {
         delStage.show();
 
         searchButton.setOnAction(e ->{
-            for (Show show : showList){
+            for (Show show : DataStore.getShowsA()){
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityDisplay.setText(Integer.toString(show.getPopularity()));

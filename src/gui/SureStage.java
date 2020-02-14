@@ -1,5 +1,6 @@
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -17,7 +18,7 @@ import java.util.List;
 public class SureStage {
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
-    List<Show> showList = new ArrayList<Show>();
+
 
     SureStage(int index){
         Stage delStage = new Stage();
@@ -36,13 +37,13 @@ public class SureStage {
                 serializer.Clear();
             }else {
                 if (!deserializer.Read().isEmpty()){
-                    showList = deserializer.Read();
+                    DataStore.setShowsA(deserializer.Read());
                 }
-                showList.remove(index);
-                serializer.Write(showList);
+                DataStore.getShowsA().remove(index);
+                serializer.Write(DataStore.getShowsA());
             }
             delStage.close();
-            System.out.println("Current saved shows: " + showList.size());
+            System.out.println("Current saved shows: " + DataStore.getShowsA().size());
         });
 
         noButton.setOnAction(e -> {
