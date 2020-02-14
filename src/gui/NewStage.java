@@ -93,10 +93,6 @@ public class NewStage {
             }
 
 
-//            for(Show show : this.showList){
-//                System.out.println(show.getEndTime());
-//            }
-
 
             //TEMP, TEST
             System.out.println(deserializer.Read());
