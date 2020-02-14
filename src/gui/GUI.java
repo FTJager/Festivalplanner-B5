@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 
 import data.Deserializer;
@@ -151,13 +151,10 @@ public class GUI extends Application {
     public void Buttoninteraction(){
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
-<<<<<<< HEAD:src/gui/GUI.java
             if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
                 newStage = new NewStage();
-=======
             if(event.getX() > 30 && event.getX() < 110 && event.getY() > canvas.getHeight() - 50 && event.getY() < canvas.getHeight() - 20) {
                 newStage = new NewStage(shows1);
->>>>>>> 0308cc3efd8c41f1dab87d7fd105d21b7c5f93aa:src/GUI/GUI.java
             }
             //Event for "Edit" button
             if(event.getX() > 135 && event.getX() < 215 && event.getY() > canvas.getHeight() - 50 && event.getY() >canvas.getHeight() - 30) {
