@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewStage {
-    List<Show> showList = new ArrayList<>();
     Show newShow = new Show();
 
     transient Serializer serializer = new Serializer();
@@ -33,9 +32,8 @@ public class NewStage {
 
 
     public NewStage() {
-        DataStore dataStore = new DataStore();
 
-        showList = deserializer.Read();
+        DataStore.setShowsA(deserializer.Read());
 
         this.newStage = new Stage();
         newStage.setTitle("New show");
@@ -53,17 +51,22 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-            if(!artistField.getText().isEmpty()){
-                newShow.setShow(artistField.getText());
-            } else {
+            boolean inputValid = false;
+            if(artistField.getText().isEmpty() || artistField.getText() == null){
                 artistField.setText("please type in a name");
+            } else {
+                newShow.setShow(artistField.getText());
+                inputValid = true;
             }
             if(!beginTimeField.getText().isEmpty()
                     && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
                     && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
                 newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            } else {
+            } else if (beginTimeField.getText().isEmpty()){
                 newShow.setStartTime(0);
+            } else {
+                inputValid = false;
+                endTimeField.setText("enter a valid time");
             }
             if(!endTimeField.getText().isEmpty()){
                 newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
@@ -81,21 +84,23 @@ public class NewStage {
                 newShow.setStage(0);
             }
 
-            this.showList.add(newShow);
-
-            for(Show show : this.showList){
-                System.out.println(show.getEndTime());
+            if (inputValid){
+                DataStore.getShowsA().add(newShow);
+                newStage.close();
+                if (!DataStore.getShowsA().isEmpty()){
+                    serializer.Write(DataStore.getShowsA());
+                }
             }
 
-            newStage.close();
-            System.out.println(this.showList);
-            if (!this.showList.isEmpty()){
-                serializer.Write(this.showList);
-            }
+
+//            for(Show show : this.showList){
+//                System.out.println(show.getEndTime());
+//            }
+
 
             //TEMP, TEST
             System.out.println(deserializer.Read());
-            for (Show show : showList){
+            for (Show show : DataStore.getShowsA()){
                 System.out.println(show.getShow());
             }
         });

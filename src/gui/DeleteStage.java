@@ -1,5 +1,6 @@
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -16,10 +17,11 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO if there is a nullpointer, it should not be put into the .ser file. (Hotfix)
 public class DeleteStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
-    List<Show> showList = new ArrayList<>();
+
     private int showIndex;
     private int index = 0;
 
@@ -28,7 +30,7 @@ public class DeleteStage {
         delStage.setTitle("Delete show");
 
         if (!deserializer.Read().isEmpty()){
-            showList = deserializer.Read();
+            DataStore.setShowsA(deserializer.Read());
         }
 
         FlowPane root = new FlowPane();
@@ -48,6 +50,7 @@ public class DeleteStage {
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
+        Button clearAllButton = new Button("Clear all");
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
@@ -60,7 +63,7 @@ public class DeleteStage {
         hBox.getChildren().addAll(labelBox, fieldBox);
         hBox.setSpacing(10);
         HBox buttonBox = new HBox();
-        buttonBox.getChildren().addAll(doneButton, searchButton);
+        buttonBox.getChildren().addAll(doneButton, searchButton, clearAllButton);
         buttonBox.setSpacing(25);
         VBox popupVBox = new VBox();
         popupVBox.getChildren().addAll(hBox, buttonBox);
@@ -71,7 +74,7 @@ public class DeleteStage {
         delStage.show();
 
         searchButton.setOnAction(e ->{
-            for (Show show : showList){
+            for (Show show : DataStore.getShowsA()){
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityDisplay.setText(Integer.toString(show.getPopularity()));
@@ -84,6 +87,11 @@ public class DeleteStage {
         });
         doneButton.setOnAction(e ->{
             SureStage stage = new SureStage(this.showIndex);
+            this.showIndex = 0;
+            delStage.close();
+        });
+        clearAllButton.setOnAction(event -> {
+            SureStage stage = new SureStage(-1);
             this.showIndex = 0;
             delStage.close();
         });
