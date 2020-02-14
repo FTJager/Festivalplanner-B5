@@ -35,6 +35,7 @@ public class SureStage {
         yesButton.setOnAction(e -> {
             if (index == -1){
                 serializer.Clear();
+                DataStore.setShowsA(deserializer.Read());
             }else {
                 if (!deserializer.Read().isEmpty()){
                     DataStore.setShowsA(deserializer.Read());
@@ -44,6 +45,7 @@ public class SureStage {
             }
             delStage.close();
             System.out.println("Current saved shows: " + DataStore.getShowsA().size());
+            System.out.println(DataStore.getShowsA());
         });
 
         noButton.setOnAction(e -> {
