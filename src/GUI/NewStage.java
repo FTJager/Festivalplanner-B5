@@ -1,5 +1,7 @@
 package gui;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import data.Artist;
 import data.DataStore;
 import data.Show;
 import javafx.geometry.Pos;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -60,7 +63,7 @@ public class NewStage {
                 showList.add(dataStore.getShow());
 
                 for (Show show : showList) {
-                    System.out.println(show.getEndTime());
+
                 }
 
                 newStage.close();
