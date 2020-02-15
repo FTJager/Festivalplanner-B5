@@ -1,84 +1,93 @@
 package data;
 
-import data.Artist;
-import data.Show;
-import data.Stage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+//Every capital S at the end of an attribute means that it is a static variable
+//These variables store data from the input in the GUI
 public class DataStore {
-    private Artist artist;
-    private Show show;
-    private Stage stage;
-    private ArrayList<Artist> artists;
-    private HashMap<String, Artist> shows;
+    private static Artist artistS;
+    private static Show showS;
+    private static ArrayList<Artist> artistsS;
+    private static List<Show> showsAS;
+    private static HashMap<String, Artist> showsHS;
 
     public DataStore() {
-        this.artists = new ArrayList<>();
-        this.shows = new HashMap<>();
+        artistsS = new ArrayList<>();
+        showsHS = new HashMap<>();
+        showsAS = new ArrayList<>();
     }
 
-
-    public void setArtist(Artist artist) throws IllegalArgumentException{
-        this.artist = artist;
+    //Sets artis object
+    public static void setArtist(Artist artist) throws IllegalArgumentException{
+        artistS = artist;
     }
 
-    public Artist getArtist(){
-        if(this.artist == null){
+    //Gets artist object and checks if it isn't null
+    public static Artist getArtist(){
+        if(artistS == null){
             throw new NullPointerException("Artist does not exist!");
         } else {
-            return this.artist;
+            return artistS;
         }
     }
 
-    public void setShow(Show show) throws IllegalArgumentException{
-        this.show = show;
+    //Sets a show object
+    public static void setShow(Show show) throws IllegalArgumentException{
+        showS = show;
     }
 
-    public Show getShow(){
-        if(this.show == null){
+    //Gets a show object and checks if it isn't null
+    public static Show getShow(){
+        if(showS == null){
             throw new IllegalArgumentException("Show does not exist!");
         } else {
-            return this.show;
+            return showS;
         }
     }
 
-    public void setStage(Stage stage) throws IllegalArgumentException{
-        this.stage = stage;
+    //This method sets an ArrayList of Artists
+    public static void setArtists(ArrayList<Artist> artists){
+        artistsS = artists;
     }
 
-    public Stage getStage(){
-        if(this.stage == null){
-            throw new IllegalArgumentException("Stage does not exist!");
-        } else {
-            return this.stage;
-        }
-    }
-
-    public void setArtists(ArrayList<Artist> artists){
-        this.artists = artists;
-    }
-
+    //This method checks the ArrayList of Artists and checks if the object in the list aren't null
     public ArrayList<Artist> getArtists(){
-        if(this.artists == null){
+        if(artistsS == null){
             throw new NullPointerException("Ya doofus, it has not been initialized yet!");
         } else {
-            return this.artists;
+            return artistsS;
         }
     }
 
-    public void setShows(HashMap<String, Artist> shows){
-        this.shows = shows;
+    //This method gets a list of the object Show and checks if it the list isn't null
+    public static List<Show> getShowsA(){
+        if(showsAS == null){
+            throw new NullPointerException("The list has not been initialized yet!");
+        }
+        return showsAS;
     }
 
-    public HashMap<String, Artist> getShows(){
-        if(this.shows == null){
+    //This method sets the List of shows
+    public static void setShowsA(List<Show> showsA){
+        showsAS = showsA;
+    }
+
+    //This method sets the HashMap of artists in the object Show
+    public static void setShowsH(HashMap<String, Artist> shows){
+        showsHS = shows;
+    }
+
+    //This method checks if the HashMap is not null, and gets the HashMap if it isn't null
+    public static HashMap<String, Artist> getShows(){
+        if(showsHS == null){
             throw new NullPointerException("Ya doofus, ya did again!");
         } else {
-            return this.shows;
+            return showsHS;
         }
     }
+
 }
 
 

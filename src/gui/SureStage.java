@@ -1,5 +1,9 @@
-package GUI;
+package gui;
 
+import data.DataStore;
+import data.Deserializer;
+import data.Serializer;
+import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,9 +12,15 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DeleteStage {
-    DeleteStage(){
+public class SureStage {
+    Deserializer deserializer = new Deserializer();
+    Serializer serializer = new Serializer();
+
+
+    SureStage(int index){
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
@@ -23,7 +33,19 @@ public class DeleteStage {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
+            if (index == -1){
+                serializer.Clear();
+                DataStore.setShowsA(deserializer.Read());
+            }else {
+                if (!deserializer.Read().isEmpty()){
+                    DataStore.setShowsA(deserializer.Read());
+                }
+                DataStore.getShowsA().remove(index);
+                serializer.Write(DataStore.getShowsA());
+            }
             delStage.close();
+            System.out.println("Current saved shows: " + DataStore.getShowsA().size());
+            System.out.println(DataStore.getShowsA());
         });
 
         noButton.setOnAction(e -> {
