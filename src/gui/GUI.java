@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 
 import data.DataStore;
@@ -82,7 +82,7 @@ public class GUI extends Application {
         graphics.fill(topLine);
 
 
-        //Lower bar of the GUI
+        //Lower bar of the gui
         GeneralPath bottomPath = new GeneralPath();
         bottomPath.moveTo(0, 560);
         bottomPath.lineTo(canvas.getWidth(), 560);
@@ -170,18 +170,14 @@ public class GUI extends Application {
 
     //* 47 * 49
     private void drawArtist(FXGraphics2D graphics) {
-        int stage = 0;
-        int x = 0;
-        int beginTime = 0;
-        int endTime = 0;
-
         for (Show show : DataStore.getShowsA()) {
-            stage = show.getStage();
-            beginTime = show.getStartTime() * 3;
-            endTime = show.getEndTime() * 3;
+            int stage = show.getStage();
+            int beginTime = show.getStartTime() *2;
+            int endTime = show.getEndTime() * 2;
+            int x = 0;
 
-            beginTime = beginTime * 7 + 60;
-            endTime = endTime * 7 + 70;
+            beginTime = beginTime * 10 + 60;
+            endTime = endTime * 10 + 80;
             switch (stage) {
                 case 1:
                     x = 100;
@@ -204,11 +200,11 @@ public class GUI extends Application {
             artistField.lineTo(x, endTime);
             artistField.lineTo(x, beginTime);
 
-            graphics.setColor(Color.MAGENTA);
+            graphics.setColor(Color.pink);
             graphics.draw(artistField);
             graphics.fill(artistField);
 
-            graphics.setColor(Color.YELLOW);
+            graphics.setColor(Color.red);
             graphics.drawString("Artist: ", x + 7, beginTime + 25);
             graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
 

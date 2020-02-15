@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import data.DataStore;
 import data.Deserializer;

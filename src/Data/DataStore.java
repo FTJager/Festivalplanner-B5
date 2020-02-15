@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 //Every capital S at the end of an attribute means that it is a static variable
-//These variables store data from the input in the GUI
+//These variables store data from the input in the gui
 public class DataStore {
     private static boolean stateS;
     private static Artist artistS;
