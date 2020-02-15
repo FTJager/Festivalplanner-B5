@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 
 import data.DataStore;
@@ -57,9 +57,9 @@ public class GUI extends Application {
         }
     }
 
-
     //Initialises the whole table
     public void tableDraw(FXGraphics2D graphics) {
+
 
         //Makes the top part of the table
         GeneralPath topPath = new GeneralPath();
@@ -112,6 +112,7 @@ public class GUI extends Application {
                 graphics.fill(tablePath);
             }
             graphics.setColor(Color.black);
+            graphics.setFont(new Font("System", Font.PLAIN, 15));
             if (i < 10) {
                 graphics.drawString("0" + i, beginX + 15, beginY + 15);
             } else graphics.drawString(i + "", beginX + 15, beginY + 15);
@@ -145,14 +146,28 @@ public class GUI extends Application {
         graphics.drawString("edit", 158, (int) canvas.getHeight() - 30);
         graphics.drawString("delete", 252, (int) canvas.getHeight() - 30);
 
+        //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
+        canvas.setOnMouseEntered(event -> {
+
+            graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+
+            tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+
+            drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            if(DataStore.isStateS()){
+                System.out.println("test");
+            }
+        });
 
     }
-
 
     //Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved.
     //TODO make the rest of the buttons privates, just in case
     public void Buttoninteraction() {
         canvas.setOnMouseClicked(event -> {
+
+
+
             //Event for "New" button
             if (event.getX() > 30 && event.getX() < 110 && event.getY() > 570 && event.getY() < 600) {
                 newStage = new NewStage();

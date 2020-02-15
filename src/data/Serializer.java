@@ -11,6 +11,10 @@ public class Serializer implements Serializable{
     public Serializer() {
     }
 
+    /**
+     * The Write method receives a list of objects and places the entire list in the dataStore.ser file
+     * @param shows List containing a set of created objects
+     */
     public void Write(List<data.Show> shows){
 
         try {
@@ -28,6 +32,9 @@ public class Serializer implements Serializable{
 
     }
 
+    /**
+     * the Clear method overwrites the existing List in dataStore.ser with an empty List, effectively removing all saved data while also functioning as a way to make sure the file is usable.
+     */
     public void Clear(){
         try {
             FileOutputStream fileOut = new FileOutputStream("Resources/dataStore.ser");

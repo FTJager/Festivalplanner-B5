@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import data.DataStore;
 import data.Deserializer;
@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class EditStage {
+    boolean fieldAdded;
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
     private int showIndex;
@@ -68,7 +69,10 @@ public class EditStage {
         editStage.show();
 
         searchButton.setOnAction(e ->{
-            fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
+            if (!fieldAdded){
+                fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
+                fieldAdded = true;
+            }
             for (Show show : DataStore.getShowsA()){
 //                System.out.println(show.getShow());
                 if (show.getShow().equals(artistField.getText())){
@@ -80,6 +84,7 @@ public class EditStage {
                 }
                 this.index++;
             }
+            this.index = 0;
         });
 
         doneButton.setOnAction(e ->{
@@ -124,6 +129,7 @@ public class EditStage {
                     this.showIndex = 0;
                 }
             }
+            fieldAdded = false;
         });
     }
 }

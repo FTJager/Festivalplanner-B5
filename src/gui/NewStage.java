@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import data.DataStore;
 import data.Deserializer;
@@ -13,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.jfree.fx.FXGraphics2D;
 
 public class NewStage {
     Show newShow = new Show();
@@ -47,13 +48,19 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-            boolean inputValid = false;
+
+
+
+            boolean inputValid = false; //This variable is used to make sure the program doesn't create an object with invalid variables
+
+            // if-else statement makes sure a name has been given for the show
             if (artistField.getText().isEmpty() || artistField.getText() == null) {
                 artistField.setText("please type in a name");
             } else {
                 newShow.setShow(artistField.getText());
                 inputValid = true;
             }
+            //this makes sure the times are either both 0, meaning they are not yet decided, or the endTime is later than the startTime
             if (!beginTimeField.getText().isEmpty()
                     && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
                     && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) {
@@ -93,10 +100,10 @@ public class NewStage {
 
 
             //TEMP, TEST
-            System.out.println(deserializer.Read());
-            for (Show show : DataStore.getShowsA()) {
-                System.out.println(show.getShow());
-            }
+//            System.out.println(deserializer.Read());
+//            for (Show show : DataStore.getShowsA()) {
+//                System.out.println(show.getShow());
+//            }
         });
 
         VBox labelBox = new VBox();
