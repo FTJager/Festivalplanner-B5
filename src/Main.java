@@ -1,6 +1,4 @@
-import data.Artist;
 import data.DataStore;
-import data.Show;
 
 public class Main {
     public static void main(String[] args) {
