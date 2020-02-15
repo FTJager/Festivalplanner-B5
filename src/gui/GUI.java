@@ -49,7 +49,7 @@ public class GUI extends Application {
         try {
             System.out.println("Current saved shows: " + deserializer.Read().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            if(DataStore.isStateS()){
+            while(DataStore.isStateS()) {
                 drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
             }
         } catch (NullPointerException n) {
@@ -172,12 +172,12 @@ public class GUI extends Application {
     private void drawArtist(FXGraphics2D graphics) {
         for (Show show : DataStore.getShowsA()) {
             int stage = show.getStage();
-            int beginTime = show.getStartTime() *2;
-            int endTime = show.getEndTime() * 2;
-            int x = 0;
+            float beginTime = show.getStartTime() *2;
+            float endTime = show.getEndTime() * 2;
+            float x = 0;
 
-            beginTime = beginTime * 10 + 60;
-            endTime = endTime * 10 + 80;
+            beginTime = beginTime * 10f + 60f;
+            endTime = endTime * 10f + 80f;
             switch (stage) {
                 case 1:
                     x = 100;
@@ -205,8 +205,8 @@ public class GUI extends Application {
             graphics.fill(artistField);
 
             graphics.setColor(Color.red);
-            graphics.drawString("Artist: ", x + 7, beginTime + 25);
-            graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
+            graphics.drawString("Artist: " + show.getShow(), x + 7f, beginTime + 25f);
+            graphics.drawString("Time" + beginTime + " " + endTime, x + 7f, beginTime + 50f);
 
         }
     }
