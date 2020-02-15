@@ -2,9 +2,7 @@ package gui;
 
 
 import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import data.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -154,9 +152,6 @@ public class GUI extends Application {
             tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            if(DataStore.isStateS()){
-                System.out.println("test");
-            }
         });
 
     }
@@ -187,16 +182,16 @@ public class GUI extends Application {
     private void drawArtist(FXGraphics2D graphics) {
         int stage = 0;
         int x = 0;
-        int beginTime = 0;
-        int endTime = 0;
+        float beginTime = 0;
+        float endTime = 0;
 
         for (Show show : DataStore.getShowsA()) {
             stage = show.getStage();
-            beginTime = show.getStartTime() * 3;
-            endTime = show.getEndTime() * 3;
+            beginTime = show.getStartTime() * 2;
+            endTime = show.getEndTime() * 2;
 
-            beginTime = beginTime * 7 + 60;
-            endTime = endTime * 7 + 70;
+            beginTime = beginTime * 10f + 60f;
+            endTime = endTime * 10f + 80f;
             switch (stage) {
                 case 1:
                     x = 100;

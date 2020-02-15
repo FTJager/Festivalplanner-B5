@@ -3,7 +3,6 @@ package gui;
 import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
-import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,8 +11,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SureStage {
     Deserializer deserializer = new Deserializer();
