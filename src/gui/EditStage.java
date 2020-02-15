@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 import data.DataStore;
 import data.Deserializer;
@@ -13,10 +13,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.omg.CORBA.DATA_CONVERSION;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class EditStage {
     Serializer serializer = new Serializer();

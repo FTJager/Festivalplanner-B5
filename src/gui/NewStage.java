@@ -1,4 +1,4 @@
-package gui;
+package GUI;
 
 import data.DataStore;
 import data.Deserializer;
@@ -13,9 +13,6 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NewStage {
     Show newShow = new Show();
@@ -32,7 +29,7 @@ public class NewStage {
 
 
     public NewStage() {
-
+        State state = new State();
         DataStore.setShowsA(deserializer.Read());
         this.newStage = new Stage();
         newStage.setTitle("New show");
@@ -85,7 +82,10 @@ public class NewStage {
 
             if (inputValid) {
                 DataStore.getShowsA().add(newShow);
+                DataStore.setStateS(true);
                 newStage.close();
+            } else {
+                DataStore.setStateS(false);
             }
             if (!DataStore.getShowsA().isEmpty()) {
                 serializer.Write(DataStore.getShowsA());
