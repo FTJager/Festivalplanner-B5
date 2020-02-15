@@ -34,7 +34,6 @@ public class NewStage {
     public NewStage() {
 
         DataStore.setShowsA(deserializer.Read());
-
         this.newStage = new Stage();
         newStage.setTitle("New show");
 
@@ -52,51 +51,50 @@ public class NewStage {
 
         doneButton.setOnAction(e -> {
             boolean inputValid = false;
-            if(artistField.getText().isEmpty() || artistField.getText() == null){
+            if (artistField.getText().isEmpty() || artistField.getText() == null) {
                 artistField.setText("please type in a name");
             } else {
                 newShow.setShow(artistField.getText());
                 inputValid = true;
             }
-            if(!beginTimeField.getText().isEmpty()
+            if (!beginTimeField.getText().isEmpty()
                     && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) {
                 newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            } else if (beginTimeField.getText().isEmpty()){
+            } else if (beginTimeField.getText().isEmpty()) {
                 newShow.setStartTime(0);
             } else {
                 inputValid = false;
                 endTimeField.setText("enter a valid time");
             }
-            if(!endTimeField.getText().isEmpty()){
+            if (!endTimeField.getText().isEmpty()) {
                 newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
             } else {
                 newShow.setEndTime(0);
             }
-            if(!popularityField.getText().isEmpty()){
+            if (!popularityField.getText().isEmpty()) {
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
             } else {
                 newShow.setPopularity(0);
             }
-            if(!stageField.getText().isEmpty()){
+            if (!stageField.getText().isEmpty()) {
                 newShow.setStage(Integer.parseInt(stageField.getText()));
             } else {
                 newShow.setStage(0);
             }
 
-            if (inputValid){
+            if (inputValid) {
                 DataStore.getShowsA().add(newShow);
                 newStage.close();
-                if (!DataStore.getShowsA().isEmpty()){
-                    serializer.Write(DataStore.getShowsA());
-                }
             }
-
+            if (!DataStore.getShowsA().isEmpty()) {
+                serializer.Write(DataStore.getShowsA());
+            }
 
 
             //TEMP, TEST
             System.out.println(deserializer.Read());
-            for (Show show : DataStore.getShowsA()){
+            for (Show show : DataStore.getShowsA()) {
                 System.out.println(show.getShow());
             }
         });
