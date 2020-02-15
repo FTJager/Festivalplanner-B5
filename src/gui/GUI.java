@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-import org.omg.CORBA.DATA_CONVERSION;
 
 
 import java.awt.*;
@@ -50,6 +49,9 @@ public class GUI extends Application {
         try {
             System.out.println("Current saved shows: " + deserializer.Read().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            if(DataStore.isStateS()){
+                drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            }
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
@@ -165,51 +167,48 @@ public class GUI extends Application {
             }
         });
     }
-//* 47 * 49
+
+    //* 47 * 49
     private void drawArtist(FXGraphics2D graphics) {
-        int stage = 0;
-        int x = 0;
-        int beginTime = 0;
-        int endTime = 0;
-
         for (Show show : DataStore.getShowsA()) {
-           stage = show.getStage();
-           beginTime = show.getStartTime()* 8;
-           endTime = show.getEndTime() * 10;
+            int stage = show.getStage();
+            int beginTime = show.getStartTime() *2;
+            int endTime = show.getEndTime() * 2;
+            int x = 0;
+
+            beginTime = beginTime * 10 + 60;
+            endTime = endTime * 10 + 80;
+            switch (stage) {
+                case 1:
+                    x = 100;
+                    break;
+                case 2:
+                    x = 300;
+                    break;
+                case 3:
+                    x = 500;
+                    break;
+                case 4:
+                    x = 700;
+                    break;
+            }
+
+            GeneralPath artistField = new GeneralPath();
+            artistField.moveTo(x, beginTime);
+            artistField.lineTo(x + 150, beginTime);
+            artistField.lineTo(x + 150, endTime);
+            artistField.lineTo(x, endTime);
+            artistField.lineTo(x, beginTime);
+
+            graphics.setColor(Color.pink);
+            graphics.draw(artistField);
+            graphics.fill(artistField);
+
+            graphics.setColor(Color.red);
+            graphics.drawString("Artist: ", x + 7, beginTime + 25);
+            graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
+
         }
-
-        beginTime = beginTime * 12 + 60;
-        endTime = endTime * 12 + 60;
-        switch (stage) {
-            case 0:
-                x = 100;
-                break;
-            case 1:
-                x = 300;
-                break;
-            case 2:
-                x = 500;
-                break;
-            case 3:
-                x = 700;
-                break;
-        }
-
-        GeneralPath artistField = new GeneralPath();
-        artistField.moveTo(x, beginTime);
-        artistField.lineTo(x + 150, beginTime);
-        artistField.lineTo(x + 150, endTime);
-        artistField.lineTo(x, endTime);
-        artistField.lineTo(x, beginTime);
-
-        graphics.setColor(Color.RED);
-        graphics.draw(artistField);
-        graphics.fill(artistField);
-
-        graphics.setColor(Color.CYAN);
-        graphics.drawString("Artist: ", x + 7, beginTime + 25);
-        graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
-
     }
 }
 
