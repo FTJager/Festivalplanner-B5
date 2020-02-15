@@ -1,6 +1,7 @@
 package gui;
 
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -10,10 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import org.omg.CORBA.DATA_CONVERSION;
+
+
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
-import java.io.EOFException;
 import java.util.ArrayList;
 
 public class GUI extends Application {
@@ -22,6 +25,7 @@ public class GUI extends Application {
     Deserializer deserializer = new Deserializer();
     private ArrayList<Show> shows1;
     private Stage stage;
+
     private Canvas canvas;
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
@@ -33,18 +37,20 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        DataStore.setShowsA(deserializer.Read());
         this.canvas = new Canvas(900, 630);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
-        this.stage.setResizable(false);
+        this.stage.setResizable(true);
         this.stage.show();
         Buttoninteraction();
 
-        try{
+        try {
             System.out.println("Current saved shows: " + deserializer.Read().size());
-        }catch (NullPointerException n){
+            drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        } catch (NullPointerException n) {
             n.printStackTrace();
         }
     }
@@ -55,11 +61,11 @@ public class GUI extends Application {
 
         //Makes the top part of the table
         GeneralPath topPath = new GeneralPath();
-        topPath.moveTo(0,0);
+        topPath.moveTo(0, 0);
         topPath.lineTo(canvas.getWidth(), 0);
         topPath.lineTo(canvas.getWidth(), 57);
         topPath.lineTo(0, 57);
-        topPath.lineTo(0,0);
+        topPath.lineTo(0, 0);
         graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
         graphics.fill(topPath);
 
@@ -74,7 +80,7 @@ public class GUI extends Application {
         graphics.fill(topLine);
 
 
-       //Lower bar of the gui
+        //Lower bar of the gui
         GeneralPath bottomPath = new GeneralPath();
         bottomPath.moveTo(0, 560);
         bottomPath.lineTo(canvas.getWidth(), 560);
@@ -89,26 +95,24 @@ public class GUI extends Application {
         float beginX = 0;
         float beginY = 60;
 
-        for(int i = 0; i < 25; i++ ) {
+        for (int i = 0; i < 25; i++) {
             GeneralPath tablePath = new GeneralPath();
             tablePath.moveTo(beginX, beginY);
             tablePath.lineTo(canvas.getWidth(), beginY);
             tablePath.lineTo(canvas.getWidth(), beginY + 20);
             tablePath.lineTo(beginX, beginY + 20);
             //Makes the table in 2 colors
-            if(i % 2 == 0) {
+            if (i % 2 == 0) {
                 graphics.setColor(Color.getHSBColor(0.953f, 0.20f, 0.95f));
                 graphics.fill(tablePath);
-            }
-            else {
+            } else {
                 graphics.setColor(Color.white);
                 graphics.fill(tablePath);
             }
             graphics.setColor(Color.black);
-            if(i < 10) {
-                graphics.drawString("0"+  i, beginX + 15, beginY + 15);
-            }
-            else graphics.drawString(i + "", beginX + 15, beginY + 15);
+            if (i < 10) {
+                graphics.drawString("0" + i, beginX + 15, beginY + 15);
+            } else graphics.drawString(i + "", beginX + 15, beginY + 15);
             beginY += 20;
         }
 
@@ -135,29 +139,77 @@ public class GUI extends Application {
 
         graphics.setColor(Color.white);
         graphics.setFont(GUIFont);
-        graphics.drawString("new", 51, (int)canvas.getHeight() - 30);
-        graphics.drawString("edit", 158, (int)canvas.getHeight() - 30);
-        graphics.drawString("delete", 252, (int)canvas.getHeight() - 30);
+        graphics.drawString("new", 51, (int) canvas.getHeight() - 30);
+        graphics.drawString("edit", 158, (int) canvas.getHeight() - 30);
+        graphics.drawString("delete", 252, (int) canvas.getHeight() - 30);
 
 
     }
 
 
     //Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved.
-    public void Buttoninteraction(){
+    //TODO make the rest of the buttons privates, just in case
+    public void Buttoninteraction() {
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
-            if(event.getX() > 30 && event.getX() < 110 && event.getY() >570 && event.getY() < 600) {
+            if (event.getX() > 30 && event.getX() < 110 && event.getY() > 570 && event.getY() < 600) {
                 newStage = new NewStage();
             }
             //Event for "Edit" button
-            if(event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {
+            if (event.getX() > 135 && event.getX() < 215 && event.getY() > 570 && event.getY() < 600) {
                 EditStage editStage = new EditStage();
             }
             //Event for "Delete" button.
-            if(event.getX() > 240 && event.getX() < 320 && event.getY() > 570 && event.getY() < 600) {
+            if (event.getX() > 240 && event.getX() < 320 && event.getY() > 570 && event.getY() < 600) {
                 DeleteStage deleteStage = new DeleteStage();
             }
         });
     }
+//* 47 * 49
+    private void drawArtist(FXGraphics2D graphics) {
+        int stage = 0;
+        int x = 0;
+        int beginTime = 0;
+        int endTime = 0;
+
+        for (Show show : DataStore.getShowsA()) {
+           stage = show.getStage();
+           beginTime = show.getStartTime()* 8;
+           endTime = show.getEndTime() * 10;
+        }
+
+        beginTime = beginTime * 12 + 60;
+        endTime = endTime * 12 + 60;
+        switch (stage) {
+            case 0:
+                x = 100;
+                break;
+            case 1:
+                x = 300;
+                break;
+            case 2:
+                x = 500;
+                break;
+            case 3:
+                x = 700;
+                break;
+        }
+
+        GeneralPath artistField = new GeneralPath();
+        artistField.moveTo(x, beginTime);
+        artistField.lineTo(x + 150, beginTime);
+        artistField.lineTo(x + 150, endTime);
+        artistField.lineTo(x, endTime);
+        artistField.lineTo(x, beginTime);
+
+        graphics.setColor(Color.RED);
+        graphics.draw(artistField);
+        graphics.fill(artistField);
+
+        graphics.setColor(Color.CYAN);
+        graphics.drawString("Artist: ", x + 7, beginTime + 25);
+        graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
+
+    }
 }
+

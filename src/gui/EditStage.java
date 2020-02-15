@@ -1,5 +1,6 @@
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
 import data.Show;
@@ -12,6 +13,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.omg.CORBA.DATA_CONVERSION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +21,13 @@ import java.util.List;
 public class EditStage {
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
-    List<Show> showList = new ArrayList<>();
     private int showIndex;
     private Show changedShow = new Show();
     private int index = 0;
 
     EditStage(){
         if (!deserializer.Read().isEmpty()){
-            showList = deserializer.Read();
+            DataStore.setShowsA(deserializer.Read());
         }
         Stage editStage = new Stage();
         editStage.setTitle("Edit show");
@@ -72,8 +73,8 @@ public class EditStage {
 
         searchButton.setOnAction(e ->{
             fieldBox.getChildren().addAll(popularityField, stageField, beginTimeField, endTimeField);
-            for (Show show : showList){
-                System.out.println(show.getShow());
+            for (Show show : DataStore.getShowsA()){
+//                System.out.println(show.getShow());
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityField.setText(Integer.toString(show.getPopularity()));
@@ -86,19 +87,46 @@ public class EditStage {
         });
 
         doneButton.setOnAction(e ->{
-            if(Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
-                changedShow.setShow(artistField.getText());
+            boolean inputValid = false;
+            boolean timeValid = false;
+            boolean timeChanged;
+            if ((Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText()))){
+                timeValid = true;
+            }
+
+            if (DataStore.getShowsA().get(showIndex).getStartTime() == Integer.parseInt(beginTimeField.getText()) ||
+                    DataStore.getShowsA().get(showIndex).getEndTime() == Integer.parseInt(endTimeField.getText())){
+                timeChanged = false;
+            } else {
+                timeChanged = true;
+            }
+
+
+            if(timeValid == true || timeChanged == false) {
+                if (!artistField.getText().isEmpty() && artistField.getText() != null) {
+                    inputValid = true;
+                    changedShow.setShow(artistField.getText());
+                }
+                if (popularityField.getText().isEmpty()) {
+                    popularityField.setText("0");
+                }
+                if (stageField.getText().isEmpty()) {
+                    stageField.setText("0");
+                }
+
+
                 changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
                 changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                 changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
                 changedShow.setStage(Integer.parseInt(stageField.getText()));
-
-                editStage.close();
-                showList.remove(this.showIndex);
-                showList.add(changedShow);
-                serializer.Write(showList);
-                this.showIndex = 0;
+                if (inputValid) {
+                    editStage.close();
+                    DataStore.getShowsA().remove(this.showIndex);
+                    DataStore.getShowsA().add(changedShow);
+                    serializer.Write(DataStore.getShowsA());
+                    this.showIndex = 0;
+                }
             }
         });
     }
