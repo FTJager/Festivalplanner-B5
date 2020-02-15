@@ -14,9 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //TODO if there is a nullpointer, it should not be put into the .ser file. (Hotfix)
 public class DeleteStage {
     Serializer serializer = new Serializer();
