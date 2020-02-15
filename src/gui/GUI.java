@@ -2,9 +2,7 @@ package gui;
 
 
 import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import data.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -49,7 +47,7 @@ public class GUI extends Application {
         try {
             System.out.println("Current saved shows: " + deserializer.Read().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            while(DataStore.isStateS()) {
+            if(DataStore.isStateS()){
                 drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
             }
         } catch (NullPointerException n) {
@@ -82,7 +80,7 @@ public class GUI extends Application {
         graphics.fill(topLine);
 
 
-        //Lower bar of the gui
+        //Lower bar of the GUI
         GeneralPath bottomPath = new GeneralPath();
         bottomPath.moveTo(0, 560);
         bottomPath.lineTo(canvas.getWidth(), 560);
@@ -154,9 +152,6 @@ public class GUI extends Application {
             tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            if(DataStore.isStateS()){
-                System.out.println("test");
-            }
         });
 
     }
@@ -185,11 +180,15 @@ public class GUI extends Application {
 
     //* 47 * 49
     private void drawArtist(FXGraphics2D graphics) {
+        int stage = 0;
+        int x = 0;
+        float beginTime = 0;
+        float endTime = 0;
+
         for (Show show : DataStore.getShowsA()) {
-            int stage = show.getStage();
-            float beginTime = show.getStartTime() *2;
-            float endTime = show.getEndTime() * 2;
-            float x = 0;
+            stage = show.getStage();
+            beginTime = show.getStartTime() * 2;
+            endTime = show.getEndTime() * 2;
 
             beginTime = beginTime * 10f + 60f;
             endTime = endTime * 10f + 80f;
@@ -215,13 +214,13 @@ public class GUI extends Application {
             artistField.lineTo(x, endTime);
             artistField.lineTo(x, beginTime);
 
-            graphics.setColor(Color.pink);
+            graphics.setColor(Color.MAGENTA);
             graphics.draw(artistField);
             graphics.fill(artistField);
 
-            graphics.setColor(Color.red);
-            graphics.drawString("Artist: " + show.getShow(), x + 7f, beginTime + 25f);
-            graphics.drawString("Time" + beginTime + " " + endTime, x + 7f, beginTime + 50f);
+            graphics.setColor(Color.YELLOW);
+            graphics.drawString("Artist: ", x + 7, beginTime + 25);
+            graphics.drawString("Time" + beginTime + " " + endTime, x + 7, beginTime + 50);
 
         }
     }
