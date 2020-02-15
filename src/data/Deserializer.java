@@ -4,12 +4,17 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Deserializer implements Serializable{
     Serializer serializer = new Serializer();
 
     public Deserializer() {
     }
 
+    /**
+     * The Read method reads the objects in the dataStore.ser file and places them in an ArrayList that other classes can copy
+     * @return List contains an arrayList with all the created objects
+     */
     public List Read(){
         List<Show> shows = null;
 

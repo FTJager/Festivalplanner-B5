@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 //TODO if there is a nullpointer, it should not be put into the .ser file. (Hotfix)
 public class DeleteStage {
+    public static final int DELETE_ALL = -1;
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
 
@@ -88,7 +89,7 @@ public class DeleteStage {
             delStage.close();
         });
         clearAllButton.setOnAction(event -> {
-            SureStage stage = new SureStage(-1);
+            SureStage stage = new SureStage(DELETE_ALL);
             this.showIndex = 0;
             delStage.close();
         });
