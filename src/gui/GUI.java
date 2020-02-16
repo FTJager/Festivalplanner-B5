@@ -220,24 +220,27 @@ public class GUI extends Application {
             if (show.getEndTime() - show.getStartTime() <= 1) {
                 artistFont = new Font("Arial", Font.BOLD, 10);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getArtistH() + "", x + 7, beginTime + 8);
+                graphics.drawString(show.getShow() + "", x + 7, beginTime + 8);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 20);
+//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 32);
             } else if (show.getEndTime() - show.getStartTime() <= 2) {
                 artistFont = new Font("Arial", Font.BOLD, 15);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getArtistH() + "", x + 7, beginTime + 19);
+                graphics.drawString(show.getShow() + "", x + 7, beginTime + 19);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 35);
+//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 51);
             } else if (show.getEndTime() - show.getStartTime() <= 3) {
                 artistFont = new Font("Arial", Font.BOLD, 18);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getArtistH() + "", x + 7, beginTime + 25);
+                graphics.drawString(show.getShow() + "", x + 7, beginTime + 25);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 45);
+//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 65);
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getArtistH() + "", x + 7, beginTime + 30);
+                graphics.drawString(show.getShow() + "", x + 7, beginTime + 30);
                 graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 60);
-                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
+//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }
         }
     }

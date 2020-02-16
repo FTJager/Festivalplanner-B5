@@ -17,6 +17,10 @@ public class SureStage {
     Serializer serializer = new Serializer();
 
 
+    /**
+     * The SureStage is a pop-up in the GUI that comes up when pressing a "done" button in the delete pop-up, giving you an extra chance to cancel if you selected the wrong show to delete
+     * @param index the index is the position of the selected show in the arrayList
+     */
     SureStage(int index){
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
@@ -33,8 +37,8 @@ public class SureStage {
             if (index == DeleteStage.DELETE_ALL){   //Since we don't need an index when we want to delete all elements, we replace it with -1 or DELETE_ALL
                 serializer.Clear();
                 DataStore.setShowsA(deserializer.Read());
-            }else {     //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
-                if (!deserializer.Read().isEmpty()){
+            }else {
+                if (!deserializer.Read().isEmpty()){    //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
                     DataStore.setShowsA(deserializer.Read());
                 }
                 DataStore.getShowsA().remove(index);
@@ -42,7 +46,6 @@ public class SureStage {
             }
             delStage.close();
             System.out.println("Current saved shows: " + DataStore.getShowsA().size());
-//            System.out.println(DataStore.getShowsA());
         });
 
         noButton.setOnAction(e -> {
