@@ -28,6 +28,9 @@ public class NewStage {
     private Stage newStage;
 
 
+    /**
+     * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI as a pop-up that allows you to fill in the details for a new show
+     */
     public NewStage() {
         State state = new State();
         DataStore.setShowsA(deserializer.Read());
@@ -64,35 +67,38 @@ public class NewStage {
                     && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
                     && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) {
                 newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
-            } else if (beginTimeField.getText().isEmpty()) {
+            } else if (beginTimeField.getText().isEmpty()) {    //If the field is empty, replace it with 0
                 newShow.setStartTime(0);
             } else {
                 inputValid = false;
                 endTimeField.setText("enter a valid time");
             }
+
+            //If the field is not empty, retrieve the text. Otherwise make it 0
             if (!endTimeField.getText().isEmpty()) {
                 newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
             } else {
                 newShow.setEndTime(0);
             }
+
             if (!popularityField.getText().isEmpty()) {
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
             } else {
                 newShow.setPopularity(0);
             }
+
             if (!stageField.getText().isEmpty()) {
                 newShow.setStage(Integer.parseInt(stageField.getText()));
             } else {
                 newShow.setStage(0);
             }
 
+            //Add the newly created show into the dataStore
             if (inputValid) {
                 DataStore.getShowsA().add(newShow);
-                DataStore.setStateS(true);
                 newStage.close();
-            } else {
-                DataStore.setStateS(false);
             }
+            //Write the saved shows into the file
             if (!DataStore.getShowsA().isEmpty()) {
                 serializer.Write(DataStore.getShowsA());
             }
@@ -105,6 +111,7 @@ public class NewStage {
 //            }
         });
 
+        //Creates the fields, labels and buttons for the pop-up
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(30);
