@@ -6,6 +6,6 @@ public class Main {
         DataStore dataStore = new DataStore();
 
 
-        System.out.println(dataStore.getShow());
+//        System.out.println(dataStore.getShow());
     }
 }
