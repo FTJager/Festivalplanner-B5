@@ -12,5 +12,6 @@
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="fxgraphics2d-1" level="application" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

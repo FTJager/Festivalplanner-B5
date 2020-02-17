@@ -1,3 +1,7 @@
+/**
+ * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI
+ * as a pop-up that allows you to fill in the details for a new show.
+ */
 package gui;
 
 import data.DataStore;
@@ -27,11 +31,8 @@ public class NewStage {
 
     private Stage newStage;
 
-
-    /**
-     * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI as a pop-up that allows you to fill in the details for a new show
-     */
     public NewStage() {
+        //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
         DataStore.setShowsA(deserializer.Read());
         this.newStage = new Stage();
@@ -50,10 +51,8 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-
-
-
-            boolean inputValid = false; //This variable is used to make sure the program doesn't create an object with invalid variables
+            //This variable is used to make sure the program doesn't create an object with invalid variables
+            boolean inputValid = false;
 
             // if-else statement makes sure a name has been given for the show
             if (artistField.getText().isEmpty() || artistField.getText() == null) {
@@ -102,13 +101,6 @@ public class NewStage {
             if (!DataStore.getShowsA().isEmpty()) {
                 serializer.Write(DataStore.getShowsA());
             }
-
-
-            //TEMP, TEST
-//            System.out.println(deserializer.Read());
-//            for (Show show : DataStore.getShowsA()) {
-//                System.out.println(show.getShow());
-//            }
         });
 
         //Creates the fields, labels and buttons for the pop-up

@@ -1,5 +1,9 @@
-package gui;
+/**
+ * This is the main class for the GUi application
+ * When run, the GUI for the festival agenda opens and the user can add, edti, and delete shows.
+ */
 
+package gui;
 
 import data.DataStore;
 import data.*;
@@ -9,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -57,8 +60,6 @@ public class GUI extends Application {
 
     //Initialises the whole table
     public void tableDraw(FXGraphics2D graphics) {
-
-
         //Makes the top part of the table
         GeneralPath topPath = new GeneralPath();
         topPath.moveTo(0, 0);
@@ -78,7 +79,6 @@ public class GUI extends Application {
         topLine.lineTo(0, 60);
         graphics.setColor(Color.black);
         graphics.fill(topLine);
-
 
         //Lower bar of the GUI
         GeneralPath bottomPath = new GeneralPath();
@@ -144,7 +144,6 @@ public class GUI extends Application {
         graphics.fill(editButton);
         graphics.fill(deleteButton);
 
-
         graphics.setColor(Color.white);
         graphics.setFont(GUIFont);
         graphics.drawString("new", 51, (int) canvas.getHeight() - 20);
@@ -160,10 +159,10 @@ public class GUI extends Application {
 
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
         });
-
     }
 
-    //Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved.commit
+    //Makes the buttons intractable, remember to match the event box coordinates with the buttons
+    // coordinates if the buttons are ever moved.commit
     public void Buttoninteraction() {
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
@@ -216,7 +215,7 @@ public class GUI extends Application {
 
             Font artistFont;
             graphics.setColor(Color.white);
-            //WAYYY to long if else statements for the Text in the artist box. Scales with the time of the show. Shorter show == smaller text.
+            //if else statements for the Text in the artist box. Scales with the time of the show. Shorter show == smaller text.
             if (show.getEndTime() - show.getStartTime() <= 1) {
                 artistFont = new Font("Arial", Font.BOLD, 10);
                 graphics.setFont(artistFont);
