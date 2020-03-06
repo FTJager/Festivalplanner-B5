@@ -1,8 +1,12 @@
+/**
+ * The SureStage is a pop-up in the GUI that comes up when pressing a "done" button in the delete pop-up, giving you an extra chance to cancel if you selected the wrong show to delete
+ * @param index the index is the position of the selected show in the arrayList
+ */
 package gui;
 
+import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
-import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,15 +15,13 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SureStage {
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
-    List<Show> showList = new ArrayList<Show>();
 
     SureStage(int index){
+        //Setup for the sureStage with buttons, labels, text fields, etc.
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
@@ -32,14 +34,22 @@ public class SureStage {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
-            if (!deserializer.Read().isEmpty()){
-                showList = deserializer.Read();
+            //Since we don't need an index when we want to delete all elements, we replace it with -1 or DELETE_ALL
+            if (index == DeleteStage.DELETE_ALL){    serializer.Clear();
+                DataStore.setShowsA(deserializer.Read());
+            }else {
+                //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
+                if (!deserializer.Read().isEmpty()){      DataStore.setShowsA(deserializer.Read());
+                }
+                DataStore.getShowsA().remove(index);
+                serializer.Write(DataStore.getShowsA());
             }
-            showList.remove(index);
-            serializer.Write(showList);
+            //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
+            System.out.println("Current saved shows: " + DataStore.getShowsA().size());
         });
 
+        //When pressed on the "no" button, the desired show will not be deleted from the existing shows
         noButton.setOnAction(e -> {
             delStage.close();
         });

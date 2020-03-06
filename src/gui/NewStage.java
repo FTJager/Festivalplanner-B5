@@ -1,3 +1,7 @@
+/**
+ * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI
+ * as a pop-up that allows you to fill in the details for a new show.
+ */
 package gui;
 
 import data.DataStore;
@@ -14,11 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class NewStage {
-    List<Show> showList = new ArrayList<>();
     Show newShow = new Show();
 
     transient Serializer serializer = new Serializer();
@@ -31,12 +31,10 @@ public class NewStage {
 
     private Stage newStage;
 
-
     public NewStage() {
-        DataStore dataStore = new DataStore();
-
-        showList = deserializer.Read();
-
+        //Setup for the newStage with buttons, labels, text fields, etc.
+        State state = new State();
+        DataStore.setShowsA(deserializer.Read());
         this.newStage = new Stage();
         newStage.setTitle("New show");
 
@@ -53,53 +51,59 @@ public class NewStage {
         Button doneButton = new Button("Done");
 
         doneButton.setOnAction(e -> {
-            if(!artistField.getText().isEmpty()){
-                newShow.setShow(artistField.getText());
-            } else {
+            //This variable is used to make sure the program doesn't create an object with invalid variables
+            boolean inputValid = false;
+
+            // if-else statement makes sure a name has been given for the show
+            if (artistField.getText().isEmpty() || artistField.getText() == null) {
                 artistField.setText("please type in a name");
-            }
-            if(!beginTimeField.getText().isEmpty()
-                    && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())){
-                newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
             } else {
-                newShow.setStartTime(0);
+                newShow.setShow(artistField.getText());
+                inputValid = true;
             }
-            if(!endTimeField.getText().isEmpty()){
+            //this makes sure the times are either both 0, meaning they are not yet decided, or the endTime is later than the startTime
+            if (!beginTimeField.getText().isEmpty()
+                    && Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                    && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) {
+                newShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+            } else if (beginTimeField.getText().isEmpty()) {    //If the field is empty, replace it with 0
+                newShow.setStartTime(0);
+            } else {
+                inputValid = false;
+                endTimeField.setText("enter a valid time");
+            }
+
+            //If the field is not empty, retrieve the text. Otherwise make it 0
+            if (!endTimeField.getText().isEmpty()) {
                 newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
             } else {
                 newShow.setEndTime(0);
             }
-            if(!popularityField.getText().isEmpty()){
+
+            if (!popularityField.getText().isEmpty()) {
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
             } else {
                 newShow.setPopularity(0);
             }
-            if(!stageField.getText().isEmpty()){
+
+            if (!stageField.getText().isEmpty()) {
                 newShow.setStage(Integer.parseInt(stageField.getText()));
             } else {
                 newShow.setStage(0);
             }
 
-            this.showList.add(newShow);
-
-            for(Show show : this.showList){
-                System.out.println(show.getEndTime());
+            //Add the newly created show into the dataStore
+            if (inputValid) {
+                DataStore.getShowsA().add(newShow);
+                newStage.close();
             }
-
-            newStage.close();
-            System.out.println(this.showList);
-            if (!this.showList.isEmpty()){
-                serializer.Write(this.showList);
-            }
-
-            //TEMP, TEST
-            System.out.println(deserializer.Read());
-            for (Show show : showList){
-                System.out.println(show.getShow());
+            //Write the saved shows into the file
+            if (!DataStore.getShowsA().isEmpty()) {
+                serializer.Write(DataStore.getShowsA());
             }
         });
 
+        //Creates the fields, labels and buttons for the pop-up
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(30);
