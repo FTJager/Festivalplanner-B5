@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -20,6 +21,8 @@ abstract class NPC {
         this.sprite = sprite;
         this.target = position;
         this.angle = 0;
+        this.speed = 2;
+        this.rotationSpeed = 0.1;
     }
 
     public void update(ArrayList<NPC> npcs){
@@ -66,6 +69,14 @@ abstract class NPC {
         tx.translate(position.getX() - this.sprite.getWidth()/2, position.getY() - this.sprite.getHeight()/2);
         tx.rotate(this.angle, this.sprite.getWidth()/2, this.sprite.getHeight()/2);
         return tx;
+    }
+
+    public void setTarget(Point2D target) {
+        this.target = target;
+    }
+
+    public void draw(Graphics2D g) {
+        g.drawImage(sprite, getTransform(), null);
     }
 
 

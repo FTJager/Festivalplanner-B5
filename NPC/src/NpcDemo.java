@@ -44,14 +44,14 @@ public class NpcDemo extends Application {
 
         canvas.setOnMouseMoved(e ->
         {
-            for(PersonJohan person : people) {
-                person.setTarget(new Point2D.Double(e.getX(), e.getY()));
+            for(NPC artist : people) {
+                artist.setTarget(new Point2D.Double(e.getX(), e.getY()));
             }
         });
     }
 
 
-    ArrayList<PersonJohan> people;
+    ArrayList<NPC> people;
 
 
     public void init() {
@@ -59,13 +59,13 @@ public class NpcDemo extends Application {
 
         BufferedImage image = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream("/images/npc.png"));
+            image = ImageIO.read(this.getClass().getResourceAsStream("/npc.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         for(int i = 0; i < 50; i++) {
-            this.people.add(new PersonJohan(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
+            this.people.add(new Artist(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
         }
     }
 
@@ -77,7 +77,7 @@ public class NpcDemo extends Application {
         g2.clearRect(0,0,(int)canvas.getWidth(), (int)canvas.getHeight());
 
 
-        for(PersonJohan person : people) {
+        for(NPC person : people) {
             person.draw(g2);
         }
 
@@ -86,7 +86,7 @@ public class NpcDemo extends Application {
     }
 
     public void update(double frameTime) {
-        for(PersonJohan person : people) {
+        for(NPC person : people) {
             person.update(people);
         }
     }

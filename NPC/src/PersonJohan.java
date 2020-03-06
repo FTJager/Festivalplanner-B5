@@ -61,8 +61,7 @@ public class PersonJohan {
         }
     }
 
-    public void draw(Graphics2D g)
-    {
+    public void draw(Graphics2D g) {
         g.drawImage(sprite, getTransform(), null);
     }
 
