@@ -1,3 +1,7 @@
+/**
+ * The SureStage is a pop-up in the GUI that comes up when pressing a "done" button in the delete pop-up, giving you an extra chance to cancel if you selected the wrong show to delete
+ * @param index the index is the position of the selected show in the arrayList
+ */
 package gui;
 
 import data.DataStore;
@@ -16,8 +20,8 @@ public class SureStage {
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
 
-
     SureStage(int index){
+        //Setup for the sureStage with buttons, labels, text fields, etc.
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
@@ -30,21 +34,22 @@ public class SureStage {
         Button noButton = new Button("No");
 
         yesButton.setOnAction(e -> {
-            if (index == -1){
-                serializer.Clear();
+            //Since we don't need an index when we want to delete all elements, we replace it with -1 or DELETE_ALL
+            if (index == DeleteStage.DELETE_ALL){    serializer.Clear();
                 DataStore.setShowsA(deserializer.Read());
             }else {
-                if (!deserializer.Read().isEmpty()){
-                    DataStore.setShowsA(deserializer.Read());
+                //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
+                if (!deserializer.Read().isEmpty()){      DataStore.setShowsA(deserializer.Read());
                 }
                 DataStore.getShowsA().remove(index);
                 serializer.Write(DataStore.getShowsA());
             }
+            //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
             System.out.println("Current saved shows: " + DataStore.getShowsA().size());
-            System.out.println(DataStore.getShowsA());
         });
 
+        //When pressed on the "no" button, the desired show will not be deleted from the existing shows
         noButton.setOnAction(e -> {
             delStage.close();
         });
