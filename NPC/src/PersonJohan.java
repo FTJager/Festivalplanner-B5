@@ -1,11 +1,10 @@
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class Person {
+public class PersonJohan {
     private Point2D position;
     private double angle;
     private double speed;
@@ -15,7 +14,7 @@ public class Person {
     private double rotationSpeed;
 
 
-    public Person(Point2D position, BufferedImage sprite) {
+    public PersonJohan(Point2D position, BufferedImage sprite) {
         this.position = position;
         this.sprite = sprite;
         this.angle = 0;
@@ -24,7 +23,7 @@ public class Person {
         this.rotationSpeed = 0.1;
     }
 
-    public void update(ArrayList<Person> people)
+    public void update(ArrayList<PersonJohan> people)
     {
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(),
                                         this.target.getX() - this.position.getX());
@@ -48,7 +47,7 @@ public class Person {
 
         boolean collided = false;
 
-        for(Person other : people) {
+        for(PersonJohan other : people) {
             if(other != this && newPosition.distance(other.position) < 64) {
                 collided = true;
             }

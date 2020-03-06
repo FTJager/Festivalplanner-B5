@@ -7,28 +7,13 @@ import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
-import java.nio.channels.NetworkChannel;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 public class NpcDemo extends Application {
 
@@ -59,14 +44,14 @@ public class NpcDemo extends Application {
 
         canvas.setOnMouseMoved(e ->
         {
-            for(Person person : people) {
+            for(PersonJohan person : people) {
                 person.setTarget(new Point2D.Double(e.getX(), e.getY()));
             }
         });
     }
 
 
-    ArrayList<Person> people;
+    ArrayList<PersonJohan> people;
 
 
     public void init() {
@@ -80,7 +65,7 @@ public class NpcDemo extends Application {
         }
 
         for(int i = 0; i < 50; i++) {
-            this.people.add(new Person(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
+            this.people.add(new PersonJohan(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
         }
     }
 
@@ -92,7 +77,7 @@ public class NpcDemo extends Application {
         g2.clearRect(0,0,(int)canvas.getWidth(), (int)canvas.getHeight());
 
 
-        for(Person person : people) {
+        for(PersonJohan person : people) {
             person.draw(g2);
         }
 
@@ -101,7 +86,7 @@ public class NpcDemo extends Application {
     }
 
     public void update(double frameTime) {
-        for(Person person : people) {
+        for(PersonJohan person : people) {
             person.update(people);
         }
     }
