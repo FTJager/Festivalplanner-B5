@@ -58,15 +58,27 @@ public class NpcDemo extends Application {
         this.people = new ArrayList<>();
 
         BufferedImage image = null;
+        BufferedImage image2 = null;
         try {
             image = ImageIO.read(this.getClass().getResourceAsStream("/npc.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        for(int i = 0; i < 50; i++) {
+        try {
+            image2 = ImageIO.read(this.getClass().getResourceAsStream("/hick.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(int i = 0; i < 5; i++) {
             this.people.add(new Artist(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
         }
+
+        for(int i = 0; i < 15; i++) {
+            this.people.add(new Hick(new Point2D.Double(Math.random()*1800, Math.random()*1000), image2));
+        }
+
     }
 
 
