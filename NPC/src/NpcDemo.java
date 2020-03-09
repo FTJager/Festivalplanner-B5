@@ -38,16 +38,17 @@ public class NpcDemo extends Application {
         }.start();
 
         stage.setScene(new Scene(mainPane, 1500, 800));
-        stage.setTitle("NPCs");
+        stage.setTitle("Festival sim");
         stage.show();
         draw(g2d);
 
-        canvas.setOnMouseMoved(e ->
-        {
-            for(NPC artist : people) {
-                artist.setTarget(new Point2D.Double(e.getX(), e.getY()));
-            }
-        });
+
+        //Target selection
+//        canvas.setOnMouseMoved(e -> {
+//            for(NPC character : people) {
+//                character.setTarget(new Point2D.Double(e.getX(), e.getY()));
+//            }
+//        });
     }
 
 
@@ -57,33 +58,33 @@ public class NpcDemo extends Application {
     public void init() {
         this.people = new ArrayList<>();
 
-        BufferedImage image = null;
-        BufferedImage image2 = null;
+        //Sprite selection
+        BufferedImage imageArtist = null;
+        BufferedImage imageHick = null;
         try {
-            image = ImageIO.read(this.getClass().getResourceAsStream("/npc.png"));
+            imageArtist = ImageIO.read(this.getClass().getResourceAsStream("/npc.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            image2 = ImageIO.read(this.getClass().getResourceAsStream("/hick.png"));
+            imageHick = ImageIO.read(this.getClass().getResourceAsStream("/hick.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         for(int i = 0; i < 5; i++) {
-            this.people.add(new Artist(new Point2D.Double(Math.random()*1800, Math.random()*1000), image));
+            this.people.add(new Artist(new Point2D.Double(Math.random()*1800, Math.random()*1000), imageArtist, new Point2D.Double(250,250),"name"));
         }
 
         for(int i = 0; i < 15; i++) {
-            this.people.add(new Hick(new Point2D.Double(Math.random()*1800, Math.random()*1000), image2));
+            this.people.add(new Visitor(new Point2D.Double(Math.random()*1800, Math.random()*1000), imageHick, new Point2D.Double(1000,1000)));
         }
 
     }
 
 
-    public void draw(FXGraphics2D g2)
-    {
+    public void draw(FXGraphics2D g2) {
         g2.setTransform(new AffineTransform());
         g2.setBackground(new Color(100,75,75));
         g2.clearRect(0,0,(int)canvas.getWidth(), (int)canvas.getHeight());
@@ -99,6 +100,9 @@ public class NpcDemo extends Application {
 
     public void update(double frameTime) {
         for(NPC person : people) {
+            if (person.getPosition().distance(person.getTarget()) <= 100){
+                person.setTarget(new Point2D.Double(1500,100));
+            }
             person.update(people);
         }
     }

@@ -16,10 +16,10 @@ abstract class NPC {
     private Point2D target;
     private double rotationSpeed;
 
-    public NPC(Point2D position, BufferedImage sprite){
+    public NPC(Point2D position, BufferedImage sprite, Point2D target){
         this.position = position;
         this.sprite = sprite;
-        this.target = position;
+        this.target = target;
         this.angle = 0;
         this.speed = 2;
         this.rotationSpeed = 0.1;
@@ -79,5 +79,11 @@ abstract class NPC {
         g.drawImage(sprite, getTransform(), null);
     }
 
+    public Point2D getPosition() {
+        return position;
+    }
 
+    public Point2D getTarget() {
+        return target;
+    }
 }
