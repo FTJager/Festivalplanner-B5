@@ -30,9 +30,6 @@ public class MapDemo extends Application {
                     last = now;
                 update((now - last) / 1000000000.0);
                 last = now;
-                canvas.setOnMouseDragged(e -> {
-                    //position = new Point2D.Double(e.getX(), e.getY());
-                });
                 draw(g2d);
             }
         }.start();
