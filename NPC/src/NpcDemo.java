@@ -74,11 +74,11 @@ public class NpcDemo extends Application {
         }
 
         for(int i = 0; i < 5; i++) {
-            this.people.add(new Artist(new Point2D.Double(Math.random()*1800, Math.random()*1000), imageArtist, new Point2D.Double(250,250),"name"));
+            this.people.add(new Artist(new Point2D.Double(Math.random()*1800 + 1920, Math.random()*1000 + 1080), imageArtist, new Point2D.Double(250,250),"name"));
         }
 
         for(int i = 0; i < 15; i++) {
-            this.people.add(new Visitor(new Point2D.Double(Math.random()*1800, Math.random()*1000), imageHick, new Point2D.Double(1000,1000)));
+            this.people.add(new Visitor(new Point2D.Double(Math.random()*1800 - 1920, Math.random()*1000 - 1080), imageHick, new Point2D.Double(1000,1000)));
         }
 
     }
@@ -92,6 +92,7 @@ public class NpcDemo extends Application {
 
         for(NPC person : people) {
             person.draw(g2);
+            g2.drawOval((int)person.getTarget().getX(), (int)person.getTarget().getY(), 25, 25);
         }
 
 
@@ -101,7 +102,8 @@ public class NpcDemo extends Application {
     public void update(double frameTime) {
         for(NPC person : people) {
             if (person.getPosition().distance(person.getTarget()) <= 100){
-                person.setTarget(new Point2D.Double(1500,100));
+//                person.setTarget(new Point2D.Double(Math.random() * 1700, Math.random() * 800));
+//                person.setTarget(new Point2D.Double(1500,100));
             }
             person.update(people);
         }
