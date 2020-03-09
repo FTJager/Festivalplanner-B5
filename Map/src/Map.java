@@ -1,3 +1,5 @@
+import org.jfree.fx.ResizableCanvas;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -66,10 +68,12 @@ public class Map {
         }
     }
 
-    void draw(Graphics2D g2d, Point2D position) {
-        drawLayers(g2d, map1, position);
-        drawLayers(g2d, map2, position);
-        drawLayers(g2d, map3, position);
+    void draw(Graphics2D g2d, ResizableCanvas canvas) {
+        g2d.setColor(Color.black);
+        g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
+        drawLayers(g2d, map1);
+        drawLayers(g2d, map2);
+        drawLayers(g2d, map3);
 
     }
 
@@ -86,7 +90,7 @@ public class Map {
         }
     }
 
-    private void drawLayers(Graphics2D g2d, int[][] map, Point2D position) {
+    private void drawLayers(Graphics2D g2d, int[][] map) {
         for(int y = 0; y < height; y++)
         {
             for(int x = 0; x < width; x++)
@@ -96,8 +100,7 @@ public class Map {
                 //draw tile from tiles, at height y and width x
                 g2d.drawImage(
                         tiles.get((map[y][x])-1),
-                        AffineTransform.getTranslateInstance(x*tileWidth + position.getX(), y*tileHeight + position.getY()),
-                        null);
+                        AffineTransform.getTranslateInstance(x*tileWidth, y*tileHeight), null);
 
             }
         }
