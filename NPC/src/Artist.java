@@ -8,6 +8,8 @@ public class Artist extends NPC {
         super(position, sprite, target);
         super.stageCollision = false;
         this.name = name;
+        setSpeed(Math.random() + 1);
+        setRotationSpeed(Math.random() / 10 + 0.05);
     }
 
 }

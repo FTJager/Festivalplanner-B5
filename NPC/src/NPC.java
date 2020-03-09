@@ -21,8 +21,6 @@ abstract class NPC {
         this.sprite = sprite;
         this.target = target;
         this.angle = 0;
-        this.speed = 2;
-        this.rotationSpeed = 0.1;
     }
 
     public void update(ArrayList<NPC> npcs){
@@ -85,5 +83,13 @@ abstract class NPC {
 
     public Point2D getTarget() {
         return target;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public void setRotationSpeed(double rotationSpeed) {
+        this.rotationSpeed = rotationSpeed;
     }
 }
