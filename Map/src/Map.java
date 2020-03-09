@@ -72,10 +72,11 @@ public class Map {
     void draw(Graphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
-        drawLayers(g2d, map1);
-        drawLayers(g2d, map2);
-        drawLayers(g2d, map3);
-
+        for(int i = 0; i < this.tilelayers.size(); i++){
+            if(this.tilelayers.get(i).isVisibility()) {
+                drawLayers(g2d, this.tilelayers.get(i).getLayer());
+            }
+        }
     }
 
 
