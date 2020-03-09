@@ -43,7 +43,7 @@ public class NpcDemo extends Application {
         draw(g2d);
 
 
-        //Target selection
+        //Set target to mouse position
 //        canvas.setOnMouseMoved(e -> {
 //            for(NPC character : people) {
 //                character.setTarget(new Point2D.Double(e.getX(), e.getY()));
