@@ -1,3 +1,5 @@
+import org.jfree.fx.ResizableCanvas;
+
 import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -11,20 +13,18 @@ import java.util.ArrayList;
 
 
 public class Map {
+
+    private ArrayList<Tilelayer> tilelayers = new ArrayList<>();
+    private ArrayList<BufferedImage> tiles = new ArrayList<>();
+    private ArrayList<TileObject> objects = new ArrayList<>();
+
     private int width;
     private int height;
-
     private int tileHeight;
     private int tileWidth;
 
-    private ArrayList<BufferedImage> tiles = new ArrayList<>();
 
-    private int[][] map1;
-    private int[][] map2;
-    private int[][] map3;
-
-    public Map(String fileName)
-    {
+    public Map(String fileName) {
         JsonReader reader = null;
         reader = Json.createReader(getClass().getResourceAsStream(fileName));
         JsonObject root = reader.readObject();
@@ -52,25 +52,31 @@ public class Map {
             e.printStackTrace();
         }
 
-        int number = 0;
-        map1 = new int[height][width];
-        map2 = new int[height][width];
-        map3 = new int[height][width];
-        for(int y = 0; y < height; y++){
-            for(int x = 0; x < width; x++){
-                map1[y][x] = root.getJsonArray("layers").getJsonObject(0).getJsonArray("data").getInt(number);
-                map2[y][x] = root.getJsonArray("layers").getJsonObject(1).getJsonArray("data").getInt(number);
-                map3[y][x] = root.getJsonArray("layers").getJsonObject(2).getJsonArray("data").getInt(number);
-                number++;
+        //adds layers to array tilelayers
+        for(int i = 0; i < root.getJsonArray("layers").size(); i++){
+            if(root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
+                this.tilelayers.add(new Tilelayer(fileName, i));
+            }
+        }
+
+        //adds object to array objects
+        for(int i = 0; i < root.getJsonArray("layers").size(); i++){
+            if(root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
+                for(int j = 0; j < root.getJsonArray("layers").getJsonObject(i).size(); j++){
+                    this.objects.add(new TileObject(fileName, i, j));
+                }
             }
         }
     }
 
-    void draw(Graphics2D g2d, Point2D position) {
-        drawLayers(g2d, map1, position);
-        drawLayers(g2d, map2, position);
-        drawLayers(g2d, map3, position);
-
+    void draw(Graphics2D g2d, ResizableCanvas canvas) {
+        g2d.setColor(Color.black);
+        g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
+        for(int i = 0; i < this.tilelayers.size(); i++){
+            if(this.tilelayers.get(i).isVisibility()) {
+                drawLayers(g2d, this.tilelayers.get(i).getLayer());
+            }
+        }
     }
 
 
@@ -86,7 +92,7 @@ public class Map {
         }
     }
 
-    private void drawLayers(Graphics2D g2d, int[][] map, Point2D position) {
+    private void drawLayers(Graphics2D g2d, int[][] map) {
         for(int y = 0; y < height; y++)
         {
             for(int x = 0; x < width; x++)
@@ -96,8 +102,7 @@ public class Map {
                 //draw tile from tiles, at height y and width x
                 g2d.drawImage(
                         tiles.get((map[y][x])-1),
-                        AffineTransform.getTranslateInstance(x*tileWidth + position.getX(), y*tileHeight + position.getY()),
-                        null);
+                        AffineTransform.getTranslateInstance(x*tileWidth, y*tileHeight), null);
 
             }
         }
