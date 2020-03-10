@@ -13,6 +13,7 @@ public class DataStore {
     private static ArrayList<Artist> artistsS;
     private static List<Show> showsAS;
     private static HashMap<String, Artist> showsHS;
+    private static List<String> stagesS;
 
     public static boolean isStateS() {
         return stateS;
@@ -27,6 +28,7 @@ public class DataStore {
         artistsS = new ArrayList<>();
         showsHS = new HashMap<>();
         showsAS = new ArrayList<>();
+        stagesS = new ArrayList<>();
     }
 
     //Sets an artist object
@@ -96,6 +98,14 @@ public class DataStore {
         } else {
             return showsHS;
         }
+    }
+
+    //This method gets a lists of stages
+    public static List<String> getStagesA() {
+        if(stagesS == null) {
+            throw new NullPointerException("The list has not been initialized yet!");
+        }
+        return stagesS;
     }
 
 }

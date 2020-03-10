@@ -138,17 +138,20 @@ public class GUI extends Application {
         RoundRectangle2D newButton = new RoundRectangle2D.Double(30, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
         RoundRectangle2D editButton = new RoundRectangle2D.Double(135, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
         RoundRectangle2D deleteButton = new RoundRectangle2D.Double(240, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
+        RoundRectangle2D stageButton = new RoundRectangle2D.Double(345, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
 
         graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
         graphics.fill(newButton);
         graphics.fill(editButton);
         graphics.fill(deleteButton);
+        graphics.fill(stageButton);
 
         graphics.setColor(Color.white);
         graphics.setFont(GUIFont);
         graphics.drawString("new", 51, (int) canvas.getHeight() - 20);
         graphics.drawString("edit", 158, (int) canvas.getHeight() - 20);
         graphics.drawString("delete", 252, (int) canvas.getHeight() - 20);
+        graphics.drawString("stages", 350, (int)canvas.getHeight() - 20);
 
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
         canvas.setOnMouseEntered(event -> {
@@ -176,6 +179,9 @@ public class GUI extends Application {
             //Event for "Delete" button.
             if (event.getX() > 240 && event.getX() < 320 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
                 DeleteStage deleteStage = new DeleteStage();
+            }
+            if (event.getX() > 345 && event.getX() < 425 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
+                AddStage addStage = new AddStage();
             }
         });
     }

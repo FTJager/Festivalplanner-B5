@@ -20,7 +20,6 @@ public class Deserializer implements Serializable{
         try{
             FileInputStream fileIn = new FileInputStream("Resources/dataStore.ser");
             ObjectInputStream objIn = new ObjectInputStream(fileIn);
-
             shows = (List)objIn.readObject();
 
             objIn.close();
