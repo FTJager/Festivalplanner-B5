@@ -1,3 +1,4 @@
+import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
 import javax.imageio.ImageIO;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 
 
 public class Map {
-
     private ArrayList<Tilelayer> tilelayers = new ArrayList<>();
     private ArrayList<BufferedImage> tiles = new ArrayList<>();
     private ArrayList<TileObject> objects = new ArrayList<>();
@@ -107,4 +107,31 @@ public class Map {
             }
         }
     }
+
+    //createnode maakt alleen punten van alle tiles op de simulation.npc.map
+    public void createNode(FXGraphics2D graphics, int[][] map) {
+        int posX = 0;
+        int posY = 0;
+
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                posX += 32;
+                int gid = map[y][x];
+                if(gid == 0){
+                    System.out.println("Geen collision");
+                } else if(gid == 975){
+                    System.out.println("Collision!");
+
+                }
+            }
+            posY += 32;
+        }
+
+    }
+
+    public ArrayList<Tilelayer> getTilelayers() {
+        return tilelayers;
+    }
+
 }

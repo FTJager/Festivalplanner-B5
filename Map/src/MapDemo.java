@@ -41,7 +41,7 @@ public class MapDemo extends Application {
         stage.show();
         draw(g2d);
 
-
+        map.createNode(g2d, map.getTilelayers().get(3).getLayer());
     }
 
 
