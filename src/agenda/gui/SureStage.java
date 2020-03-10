@@ -2,11 +2,9 @@
  * The SureStage is a pop-up in the GUI that comes up when pressing a "done" button in the delete pop-up, giving you an extra chance to cancel if you selected the wrong show to delete
  * @param index the index is the position of the selected show in the arrayList
  */
-package gui;
+package agenda.gui;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
+import agenda.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
