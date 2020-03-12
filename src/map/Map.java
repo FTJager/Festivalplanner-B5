@@ -1,3 +1,7 @@
+package map;
+
+import map.TileObject;
+import map.Tilelayer;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -8,6 +12,7 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,9 +40,9 @@ public class Map {
         //load the tilemaps
         try {
 
-            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
-            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
-            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
+            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
+            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/" +root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
+            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/" +root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
 
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");
@@ -69,7 +74,7 @@ public class Map {
         }
     }
 
-    void draw(Graphics2D g2d, ResizableCanvas canvas) {
+    void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
         for(int i = 0; i < this.tilelayers.size(); i++){
@@ -92,7 +97,7 @@ public class Map {
         }
     }
 
-    private void drawLayers(Graphics2D g2d, int[][] map) {
+    private void drawLayers(FXGraphics2D g2d, int[][] map) {
         for(int y = 0; y < height; y++)
         {
             for(int x = 0; x < width; x++)
@@ -119,10 +124,9 @@ public class Map {
                 posX += 32;
                 int gid = map[y][x];
                 if(gid == 0){
-                    System.out.println("Geen collision");
+                    graphics.draw(new Rectangle2D.Double(posX, posY, 32,32));
                 } else if(gid == 975){
                     System.out.println("Collision!");
-
                 }
             }
             posY += 32;
