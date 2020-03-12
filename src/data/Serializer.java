@@ -31,9 +31,9 @@ public class Serializer implements Serializable{
         }
 
     }
-    public void WriteStage(String stages){
+    public void WriteStage(List<data.Stage> stages){
         try {
-            FileOutputStream fileOut = new FileOutputStream("Resources/dataStore.ser");
+            FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
 
             objOut.writeObject(stages);

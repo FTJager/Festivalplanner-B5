@@ -22,6 +22,8 @@ public class AddStage {
     private Stage addStage;
     private TextField stageField = new TextField();
 
+    private data.Stage stage = new data.Stage();
+
     public AddStage(){
         this.addStage = new Stage();
         addStage.setTitle("New Stage");
@@ -46,7 +48,9 @@ public class AddStage {
         addStage.show();
 
         doneButton.setOnAction(e -> {
-            serializer.WriteStage(stageField.getText());
+            stage.setName(stageLabel.getText());
+            DataStore.setStageA(stage);
+            serializer.WriteStage(DataStore.getStagesA());
             addStage.close();
         });
 
