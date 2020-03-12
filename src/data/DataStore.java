@@ -108,11 +108,8 @@ public class DataStore {
         return stagesS;
     }
 
-    public static void setStageA(Stage StageA) {
-        if(stagesS == null) {
-            throw new NullPointerException("It doesnt exist yet");
-        }
-        else stagesS.add(StageA);
+    public static void setStageA(List<Stage> stageA) {
+        stagesS = stageA;
     }
 
 }

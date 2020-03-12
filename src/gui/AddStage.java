@@ -1,8 +1,6 @@
 package gui;
+import data.*;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,10 +12,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.xml.soap.Text;
+import java.util.ArrayList;
 
 public class AddStage {
     transient Serializer serializer = new Serializer();
     transient Deserializer deserializer = new Deserializer();
+
+    private ArrayList<data.Stage> stages = new ArrayList<>();
 
     private Stage addStage;
     private TextField stageField = new TextField();
@@ -49,7 +50,8 @@ public class AddStage {
 
         doneButton.setOnAction(e -> {
             stage.setName(stageLabel.getText());
-            DataStore.setStageA(stage);
+            stages.add(stage);
+            DataStore.setStageA(stages);
             serializer.WriteStage(DataStore.getStagesA());
             addStage.close();
         });

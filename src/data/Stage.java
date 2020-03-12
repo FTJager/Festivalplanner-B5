@@ -1,6 +1,8 @@
 package data;
 
-public class Stage {
+import java.io.Serializable;
+
+public class Stage implements Serializable {
     private String name;
     public Stage(){
         this.name = "";
