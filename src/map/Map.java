@@ -41,8 +41,8 @@ public class Map {
         try {
 
             BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
-            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/" +root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
-            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/" +root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
+            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
+            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
 
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");
@@ -58,16 +58,16 @@ public class Map {
         }
 
         //adds layers to array tilelayers
-        for(int i = 0; i < root.getJsonArray("layers").size(); i++){
-            if(root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
+        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
+            if (root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
                 this.tilelayers.add(new Tilelayer(fileName, i));
             }
         }
 
         //adds object to array objects
-        for(int i = 0; i < root.getJsonArray("layers").size(); i++){
-            if(root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
-                for(int j = 0; j < root.getJsonArray("layers").getJsonObject(i).size(); j++){
+        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
+            if (root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
+                for (int j = 0; j < root.getJsonArray("layers").getJsonObject(i).size(); j++) {
                     this.objects.add(new TileObject(fileName, i, j));
                 }
             }
@@ -76,21 +76,18 @@ public class Map {
 
     void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
-        g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
-        for(int i = 0; i < this.tilelayers.size(); i++){
-            if(this.tilelayers.get(i).isVisibility()) {
+        g2d.clearRect(-(int) canvas.getWidth() * 2, -(int) canvas.getHeight() * 2, (int) canvas.getWidth() * 10, (int) canvas.getHeight() * 10);
+        for (int i = 0; i < this.tilelayers.size(); i++) {
+            if (this.tilelayers.get(i).isVisibility()) {
                 drawLayers(g2d, this.tilelayers.get(i).getLayer());
             }
         }
     }
 
 
-
-    public void addtilemap(BufferedImage tilemap){
-        for(int y = 0; y < tilemap.getHeight(); y += tileHeight)
-        {
-            for(int x = 0; x < tilemap.getWidth(); x += tileWidth)
-            {
+    public void addtilemap(BufferedImage tilemap) {
+        for (int y = 0; y < tilemap.getHeight(); y += tileHeight) {
+            for (int x = 0; x < tilemap.getWidth(); x += tileWidth) {
                 //add subimage of tilemap at height y and width x
                 tiles.add(tilemap.getSubimage(x, y, tileWidth, tileHeight));
             }
@@ -98,17 +95,14 @@ public class Map {
     }
 
     private void drawLayers(FXGraphics2D g2d, int[][] map) {
-        for(int y = 0; y < height; y++)
-        {
-            for(int x = 0; x < width; x++)
-            {
-                if(map[y][x] <= 0)
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (map[y][x] <= 0)
                     continue;
                 //draw tile from tiles, at height y and width x
                 g2d.drawImage(
-                        tiles.get((map[y][x])-1),
-                        AffineTransform.getTranslateInstance(x*tileWidth, y*tileHeight), null);
-
+                        tiles.get((map[y][x]) - 1),
+                        AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
             }
         }
     }
@@ -117,21 +111,28 @@ public class Map {
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
         int posY = 0;
-
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(getClass().getResourceAsStream("/nonCollision.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 posX += 32;
                 int gid = map[y][x];
-                if(gid == 0){
-                    graphics.draw(new Rectangle2D.Double(posX, posY, 32,32));
-                } else if(gid == 975){
-                    System.out.println("Collision!");
+                if (gid == 0) {
+//                    graphics.setColor(Color.GREEN);
+                    
+                    graphics.drawImage(image,
+                            AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+
+                } else if (gid == 975) {
                 }
             }
             posY += 32;
         }
-
     }
 
     public ArrayList<Tilelayer> getTilelayers() {
