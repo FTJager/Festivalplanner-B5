@@ -55,6 +55,7 @@ public class MapDemo extends Application {
         map.draw(graphics, canvas);
         map.createNode(graphics, map.getTilelayers().get(3).getLayer());
 
+
     }
 
     public void update(double deltaTime) {

@@ -36,9 +36,9 @@ public class Map {
         //load the tilemaps
         try {
 
-            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
-            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
-            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
+            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
+            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
+            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
 
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");

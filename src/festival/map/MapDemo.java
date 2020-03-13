@@ -47,7 +47,7 @@ public class MapDemo extends Application {
 
 
     public void init() {
-        map = new Map("festival.json");
+        map = new Map("/festival.json");
     }
 
 
