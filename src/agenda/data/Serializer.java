@@ -1,4 +1,5 @@
-package data;
+package agenda.data;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -15,7 +16,7 @@ public class Serializer implements Serializable{
      * The Write method receives a list of objects and places the entire list in the dataStore.ser file
      * @param shows List containing a set of created objects
      */
-    public void Write(List<data.Show> shows){
+    public void Write(List<Show> shows){
 
         try {
             FileOutputStream fileOut = new FileOutputStream("Resources/dataStore.ser");

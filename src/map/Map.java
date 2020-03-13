@@ -107,6 +107,7 @@ public class Map {
         }
     }
 
+    boolean isWall = false;
     //createnode maakt alleen punten van alle tiles op de npc.map
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
@@ -118,21 +119,27 @@ public class Map {
             e.printStackTrace();
         }
 
+        StringBuilder s = new StringBuilder();
         for (int y = 0; y < height; y++) {
+            s.append(y + ": ");
             for (int x = 0; x < width; x++) {
                 posX += 32;
                 int gid = map[y][x];
                 if (gid == 0) {
 //                    graphics.setColor(Color.GREEN);
-                    
+                    s.append("o");
                     graphics.drawImage(image,
                             AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
 
                 } else if (gid == 975) {
+                    s.append("x");
+                    isWall = true;
                 }
             }
+            s.append("\n");
             posY += 32;
         }
+        System.out.println(s);
     }
 
     public ArrayList<Tilelayer> getTilelayers() {

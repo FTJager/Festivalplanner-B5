@@ -1,4 +1,4 @@
-import data.DataStore;
+import agenda.data.*;
 
 public class Main {
     public static void main(String[] args) {

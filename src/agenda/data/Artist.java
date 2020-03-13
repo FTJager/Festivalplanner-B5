@@ -1,4 +1,4 @@
-package data;
+package agenda.data;
 
 public class Artist {
     private String name;

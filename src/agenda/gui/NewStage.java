@@ -2,12 +2,9 @@
  * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI
  * as a pop-up that allows you to fill in the details for a new show.
  */
-package gui;
+package agenda.gui;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import agenda.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
