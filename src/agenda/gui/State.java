@@ -1,4 +1,4 @@
-package gui;
+package agenda.gui;
 
 public class State {
     private Boolean state;

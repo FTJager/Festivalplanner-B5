@@ -3,12 +3,9 @@
  * as a pop-up that allows you to edit the details of an existing show.
  */
 
-package gui;
+package agenda.gui;
+import agenda.data.*;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

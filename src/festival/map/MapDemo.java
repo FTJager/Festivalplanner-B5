@@ -1,4 +1,4 @@
-package map;
+package festival.map;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -7,6 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
+
 import java.awt.*;
 
 public class MapDemo extends Application {
@@ -41,21 +42,19 @@ public class MapDemo extends Application {
         stage.show();
         draw(g2d);
 
+        map.createNode(g2d, map.getTilelayers().get(3).getLayer());
     }
 
 
     public void init() {
-        this.map = new Map("/festival.json");
+        map = new Map("/festival.json");
     }
 
 
-    public void draw(FXGraphics2D graphics) {
+    public void draw(Graphics2D graphics) {
         graphics.setBackground(Color.black);
         graphics.setTransform(camera.getTransform(0, 0));
         map.draw(graphics, canvas);
-        map.createNode(graphics, map.getTilelayers().get(3).getLayer());
-
-
     }
 
     public void update(double deltaTime) {

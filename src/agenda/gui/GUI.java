@@ -3,10 +3,9 @@
  * When run, the GUI for the festival agenda opens and the user can add, edti, and delete shows.
  */
 
-package gui;
+package agenda.gui;
 
-import data.DataStore;
-import data.*;
+import agenda.data.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
