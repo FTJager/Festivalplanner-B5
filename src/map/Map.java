@@ -1,7 +1,5 @@
 package map;
 
-import map.TileObject;
-import map.Tilelayer;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -27,6 +25,7 @@ public class Map {
     private int height;
     private int tileHeight;
     private int tileWidth;
+    private Point2D gridPos = new Point2D.Double();
 
 
     public Map(String fileName) {
@@ -108,10 +107,12 @@ public class Map {
     }
 
     boolean isWall = false;
+
     //createnode maakt alleen punten van alle tiles op de npc.map
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
         int posY = 0;
+        Tile tile = new Tile(gridPos);
         BufferedImage image = null;
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/nonCollision.png"));
@@ -121,22 +122,31 @@ public class Map {
 
         StringBuilder s = new StringBuilder();
         for (int y = 0; y < height; y++) {
-            s.append(y + ": ");
+//            s.append(y + ": ");
             for (int x = 0; x < width; x++) {
                 posX += 32;
+//                tile.createGrid(gridPos);
                 int gid = map[y][x];
                 if (gid == 0) {
-//                    graphics.setColor(Color.GREEN);
-                    s.append("o");
-                    graphics.drawImage(image,
-                            AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+//                    s.append("o");
+                    gridPos.setLocation(posX, posY);
+                    graphics.setColor(Color.GREEN);
+                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                    Font font = new Font("Arial", Font.PLAIN, 5);
+                    graphics.setFont(font);
+                    graphics.drawString("(" + (int) gridPos.getX() + " , " + (int) gridPos.getY() + ")", x * tileWidth, y * tileHeight);
 
                 } else if (gid == 975) {
-                    s.append("x");
+//                    s.append("x");
+                    graphics.setColor(Color.RED);
+                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+//                    graphics.drawImage(image,
+//                            AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+
                     isWall = true;
                 }
             }
-            s.append("\n");
+//            s.append("\n");
             posY += 32;
         }
         System.out.println(s);
