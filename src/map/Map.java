@@ -108,6 +108,7 @@ public class Map {
     }
 
     boolean isWall = false;
+    int[][] matrix;
     //createnode maakt alleen punten van alle tiles op de npc.map
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
@@ -119,14 +120,18 @@ public class Map {
             e.printStackTrace();
         }
 
+        matrix = new int[map.length][];
+        for(int i = 0; i < map.length; i++){
+            matrix[i] = map[i].clone();
+        }
+
+        System.out.println("make initial map based on collision layer");
         StringBuilder s = new StringBuilder();
         for (int y = 0; y < height; y++) {
-            s.append(y + ": ");
             for (int x = 0; x < width; x++) {
                 posX += 32;
                 int gid = map[y][x];
                 if (gid == 0) {
-//                    graphics.setColor(Color.GREEN);
                     s.append("o");
                     graphics.drawImage(image,
                             AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
@@ -139,7 +144,32 @@ public class Map {
             s.append("\n");
             posY += 32;
         }
-        System.out.println(s);
+    }
+
+    public int[][] cloneMatrix(){
+        StringBuilder k = new StringBuilder();
+
+        System.out.println("map is cloned");
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[i].length; j++){
+                int gid = matrix[i][j];
+                if(gid == 0){
+                    k.append("0");
+                } else if (gid == 975){
+                    k.append("1");
+                }
+            }
+            k.append("\n");
+        }
+        return matrix;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+
+    public int getWidth(){
+        return width;
     }
 
     public ArrayList<Tilelayer> getTilelayers() {

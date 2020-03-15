@@ -8,12 +8,18 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class MapDemo extends Application {
 
     private Map map;
     private ResizableCanvas canvas;
     private Camera camera;
+    private int mapMatrix[][];
+    private boolean isWall = false;
+    private int height, width;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,6 +52,9 @@ public class MapDemo extends Application {
 
     public void init() {
         this.map = new Map("/festival.json");
+        this.width = map.getWidth();
+        this.height = map.getHeight();
+
     }
 
 
@@ -55,8 +64,83 @@ public class MapDemo extends Application {
         map.draw(graphics, canvas);
         map.createNode(graphics, map.getTilelayers().get(3).getLayer());
 
+        mapMatrix = map.cloneMatrix();
 
+        Queue<Tile> open = new LinkedList<>();
+        Queue<Tile> closed = new LinkedList<>();
+
+        ((LinkedList<Tile>) open).add(0, new Tile(0, 0));
+        int value = 0;
+        StringBuilder test = new StringBuilder();
+        while(!open.isEmpty()){
+            Tile current = ((LinkedList<Tile>) open).getFirst();
+            open.remove(current);
+
+            for (int i = 0; i < mapMatrix.length; i++){
+                for (int j = 0; j < mapMatrix[i].length; j++){
+                    if(!closed.contains(new Tile(i, j)) && (mapMatrix[i][j] ==0)){
+                        ((LinkedList<Tile>) open).add(new Tile(i, j));
+                    }
+                    //Get the gid value of the corresponding coördinate
+                    int gid = mapMatrix[i][j];
+
+                    //Check what gid is returned
+                    if (gid == 0){
+                        test.append(value);
+                    } else if (gid == 975){
+                        isWall = true;
+                        test.append("x");
+                    }
+
+                    //For each cell, check the surrounding cells
+                    if (mapMatrix[i][j] == mapMatrix[height-1][width-1] || mapMatrix[i][j] != 0){
+                        //Look at top cell
+                        if (i > 0 && mapMatrix[i-1][j] == (height - 1) && gid != 975){
+                            value++;
+                        }
+                        //Look at left cell
+                        if (j > 0 && mapMatrix[i][j-1] == (width - 1) && gid != 975){
+                            value++;
+                        }
+                        //Look at right cell
+                        if (j + 1 < mapMatrix[1].length && mapMatrix[i][j+1] == (width - 1) && gid != 975){
+                            value++;
+                        }
+                        //Look at bottom cell
+                        if (i + 1 < mapMatrix.length && mapMatrix[i+1][j] == (height - 1) && gid != 975){
+                            value++;
+                        }
+                    }
+                }
+                test.append("\n");
+            }
+            System.out.println(test);
+            closed.add(current);
+        }
+
+
+        /*StringBuilder s = new StringBuilder();
+        System.out.println("MapDemo Matrix");
+        for(int i = 0; i < mapMatrix.length; i++){
+            for(int j = 0; j < mapMatrix[i].length; j++){
+
+                int gid = mapMatrix[i][j];
+
+                if(gid == 0) {
+                    s.append("o");
+                    value++;
+                } else if(gid == 975){
+                    s.append("x");
+                    isWall = true;
+                }
+                System.out.println(i + ", "+ j + ": " + gid + " - " + value);
+            }
+            s.append("\n");
+        }
+        System.out.println(s);
+        */
     }
+
 
     public void update(double deltaTime) {
 
