@@ -18,6 +18,9 @@ public class Map {
     private ArrayList<BufferedImage> tiles = new ArrayList<>();
     private ArrayList<TileObject> objects = new ArrayList<>();
 
+    private BufferedImage map = new BufferedImage(110*32, 80*32, BufferedImage.TYPE_INT_RGB);
+    private BufferedImage maptest = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
+
     private int width;
     private int height;
     private int tileHeight;
@@ -67,16 +70,42 @@ public class Map {
                 }
             }
         }
+
+//        for(int x = 0; x < tiles.get(20).getWidth(); x ++){
+//            for(int y = 0; y < tiles.get(0).getHeight(); y++){
+//                map.setRGB(x,y,tiles.get(0).getRGB(x, y));
+//            }
+//        }
+
+        //makes map image
+        for(Tilelayer layer : tilelayers){
+
+            for(int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    if(layer.getLayer()[y][x] <= 0)
+                        continue;
+
+                    for(int tileY = 0; tileY < 32; tileY++){
+                        for (int tileX = 0; tileX < 32; tileX++){
+                            //tiles.get((layer.getLayer()[y][x])-1).getRGB(tileX,tileY);
+                            map.setRGB(x*tileX,y*tileY, tiles.get((layer.getLayer()[y][x])-1).getRGB(tileX,tileY));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void draw(Graphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
-        for(int i = 0; i < this.tilelayers.size(); i++){
-            if(this.tilelayers.get(i).isVisibility()) {
-                drawLayers(g2d, this.tilelayers.get(i).getLayer());
-            }
-        }
+//        for(int i = 0; i < this.tilelayers.size(); i++){
+//            if(this.tilelayers.get(i).isVisibility()) {
+//                drawLayers(g2d, this.tilelayers.get(i).getLayer());
+//            }
+//        }
+        AffineTransform af = new AffineTransform();
+        g2d.drawImage(map, af, null);
     }
 
 
