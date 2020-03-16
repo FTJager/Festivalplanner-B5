@@ -95,6 +95,15 @@ public class NewStage {
                 newShow.setEndTime(0);
             }
 
+            for (Show show : DataStore.getShowsA()){
+                if (show.getArtist().getName().equalsIgnoreCase(newShow.getArtist().getName())){
+                    if (newShow.getStartTime() < show.getEndTime() && newShow.getStartTime() > show.getStartTime() || newShow.getEndTime() < show.getEndTime() && newShow.getEndTime() > show.getStartTime()){
+                        ErrorStage stage = new ErrorStage();
+                        inputValid = false;
+                    }
+                }
+            }
+
             if (!popularityField.getText().isEmpty()) {
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
             } else {
