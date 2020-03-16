@@ -19,6 +19,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.io.Serializable;
+
 public class DeleteStage {
     public static final int DELETE_ALL = -1;
     Serializer serializer = new Serializer();
@@ -32,8 +35,11 @@ public class DeleteStage {
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
-        if (!deserializer.Read().isEmpty()){
-            DataStore.setShowsA(deserializer.Read());
+        if (!deserializer.Read(Serializer.SHOWS).isEmpty()){
+            DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        }
+        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
         }
 
         FlowPane root = new FlowPane();

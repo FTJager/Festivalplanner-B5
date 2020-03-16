@@ -10,7 +10,7 @@ public class DataStore {
     private static boolean stateS;
     private static Artist artistS;
     private static Show showS;
-    private static ArrayList<Artist> artistsS;
+    private static List<Artist> artistsS;
     private static List<Show> showsAS;
     private static HashMap<String, Artist> showsHS;
 
@@ -58,12 +58,12 @@ public class DataStore {
     }
 
     //This method sets an ArrayList of Artists
-    public static void setArtists(ArrayList<Artist> artists){
+    public static void setArtists(List<Artist> artists){
         artistsS = artists;
     }
 
     //This method checks the ArrayList of Artists and checks if the object in the list aren't null
-    public ArrayList<Artist> getArtists(){
+    public static List<Artist> getArtists(){
         if(artistsS == null){
             throw new NullPointerException("Ya doofus, it has not been initialized yet!");
         } else {
