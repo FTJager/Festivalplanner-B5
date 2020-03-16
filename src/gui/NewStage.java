@@ -97,7 +97,7 @@ public class NewStage {
 
             for (Show show : DataStore.getShowsA()){
                 if (show.getArtist().getName().equalsIgnoreCase(newShow.getArtist().getName())){
-                    if (newShow.getStartTime() < show.getEndTime() && newShow.getStartTime() > show.getStartTime() || newShow.getEndTime() < show.getEndTime() && newShow.getEndTime() > show.getStartTime()){
+                    if (newShow.getStartTime() < show.getEndTime() && newShow.getStartTime() >= show.getStartTime() || newShow.getEndTime() <= show.getEndTime() && newShow.getEndTime() > show.getStartTime()){
                         ErrorStage stage = new ErrorStage();
                         inputValid = false;
                     }
