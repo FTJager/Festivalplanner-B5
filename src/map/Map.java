@@ -73,7 +73,11 @@ public class Map {
         }
     }
 
-    void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
+    public ArrayList<Tilelayer> getTilelayers() {
+        return tilelayers;
+    }
+
+    public void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int) canvas.getWidth() * 2, -(int) canvas.getHeight() * 2, (int) canvas.getWidth() * 10, (int) canvas.getHeight() * 10);
         for (int i = 0; i < this.tilelayers.size(); i++) {
@@ -112,48 +116,34 @@ public class Map {
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
         int posY = 0;
-        Tile tile = new Tile(gridPos);
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/nonCollision.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Tile tile = new Tile(map);
 
-        StringBuilder s = new StringBuilder();
+
         for (int y = 0; y < height; y++) {
-//            s.append(y + ": ");
             for (int x = 0; x < width; x++) {
                 posX += 32;
-//                tile.createGrid(gridPos);
                 int gid = map[y][x];
                 if (gid == 0) {
-//                    s.append("o");
-                    gridPos.setLocation(posX, posY);
+                    this.gridPos.setLocation(posX, posY);
+                    tile.BFS(gridPos);
+
                     graphics.setColor(Color.GREEN);
                     graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
                     Font font = new Font("Arial", Font.PLAIN, 5);
                     graphics.setFont(font);
-                    graphics.drawString("(" + (int) gridPos.getX() + " , " + (int) gridPos.getY() + ")", x * tileWidth, y * tileHeight);
+                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
 
                 } else if (gid == 975) {
-//                    s.append("x");
                     graphics.setColor(Color.RED);
                     graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
-//                    graphics.drawImage(image,
-//                            AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
-
                     isWall = true;
+
                 }
             }
-//            s.append("\n");
             posY += 32;
+
         }
-        System.out.println(s);
     }
 
-    public ArrayList<Tilelayer> getTilelayers() {
-        return tilelayers;
-    }
 
 }
