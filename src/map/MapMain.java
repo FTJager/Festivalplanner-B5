@@ -51,6 +51,16 @@ public class MapMain extends Application {
         this.map = new Map("/festival.json");
         this.bfs = new BreadthFirstSearch();
         bfs.setSize(map.getWidth(), map.getHeight());
+
+    }
+
+
+    public void draw(FXGraphics2D graphics) {
+        graphics.setBackground(Color.black);
+        graphics.setTransform(camera.getTransform(0, 0));
+        map.draw(graphics, canvas);
+        map.createNode(graphics, map.getTilelayers().get(3).getLayer(), this.bfs);
+//        map.getTargets(map.getTilelayers().get(4).getLayer());
         bfs.BFS(new Point2D.Double(0, 0));
         for (int y = 0; y < map.getHeight(); y++) {
             System.out.println("");
@@ -72,16 +82,6 @@ public class MapMain extends Application {
                 }
             }
         }
-    }
-
-
-    public void draw(FXGraphics2D graphics) {
-        graphics.setBackground(Color.black);
-        graphics.setTransform(camera.getTransform(0, 0));
-        map.draw(graphics, canvas);
-        map.createNode(graphics, map.getTilelayers().get(3).getLayer(), this.bfs);
-        map.getTargets(map.getTilelayers().get(4).getLayer());
-
     }
 
     public void update(double deltaTime) {
