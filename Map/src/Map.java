@@ -19,7 +19,6 @@ public class Map {
     private ArrayList<TileObject> objects = new ArrayList<>();
 
     private BufferedImage map = new BufferedImage(110*32, 80*32, BufferedImage.TYPE_INT_RGB);
-    private BufferedImage maptest = new BufferedImage(512, 512, BufferedImage.TYPE_INT_RGB);
 
     private int width;
     private int height;
@@ -71,24 +70,27 @@ public class Map {
             }
         }
 
-//        for(int x = 0; x < tiles.get(20).getWidth(); x ++){
-//            for(int y = 0; y < tiles.get(0).getHeight(); y++){
-//                map.setRGB(x,y,tiles.get(0).getRGB(x, y));
-//            }
-//        }
-
         //makes map image
         for(Tilelayer layer : tilelayers){
+            //tilelayers zijn de verschillende lagen in de map
+            if(layer.isVisibility()) {
+                for (int y = 0; y < height; y++) {
+                    //height is 80
+                    for (int x = 0; x < width; x++) {
+                        //width = 110
+                        if (layer.getLayer()[y][x] <= 0)
+                            continue;
 
-            for(int y = 0; y < height; y++) {
-                for (int x = 0; x < width; x++) {
-                    if(layer.getLayer()[y][x] <= 0)
-                        continue;
+                        for (int tileY = 0; tileY < 32; tileY++) {
+                            //kijk ik naar alle 32 pixels in de hoogte van de tile
+                            for (int tileX = 0; tileX < 32; tileX++) {
+                                //kijk ik naar alle 32 pixels in de breedte van de tile
 
-                    for(int tileY = 0; tileY < 32; tileY++){
-                        for (int tileX = 0; tileX < 32; tileX++){
-                            //tiles.get((layer.getLayer()[y][x])-1).getRGB(tileX,tileY);
-                            map.setRGB(x*tileX,y*tileY, tiles.get((layer.getLayer()[y][x])-1).getRGB(tileX,tileY));
+                                //map = een bufferedimage van 110*32 bij 80*32 dan set ik de pixel door de rgb de krijgen van de juiste tile
+                                if(tiles.get((layer.getLayer()[y][x]) - 1).getRGB(tileX, tileY) != 0) {
+                                    map.setRGB(x * 32 + tileX, y * 32 + tileY, tiles.get((layer.getLayer()[y][x]) - 1).getRGB(tileX, tileY));
+                                }
+                            }
                         }
                     }
                 }
@@ -99,11 +101,6 @@ public class Map {
     void draw(Graphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int)canvas.getWidth()*2,-(int)canvas.getHeight()*2,(int)canvas.getWidth()*10, (int)canvas.getHeight()*10);
-//        for(int i = 0; i < this.tilelayers.size(); i++){
-//            if(this.tilelayers.get(i).isVisibility()) {
-//                drawLayers(g2d, this.tilelayers.get(i).getLayer());
-//            }
-//        }
         AffineTransform af = new AffineTransform();
         g2d.drawImage(map, af, null);
     }
@@ -117,22 +114,6 @@ public class Map {
             {
                 //add subimage of tilemap at height y and width x
                 tiles.add(tilemap.getSubimage(x, y, tileWidth, tileHeight));
-            }
-        }
-    }
-
-    private void drawLayers(Graphics2D g2d, int[][] map) {
-        for(int y = 0; y < height; y++)
-        {
-            for(int x = 0; x < width; x++)
-            {
-                if(map[y][x] <= 0)
-                    continue;
-                //draw tile from tiles, at height y and width x
-                g2d.drawImage(
-                        tiles.get((map[y][x])-1),
-                        AffineTransform.getTranslateInstance(x*tileWidth, y*tileHeight), null);
-
             }
         }
     }
