@@ -10,7 +10,6 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class Map {
     private int height;
     private int tileHeight;
     private int tileWidth;
+    private Tile tileMap[][];
     private Point2D gridPos = new Point2D.Double();
 
 
@@ -73,6 +73,22 @@ public class Map {
         }
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
     public ArrayList<Tilelayer> getTilelayers() {
         return tilelayers;
     }
@@ -102,7 +118,7 @@ public class Map {
             for (int x = 0; x < width; x++) {
                 if (map[y][x] <= 0)
                     continue;
-                //draw tile from tiles, at height y and width x
+                //draw tileMap from tiles, at height y and width x
                 g2d.drawImage(
                         tiles.get((map[y][x]) - 1),
                         AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
@@ -113,37 +129,48 @@ public class Map {
     boolean isWall = false;
 
     //createnode maakt alleen punten van alle tiles op de npc.map
-    public void createNode(FXGraphics2D graphics, int[][] map) {
+    //TODO Get rid of createNode and make a different class for it, or implement it in the BFS class
+    public void createNode(FXGraphics2D graphics, int[][] map, BreadthFirstSearch bfs) {
         int posX = 0;
         int posY = 0;
-        Tile tile = new Tile(map);
-
+        this.tileMap = new Tile[height][width];
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                posX += 32;
                 int gid = map[y][x];
-                if (gid == 0) {
-                    this.gridPos.setLocation(posX, posY);
-                    tile.BFS(gridPos);
+                this.tileMap[y][x] = new Tile(new Point2D.Double(x,y), false, false, false);
 
-                    graphics.setColor(Color.GREEN);
-                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
-                    Font font = new Font("Arial", Font.PLAIN, 5);
-                    graphics.setFont(font);
-                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
+                if (gid == 0) {
+//                    graphics.setColor(Color.GREEN);
+//                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+//                    Font font = new Font("Arial", Font.PLAIN, 5);
+//                    graphics.setFont(font);
+//                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
 
                 } else if (gid == 975) {
-                    graphics.setColor(Color.RED);
-                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
-                    isWall = true;
+//                    graphics.setColor(Color.RED);
+//                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                    this.tileMap[y][x].setWall(true);
 
                 }
             }
-            posY += 32;
 
         }
+        bfs.setTileMap(this.tileMap);
     }
+
+    public void getTargets(int[][] objectLayer){
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+
+            }
+        }
+    }
+
+    //Maybe to make the grid a bit easier to build?
+//    public int[][] getCollisionLayer(){
+//        return
+//    }
 
 
 }
