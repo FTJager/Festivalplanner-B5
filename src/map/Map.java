@@ -10,6 +10,7 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -141,15 +142,15 @@ public class Map {
                 this.tileMap[y][x] = new Tile(new Point2D.Double(x,y), false, false, false);
 
                 if (gid == 0) {
-//                    graphics.setColor(Color.GREEN);
-//                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
-//                    Font font = new Font("Arial", Font.PLAIN, 5);
-//                    graphics.setFont(font);
-//                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
+                    graphics.setColor(Color.GREEN);
+                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                    Font font = new Font("Arial", Font.PLAIN, 5);
+                    graphics.setFont(font);
+                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
 
                 } else if (gid == 975) {
-//                    graphics.setColor(Color.RED);
-//                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                    graphics.setColor(Color.RED);
+                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
                     this.tileMap[y][x].setWall(true);
 
                 }
