@@ -1,7 +1,5 @@
 package map;
 
-import map.TileObject;
-import map.Tilelayer;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -12,7 +10,6 @@ import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,6 +24,8 @@ public class Map {
     private int height;
     private int tileHeight;
     private int tileWidth;
+    private Tile tileMap[][];
+    private Point2D gridPos = new Point2D.Double();
 
 
     public Map(String fileName) {
@@ -74,7 +73,27 @@ public class Map {
         }
     }
 
-    void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public ArrayList<Tilelayer> getTilelayers() {
+        return tilelayers;
+    }
+
+    public void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
         g2d.clearRect(-(int) canvas.getWidth() * 2, -(int) canvas.getHeight() * 2, (int) canvas.getWidth() * 10, (int) canvas.getHeight() * 10);
         for (int i = 0; i < this.tilelayers.size(); i++) {
@@ -99,7 +118,7 @@ public class Map {
             for (int x = 0; x < width; x++) {
                 if (map[y][x] <= 0)
                     continue;
-                //draw tile from tiles, at height y and width x
+                //draw tileMap from tiles, at height y and width x
                 g2d.drawImage(
                         tiles.get((map[y][x]) - 1),
                         AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
@@ -108,72 +127,50 @@ public class Map {
     }
 
     boolean isWall = false;
-    int[][] matrix;
+
     //createnode maakt alleen punten van alle tiles op de npc.map
-    public void createNode(FXGraphics2D graphics, int[][] map) {
+    //TODO Get rid of createNode and make a different class for it, or implement it in the BFS class
+    public void createNode(FXGraphics2D graphics, int[][] map, BreadthFirstSearch bfs) {
         int posX = 0;
         int posY = 0;
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/nonCollision.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.tileMap = new Tile[height][width];
 
-        matrix = new int[map.length][];
-        for(int i = 0; i < map.length; i++){
-            matrix[i] = map[i].clone();
-        }
-
-        System.out.println("make initial map based on collision layer");
-        StringBuilder s = new StringBuilder();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                posX += 32;
                 int gid = map[y][x];
+                this.tileMap[y][x] = new Tile(new Point2D.Double(x,y), false, false, false);
+
                 if (gid == 0) {
-                    s.append("o");
-                    graphics.drawImage(image,
-                            AffineTransform.getTranslateInstance(x * tileWidth, y * tileHeight), null);
+//                    graphics.setColor(Color.GREEN);
+//                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+//                    Font font = new Font("Arial", Font.PLAIN, 5);
+//                    graphics.setFont(font);
+//                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
 
                 } else if (gid == 975) {
-                    s.append("x");
-                    isWall = true;
+//                    graphics.setColor(Color.RED);
+//                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                    this.tileMap[y][x].setWall(true);
+
                 }
             }
-            s.append("\n");
-            posY += 32;
+
         }
+        bfs.setTileMap(this.tileMap);
     }
 
-    public int[][] cloneMatrix(){
-        StringBuilder k = new StringBuilder();
+//    public void getTargets(int[][] objectLayer){
+//        for(int y = 0; y < height; y++){
+//            for(int x = 0; x < width; x++){
+//
+//            }
+//        }
+//    }
 
-        System.out.println("map is cloned");
-        for(int i = 0; i < matrix.length; i++){
-            for(int j = 0; j < matrix[i].length; j++){
-                int gid = matrix[i][j];
-                if(gid == 0){
-                    k.append("0");
-                } else if (gid == 975){
-                    k.append("1");
-                }
-            }
-            k.append("\n");
-        }
-        return matrix;
-    }
+    //Maybe to make the grid a bit easier to build?
+//    public int[][] getCollisionLayer(){
+//        return
+//    }
 
-    public int getHeight(){
-        return height;
-    }
-
-    public int getWidth(){
-        return width;
-    }
-
-    public ArrayList<Tilelayer> getTilelayers() {
-        return tilelayers;
-    }
 
 }

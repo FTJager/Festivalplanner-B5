@@ -1,55 +1,63 @@
 package map;
 
-import java.util.ArrayList;
+import java.awt.geom.Point2D;
+
+import java.util.*;
+
 
 public class Tile {
-    private int distanceFromStart = Integer.MAX_VALUE;
+    private Point2D gridPos;
+    private HashMap<String, Point2D> route;
+    private boolean isDestination;
+    private boolean isWall;
     private boolean visited;
-    private ArrayList<Neighbour> neighbours = new ArrayList<>();
-    int row, column;
 
-    public Tile(int row, int column){
-        this.row = row;
-        this.column = column;
-        this.distanceFromStart = 0;
+    public Tile(Point2D gridPos, boolean isWall, boolean isDestination, boolean visited) {
+        this.gridPos = gridPos;
+        this.route = new HashMap<String, Point2D>();
+        this.isDestination = isDestination;
+        this.isWall = isWall;
+        this.visited = visited;
+
     }
 
-    public int getRow() {
-        return row;
+    public Point2D getGridPos() {
+        return gridPos;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setGridPos(Point2D gridPos) {
+        this.gridPos = gridPos;
     }
 
-    public int getColumn() {
-        return column;
+    public HashMap<String, Point2D> getRoute() {
+        return route;
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public boolean isDestination() {
+        return isDestination;
     }
 
-    public int getDistanceFromStart(){
-        return distanceFromStart;
+    public void setDestination(boolean destination) {
+        isDestination = destination;
     }
 
-    public void setDistanceFromStart(int distanceFromStart){
-        this.distanceFromStart = distanceFromStart;
+    public boolean isWall() {
+        return isWall;
     }
-    public boolean isVisited(){
+
+    public void setWall(boolean wall) {
+        isWall = wall;
+    }
+
+    public boolean isVisited() {
         return visited;
     }
 
-    public void setVisited(boolean visited){
+    public void setVisited(boolean visited) {
         this.visited = visited;
     }
 
-    public ArrayList<Neighbour> getNeighbours(){
-        return neighbours;
-    }
-
-    public void setNeighbours(ArrayList<Neighbour> neighbours){
-        this.neighbours = neighbours;
+    public void addRoute( String route, Point2D pos){
+        this.route.put(route, pos);
     }
 }
