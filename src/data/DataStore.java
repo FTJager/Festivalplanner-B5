@@ -108,6 +108,10 @@ public class DataStore {
         return stagesS;
     }
 
+    public static void setNewStages(Stage stage){
+        stagesS.add(stage);
+    }
+
     public static void setStageA(List<Stage> stageA) {
         stagesS = stageA;
     }

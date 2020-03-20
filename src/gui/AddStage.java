@@ -18,7 +18,6 @@ public class AddStage {
     transient Serializer serializer = new Serializer();
     transient Deserializer deserializer = new Deserializer();
 
-    private ArrayList<data.Stage> stages = new ArrayList<>();
 
     private Stage addStage;
     private TextField stageField = new TextField();
@@ -49,9 +48,8 @@ public class AddStage {
         addStage.show();
 
         doneButton.setOnAction(e -> {
-            stage.setName(stageLabel.getText());
-            stages.add(stage);
-            DataStore.setStageA(stages);
+            stage.setName(stageField.getText());
+            DataStore.setNewStages(stage);
             serializer.WriteStage(DataStore.getStagesA());
             addStage.close();
         });

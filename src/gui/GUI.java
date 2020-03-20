@@ -14,10 +14,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GUI extends Application {
 
@@ -38,6 +40,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         DataStore.setShowsA(deserializer.Read());
+        DataStore.setStageA(deserializer.ReadStages());
         this.canvas = new Canvas(900, 710);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
@@ -49,6 +52,7 @@ public class GUI extends Application {
 
         try {
             System.out.println("Current saved shows: " + deserializer.Read().size());
+            System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
             if(DataStore.isStateS()){
                 drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
@@ -60,15 +64,20 @@ public class GUI extends Application {
 
     //Initialises the whole table
     public void tableDraw(FXGraphics2D graphics) {
-        //Makes the top part of the table
-        GeneralPath topPath = new GeneralPath();
-        topPath.moveTo(0, 0);
-        topPath.lineTo(canvas.getWidth(), 0);
-        topPath.lineTo(canvas.getWidth(), 57);
-        topPath.lineTo(0, 57);
-        topPath.lineTo(0, 0);
-        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
-        graphics.fill(topPath);
+        try {
+            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        } catch (NullPointerException n) {
+            n.printStackTrace();
+        }
+//        //Makes the top part of the table
+//        GeneralPath topPath = new GeneralPath();
+//        topPath.moveTo(0, 0);
+//        topPath.lineTo(canvas.getWidth(), 0);
+//        topPath.lineTo(canvas.getWidth(), 57);
+//        topPath.lineTo(0, 57);
+//        topPath.lineTo(0, 0);
+//        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
+//        graphics.fill(topPath);
 
         //Makes the small black line at the top of the table
         GeneralPath topLine = new GeneralPath();
@@ -129,10 +138,10 @@ public class GUI extends Application {
         Font GUIFont = new Font("Roboto", Font.BOLD, 20);
         graphics.setFont(GUIFont);
         graphics.drawString("Time", 15, 45);
-        graphics.drawString("Main Stage", 100, 45);
-        graphics.drawString("Side Stage", 300, 45);
-        graphics.drawString("Back Stage", 500, 45);
-        graphics.drawString("Small Stage", 700, 45);
+//        graphics.drawString("Main Stage", 100, 45);
+//        graphics.drawString("Side Stage", 300, 45);
+//        graphics.drawString("Back Stage", 500, 45);
+//        graphics.drawString("Small Stage", 700, 45);
 
         //Makes the buttons "New", "Edit" and "Delete"
         RoundRectangle2D newButton = new RoundRectangle2D.Double(30, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
@@ -162,6 +171,23 @@ public class GUI extends Application {
 
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
         });
+    }
+
+    public void drawStage(FXGraphics2D graphics) {
+        List<data.Stage> stageList = new ArrayList<>();
+        int X = 100;
+        int Y = 45;
+        graphics.setColor(Color.white);
+        for(data.Stage stage : DataStore.getStagesA()) {
+            if(!stageList.contains(stage)) {
+                stageList.add(stage);
+                Font GUIFont = new Font("Roboto", Font.BOLD, 20);
+                graphics.setFont(GUIFont);
+                graphics.drawString(stage.getName() + "", X, Y);
+                X += 100;
+            }
+
+        }
     }
 
     //Makes the buttons intractable, remember to match the event box coordinates with the buttons
