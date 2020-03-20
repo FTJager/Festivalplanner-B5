@@ -18,6 +18,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 public class NewStage {
     Show newShow = new Show();
 
@@ -87,7 +93,32 @@ public class NewStage {
             }
 
             if (!stageField.getText().isEmpty()) {
+                boolean stageFound = false;
                 newShow.setStage(stageField.getText());
+                data.Stage showStage = new data.Stage();
+                showStage.setName(stageField.getText());
+                if(!DataStore.getStages().isEmpty()) {
+                    System.out.println(DataStore.getStages());
+                    for(data.Stage stage : DataStore.getStages()) {
+                        System.out.println(stage.getName());
+                        System.out.println(stageField.getText());
+                        if(stage.getName().equalsIgnoreCase(stageField.getText())) {
+                            stageFound = true;
+                        }
+                    }
+                    if (!stageFound){
+                        List<data.Stage> showStageList;
+                        showStageList = DataStore.getStages();
+                        showStageList.add(showStage);
+                        serializer.WriteStage(showStageList);
+                    }
+                } else {
+                    List<data.Stage> showStageList;
+                    showStageList = DataStore.getStages();
+                    showStageList.add(showStage);
+                    serializer.WriteStage(showStageList);
+                }
+
             } else {
                 newShow.setStage("");
             }

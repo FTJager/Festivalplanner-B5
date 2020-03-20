@@ -148,6 +148,8 @@ public class GUI extends Application {
 
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
         canvas.setOnMouseEntered(event -> {
+            DataStore.setShowsA(deserializer.ReadArtist());
+            DataStore.setStages(deserializer.ReadStages());
 
             graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
 
@@ -180,40 +182,37 @@ public class GUI extends Application {
     }
 
     public void drawStage(FXGraphics2D graphics) {
-
         int X = 100;
         int Y = 45;
         Font GUIFont = new Font("Roboto", Font.BOLD, 20);
         graphics.setFont(GUIFont);
         graphics.setColor(Color.white);
-        for(data.Stage stage : DataStore.getStages()) {
-//            if(!this.stageList.contains(stage)) {
-                this.stageList.add(stage);
-                graphics.drawString(stage.getName() + "", X, Y);
-                X += 200;
-//            }
-
+       stageList = DataStore.getStages();
+        for(data.Stage stage : stageList) {
+            graphics.drawString(stage.getName() + "", X, Y);
+            X += 200;
         }
     }
 
     //Draws the box with the artist in the schedule.
     private void drawArtist(FXGraphics2D graphics) {
-        int stage = 0;
         stageX = 0;
         float beginTime;
         float endTime;
 
         //Determined the X with the stage, so the artist box lines up with the stages.
+        drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
         for (Show show : DataStore.getShowsA()) {
             beginTime = show.getStartTime() * 24 + 60;
             endTime = show.getEndTime() * 24 + 60;
-            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
+
             for(int i = 0; i < stageList.size(); i++) {
-                if(stageList.get(i).equals(show.getStage())) {
-                    stageX = 100 + i * 100;
+//                System.out.println(stageList.get(i).getName());
+//                System.out.println(show.getStage());
+                if(stageList.get(i).getName().equalsIgnoreCase(show.getStage())) {
+                    stageX = 100 + i * 200;
                     break;
                 }
-                i++;
             }
 
 
