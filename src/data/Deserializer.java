@@ -14,7 +14,7 @@ public class Deserializer implements Serializable{
      * The Read method reads the objects in the dataStore.ser file and places them in an ArrayList that other classes can copy
      * @return List contains an arrayList with all the created objects
      */
-    public List Read(){
+    public List ReadArtist(){
         List<Show> shows = null;
 
         try{

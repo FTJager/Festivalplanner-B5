@@ -51,8 +51,24 @@ public class Serializer implements Serializable{
      * the Clear method overwrites the existing List in dataStore.ser with an empty List, effectively removing all saved data while also functioning as a way to make sure the file is usable.
      */
     public void Clear(){
+        ClearStage();
         try {
             FileOutputStream fileOut = new FileOutputStream("Resources/dataStore.ser");
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+
+            objOut.writeObject(new ArrayList<Show>());
+
+            objOut.close();
+            fileOut.close();
+
+        }catch (IOException i){
+            i.printStackTrace();
+        }
+    }
+
+    public void ClearStage() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
             ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
 
             objOut.writeObject(new ArrayList<Show>());

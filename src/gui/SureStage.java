@@ -36,10 +36,10 @@ public class SureStage {
         yesButton.setOnAction(e -> {
             //Since we don't need an index when we want to delete all elements, we replace it with -1 or DELETE_ALL
             if (index == DeleteStage.DELETE_ALL){    serializer.Clear();
-                DataStore.setShowsA(deserializer.Read());
+                DataStore.setShowsA(deserializer.ReadArtist());
             }else {
                 //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
-                if (!deserializer.Read().isEmpty()){      DataStore.setShowsA(deserializer.Read());
+                if (!deserializer.ReadArtist().isEmpty()){      DataStore.setShowsA(deserializer.ReadArtist());
                 }
                 DataStore.getShowsA().remove(index);
                 serializer.Write(DataStore.getShowsA());
@@ -47,6 +47,7 @@ public class SureStage {
             //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
             System.out.println("Current saved shows: " + DataStore.getShowsA().size());
+            System.out.println("Current saved stages: " + DataStore.getStages().size());
         });
 
         //When pressed on the "no" button, the desired show will not be deleted from the existing shows

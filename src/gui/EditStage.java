@@ -29,8 +29,8 @@ public class EditStage {
 
     EditStage(){
         //Set up for the editStage with buttons, labels, text fields, etc.
-        if (!deserializer.Read().isEmpty()){
-            DataStore.setShowsA(deserializer.Read());
+        if (!deserializer.ReadArtist().isEmpty()){
+            DataStore.setShowsA(deserializer.ReadArtist());
         }
         Stage editStage = new Stage();
         editStage.setTitle("Edit show");
@@ -85,7 +85,7 @@ public class EditStage {
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityField.setText(Integer.toString(show.getPopularity()));
-                    stageField.setText(Integer.toString(show.getStage()));
+                    stageField.setText(show.getStage());
                     beginTimeField.setText(Integer.toString(show.getStartTime()));
                     endTimeField.setText(Integer.toString(show.getEndTime()));
                 }
@@ -128,7 +128,7 @@ public class EditStage {
                 changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
                 changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                 changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
-                changedShow.setStage(Integer.parseInt(stageField.getText()));
+                changedShow.setStage(stageField.getText());
                 if (inputValid) {
                     editStage.close();
                     DataStore.getShowsA().remove(this.showIndex);

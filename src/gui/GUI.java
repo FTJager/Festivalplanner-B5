@@ -14,9 +14,9 @@ import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +25,13 @@ public class GUI extends Application {
 
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
-    private ArrayList<Show> shows1;
     private Stage stage;
 
     private Canvas canvas;
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
+    List<data.Stage> stageList;
+    int stageX;
 
 
     public static void main(String[] args) {
@@ -39,10 +40,13 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        DataStore.setShowsA(deserializer.Read());
-        DataStore.setStageA(deserializer.ReadStages());
+        DataStore.setShowsA(deserializer.ReadArtist());
+        DataStore.setStages(deserializer.ReadStages());
+        stageList = new ArrayList<>();
+        
         this.canvas = new Canvas(900, 710);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+
 
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
@@ -51,9 +55,13 @@ public class GUI extends Application {
         Buttoninteraction();
 
         try {
-            System.out.println("Current saved shows: " + deserializer.Read().size());
-            System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
+            System.out.println("Current saved shows: " + deserializer.ReadArtist().size());
+            if(DataStore.getStages().isEmpty()) {
+                System.out.println("Current saved stages: 0");
+            }
+            else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+
             if(DataStore.isStateS()){
                 drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
             }
@@ -64,71 +72,51 @@ public class GUI extends Application {
 
     //Initialises the whole table
     public void tableDraw(FXGraphics2D graphics) {
-        try {
-            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
-        } catch (NullPointerException n) {
-            n.printStackTrace();
-        }
-//        //Makes the top part of the table
-//        GeneralPath topPath = new GeneralPath();
-//        topPath.moveTo(0, 0);
-//        topPath.lineTo(canvas.getWidth(), 0);
-//        topPath.lineTo(canvas.getWidth(), 57);
-//        topPath.lineTo(0, 57);
-//        topPath.lineTo(0, 0);
-//        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
-//        graphics.fill(topPath);
+
+        //Makes the top part of the table
+        Rectangle2D topBlock = new Rectangle2D.Double(0, 0, canvas.getWidth(), 57);
+        graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
+        graphics.fill(topBlock);
+
+        //Draws the stages at the top
+        drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
         //Makes the small black line at the top of the table
-        GeneralPath topLine = new GeneralPath();
-        topLine.moveTo(0, 57);
-        topLine.lineTo(canvas.getWidth(), 57);
-        topLine.lineTo(canvas.getWidth(), 60);
-        topLine.lineTo(0, 65);
-        topLine.lineTo(0, 60);
+        Rectangle2D topLine = new Rectangle2D.Double(0, 57, canvas.getWidth(), 3);
         graphics.setColor(Color.black);
         graphics.fill(topLine);
 
         //Lower bar of the GUI
-        GeneralPath bottomPath = new GeneralPath();
-        bottomPath.moveTo(0, 560);
-        bottomPath.lineTo(canvas.getWidth(), 560);
-        bottomPath.lineTo(canvas.getWidth(), canvas.getHeight());
-        bottomPath.lineTo(0, canvas.getHeight());
-        bottomPath.lineTo(0, 560);
+        Rectangle2D bottomBlock = new Rectangle2D.Double(0, 560, canvas.getWidth(), canvas.getHeight() - 560);
         graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
-        graphics.fill(bottomPath);
-        graphics.draw(bottomPath);
+        graphics.fill(bottomBlock);
+        graphics.draw(bottomBlock);
 
         //Makes the main table
         float beginX = 0;
         float beginY = 60;
         graphics.setColor(Color.white);
         for(int i = 0; i < 50; i++ ) {
+            Rectangle2D tableBlock = new Rectangle2D.Double(0, beginY, canvas.getWidth(), 12);
 
-            GeneralPath tablePath = new GeneralPath();
-            tablePath.moveTo(beginX, beginY);
-            tablePath.lineTo(canvas.getWidth(), beginY);
-            tablePath.lineTo(canvas.getWidth(), beginY + 12);
-            tablePath.lineTo(beginX, beginY + 12);
             //Makes the table in 2 colors
             if(i % 2 == 0) {
                 graphics.setColor(Color.getHSBColor(0.953f, 0.20f, 0.95f));
             }
             else {
                 graphics.setColor(Color.white);
-                graphics.fill(tablePath);
+                graphics.fill(tableBlock);
             }
-            graphics.fill(tablePath);
+            graphics.fill(tableBlock);
 
             if(i % 2 == 0) {
                 graphics.setColor(Color.black);
                 Font textFont = new Font("Arial", Font.PLAIN, 12);
                 graphics.setFont(textFont);
                 if(i < 20) {
-                    graphics.drawString("0"+  i / 2, beginX + 10, beginY + 10);
+                    graphics.drawString("0"+  i / 2,10, beginY + 10);
                 }
-                else graphics.drawString(i / 2 + "", beginX + 10, beginY + 10);
+                else graphics.drawString(i / 2 + "",10, beginY + 10);
             }
             beginY += 12;
         }
@@ -138,10 +126,6 @@ public class GUI extends Application {
         Font GUIFont = new Font("Roboto", Font.BOLD, 20);
         graphics.setFont(GUIFont);
         graphics.drawString("Time", 15, 45);
-//        graphics.drawString("Main Stage", 100, 45);
-//        graphics.drawString("Side Stage", 300, 45);
-//        graphics.drawString("Back Stage", 500, 45);
-//        graphics.drawString("Small Stage", 700, 45);
 
         //Makes the buttons "New", "Edit" and "Delete"
         RoundRectangle2D newButton = new RoundRectangle2D.Double(30, canvas.getHeight() - 40, 80, 30, BUTTON_ARC, BUTTON_ARC);
@@ -168,26 +152,9 @@ public class GUI extends Application {
             graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
 
             tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-
+            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
         });
-    }
-
-    public void drawStage(FXGraphics2D graphics) {
-        List<data.Stage> stageList = new ArrayList<>();
-        int X = 100;
-        int Y = 45;
-        graphics.setColor(Color.white);
-        for(data.Stage stage : DataStore.getStagesA()) {
-            if(!stageList.contains(stage)) {
-                stageList.add(stage);
-                Font GUIFont = new Font("Roboto", Font.BOLD, 20);
-                graphics.setFont(GUIFont);
-                graphics.drawString(stage.getName() + "", X, Y);
-                X += 100;
-            }
-
-        }
     }
 
     //Makes the buttons intractable, remember to match the event box coordinates with the buttons
@@ -212,34 +179,45 @@ public class GUI extends Application {
         });
     }
 
+    public void drawStage(FXGraphics2D graphics) {
+
+        int X = 100;
+        int Y = 45;
+        Font GUIFont = new Font("Roboto", Font.BOLD, 20);
+        graphics.setFont(GUIFont);
+        graphics.setColor(Color.white);
+        for(data.Stage stage : DataStore.getStages()) {
+//            if(!this.stageList.contains(stage)) {
+                this.stageList.add(stage);
+                graphics.drawString(stage.getName() + "", X, Y);
+                X += 200;
+//            }
+
+        }
+    }
+
     //Draws the box with the artist in the schedule.
     private void drawArtist(FXGraphics2D graphics) {
         int stage = 0;
-        int x = 0;
-        float beginTime = 0;
-        float endTime = 0;
+        stageX = 0;
+        float beginTime;
+        float endTime;
 
         //Determined the X with the stage, so the artist box lines up with the stages.
         for (Show show : DataStore.getShowsA()) {
-            stage = show.getStage();
             beginTime = show.getStartTime() * 24 + 60;
             endTime = show.getEndTime() * 24 + 60;
-            switch (stage) {
-                case 1:
-                    x = 100;
+            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            for(int i = 0; i < stageList.size(); i++) {
+                if(stageList.get(i).equals(show.getStage())) {
+                    stageX = 100 + i * 100;
                     break;
-                case 2:
-                    x = 300;
-                    break;
-                case 3:
-                    x = 500;
-                    break;
-                case 4:
-                    x = 700;
-                    break;
+                }
+                i++;
             }
 
-            RoundRectangle2D artistRectangle = new RoundRectangle2D.Double(x, beginTime, 150, endTime - beginTime, 5, 5);
+
+            RoundRectangle2D artistRectangle = new RoundRectangle2D.Double(stageX, beginTime, 150, endTime - beginTime, 5, 5);
 
             graphics.setColor(Color.getHSBColor(0.953f, 0.90f, 0.95f));
             graphics.draw(artistRectangle);
@@ -251,26 +229,26 @@ public class GUI extends Application {
             if (show.getEndTime() - show.getStartTime() <= 1) {
                 artistFont = new Font("Arial", Font.BOLD, 10);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 8);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 20);
+                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 8);
+                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 20);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 32);
             } else if (show.getEndTime() - show.getStartTime() <= 2) {
                 artistFont = new Font("Arial", Font.BOLD, 15);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 19);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 35);
+                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 19);
+                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 35);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 51);
             } else if (show.getEndTime() - show.getStartTime() <= 3) {
                 artistFont = new Font("Arial", Font.BOLD, 18);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 25);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 45);
+                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 25);
+                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 45);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 65);
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 30);
-                graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 60);
+                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 30);
+                graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 60);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }
         }

@@ -32,8 +32,8 @@ public class DeleteStage {
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
-        if (!deserializer.Read().isEmpty()){
-            DataStore.setShowsA(deserializer.Read());
+        if (!deserializer.ReadArtist().isEmpty()){
+            DataStore.setShowsA(deserializer.ReadArtist());
         }
 
         FlowPane root = new FlowPane();
@@ -83,7 +83,7 @@ public class DeleteStage {
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityDisplay.setText(Integer.toString(show.getPopularity()));
-                    stageDisplay.setText(Integer.toString(show.getStage()));
+                    stageDisplay.setText(show.getStage());
                     beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
                     endtimeDisplay.setText(Integer.toString(show.getEndTime()));
                 }

@@ -9,7 +9,7 @@ public class Show implements Serializable {
     private int startTime;
     private int endTime;
     private int popularity;
-    private int stage;
+    private String stage;
 
 
     public Show() {
@@ -56,11 +56,11 @@ public class Show implements Serializable {
         this.popularity = popularity;
     }
 
-    public int getStage() {
+    public String getStage() {
         return stage;
     }
 
-    public void setStage(int stage) {
+    public void setStage(String stage) {
         this.stage = stage;
     }
 

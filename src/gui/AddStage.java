@@ -11,9 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
-import java.util.ArrayList;
-
 public class AddStage {
     transient Serializer serializer = new Serializer();
     transient Deserializer deserializer = new Deserializer();
@@ -50,7 +47,7 @@ public class AddStage {
         doneButton.setOnAction(e -> {
             stage.setName(stageField.getText());
             DataStore.setNewStages(stage);
-            serializer.WriteStage(DataStore.getStagesA());
+            serializer.WriteStage(DataStore.getStages());
             addStage.close();
         });
 

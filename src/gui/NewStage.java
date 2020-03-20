@@ -34,7 +34,7 @@ public class NewStage {
     public NewStage() {
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
-        DataStore.setShowsA(deserializer.Read());
+        DataStore.setShowsA(deserializer.ReadArtist());
         this.newStage = new Stage();
         newStage.setTitle("New show");
 
@@ -87,9 +87,9 @@ public class NewStage {
             }
 
             if (!stageField.getText().isEmpty()) {
-                newShow.setStage(Integer.parseInt(stageField.getText()));
+                newShow.setStage(stageField.getText());
             } else {
-                newShow.setStage(0);
+                newShow.setStage("");
             }
 
             //Add the newly created show into the dataStore
