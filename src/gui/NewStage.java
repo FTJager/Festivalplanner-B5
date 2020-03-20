@@ -91,27 +91,32 @@ public class NewStage {
             } else {
                 newShow.setPopularity(0);
             }
-
+            //important code. Lets the stages work properly!
             if (!stageField.getText().isEmpty()) {
                 boolean stageFound = false;
                 newShow.setStage(stageField.getText());
                 data.Stage showStage = new data.Stage();
                 showStage.setName(stageField.getText());
+                //looks at the datastore, if it is empty, there is no stage to compare
                 if(!DataStore.getStages().isEmpty()) {
                     System.out.println(DataStore.getStages());
+                    //Goes trough all stages and tries to find an equal stage
                     for(data.Stage stage : DataStore.getStages()) {
-                        System.out.println(stage.getName());
-                        System.out.println(stageField.getText());
+//                        System.out.println(stage.getName());
+//                        System.out.println(stageField.getText());
+                        //if found, stage found == true
                         if(stage.getName().equalsIgnoreCase(stageField.getText())) {
                             stageFound = true;
                         }
                     }
+                    //if stage is not found, it just adds the stage to the file
                     if (!stageFound){
                         List<data.Stage> showStageList;
                         showStageList = DataStore.getStages();
                         showStageList.add(showStage);
                         serializer.WriteStage(showStageList);
                     }
+                //data store is empty, so it just adds the stage to the file
                 } else {
                     List<data.Stage> showStageList;
                     showStageList = DataStore.getStages();

@@ -12,17 +12,7 @@ public class Show implements Serializable {
     private String stage;
 
 
-    public Show() {
-    }
-
-//    public Show(String show, int startTime, int endTime, int popularity, int stage) {
-//        this.show = show;
-//        this.artistH = new HashMap<>();
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//        this.popularity = popularity;
-//        this.stage = stage;
-//    }
+    public Show() {}
 
     public String getShow() {
         return show;

@@ -187,7 +187,9 @@ public class GUI extends Application {
         Font GUIFont = new Font("Roboto", Font.BOLD, 20);
         graphics.setFont(GUIFont);
         graphics.setColor(Color.white);
+        //gets all the stages and puts them into a list
        stageList = DataStore.getStages();
+       //cycles through them and displays them correctly
         for(data.Stage stage : stageList) {
             graphics.drawString(stage.getName() + "", X, Y);
             X += 200;
@@ -209,6 +211,7 @@ public class GUI extends Application {
             for(int i = 0; i < stageList.size(); i++) {
 //                System.out.println(stageList.get(i).getName());
 //                System.out.println(show.getStage());
+                //puts the show under the correct stage
                 if(stageList.get(i).getName().equalsIgnoreCase(show.getStage())) {
                     stageX = 100 + i * 200;
                     break;
