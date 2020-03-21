@@ -159,13 +159,13 @@ public class Map {
         bfs.setTileMap(this.tileMap);
     }
 
-//    public void getTargets(int[][] objectLayer){
-//        for(int y = 0; y < height; y++){
-//            for(int x = 0; x < width; x++){
-//
-//            }
-//        }
-//    }
+    public void getTargets(int[][] objectLayer){
+        for(int y = 0; y < height; y++){
+            for(int x = 0; x < width; x++){
+
+            }
+        }
+    }
 
     //Maybe to make the grid a bit easier to build?
 //    public int[][] getCollisionLayer(){

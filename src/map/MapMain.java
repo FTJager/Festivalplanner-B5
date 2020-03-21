@@ -10,6 +10,7 @@ import org.jfree.fx.ResizableCanvas;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class MapMain extends Application {
 
@@ -60,13 +61,13 @@ public class MapMain extends Application {
         graphics.setTransform(camera.getTransform(0, 0));
         map.draw(graphics, canvas);
         map.createNode(graphics, map.getTilelayers().get(3).getLayer(), this.bfs);
-//        map.getTargets(map.getTilelayers().get(4).getLayer());
         bfs.BFS(new Point2D.Double(0, 0));
         for (int y = 0; y < map.getHeight(); y++) {
             System.out.println("");
             for (int x = 0; x < map.getWidth(); x++) {
                 if (bfs.getTileMap()[y][x].isWall()) {
-                    System.out.print("W ");
+                    graphics.setColor(Color.RED);
+                    graphics.draw(new Rectangle2D.Double(bfs.getTileMap()[y][x].getRoute().get("route 1").getX(), bfs.getTileMap()[y][x].getRoute().get("route 1").getY(), 32, 32));
                 } else if (bfs.getTileMap()[y][x].getRoute().get("route 1") == null) {
                     System.out.print("o ");
                 } else if (bfs.getTileMap()[y][x].getRoute().get("route 1").getX() == 0 && bfs.getTileMap()[y][x].getRoute().get("route 1").getY() == 0) {
