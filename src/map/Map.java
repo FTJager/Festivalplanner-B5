@@ -14,7 +14,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+//TODO More comments, and the commented methods need more explanation
 
+/**
+ * This creates a map object, which is needed to read the JSON file
+ */
 public class Map {
     private ArrayList<Tilelayer> tilelayers = new ArrayList<>();
     private ArrayList<BufferedImage> tiles = new ArrayList<>();
@@ -24,6 +28,7 @@ public class Map {
     private int height;
     private int tileHeight;
     private int tileWidth;
+    private JsonObject root;
     private Tile tileMap[][];
     private Point2D gridPos = new Point2D.Double();
 
@@ -31,20 +36,20 @@ public class Map {
     public Map(String fileName) {
         JsonReader reader = null;
         reader = Json.createReader(getClass().getResourceAsStream(fileName));
-        JsonObject root = reader.readObject();
+         this.root = reader.readObject();
 
-        this.width = root.getInt("width");
-        this.height = root.getInt("height");
+        this.width = this.root.getInt("width");
+        this.height = this.root.getInt("height");
 
         //load the tilemaps
         try {
 
-            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
-            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
-            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/" + root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
+            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/" + this.root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
+            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/" + this.root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
+            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/" + this.root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
 
-            tileHeight = root.getInt("tileheight");
-            tileWidth = root.getInt("tilewidth");
+            this.tileHeight = this.root.getInt("tileheight");
+            this.tileWidth = this.root.getInt("tilewidth");
 
 
             //adds tilemap to array tiles
@@ -57,16 +62,16 @@ public class Map {
         }
 
         //adds layers to array tilelayers
-        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
-            if (root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
+        for (int i = 0; i < this.root.getJsonArray("layers").size(); i++) {
+            if (this.root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
                 this.tilelayers.add(new Tilelayer(fileName, i));
             }
         }
 
         //adds object to array objects
-        for (int i = 0; i < root.getJsonArray("layers").size(); i++) {
-            if (root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
-                for (int j = 0; j < root.getJsonArray("layers").getJsonObject(i).size(); j++) {
+        for (int i = 0; i < this.root.getJsonArray("layers").size(); i++) {
+            if (this.root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
+                for (int j = 0; j < this.root.getJsonArray("layers").getJsonObject(i).size(); j++) {
                     this.objects.add(new TileObject(fileName, i, j));
                 }
             }
@@ -95,7 +100,8 @@ public class Map {
 
     public void draw(FXGraphics2D g2d, ResizableCanvas canvas) {
         g2d.setColor(Color.black);
-        g2d.clearRect(-(int) canvas.getWidth() * 2, -(int) canvas.getHeight() * 2, (int) canvas.getWidth() * 10, (int) canvas.getHeight() * 10);
+        g2d.clearRect(-(int) canvas.getWidth() * 2, -(int) canvas.getHeight() * 2,
+                (int) canvas.getWidth() * 10, (int) canvas.getHeight() * 10);
         for (int i = 0; i < this.tilelayers.size(); i++) {
             if (this.tilelayers.get(i).isVisibility()) {
                 drawLayers(g2d, this.tilelayers.get(i).getLayer());
@@ -126,11 +132,12 @@ public class Map {
         }
     }
 
-    boolean isWall = false;
-
-    //createnode maakt alleen punten van alle tiles op de npc.map
-    //TODO Get rid of createNode and make a different class for it, or implement it in the BFS class
-    public void createNode(FXGraphics2D graphics, int[][] map, BreadthFirstSearch bfs) {
+    /**
+     * Creates a grid based on the collision layer
+     * @param map is the collision layer of the map
+     * @param bfs is the breadth first search algorithm, which needs a grid to read
+     */
+    public void createGrid(int[][] map, BreadthFirstSearch bfs) {
         int posX = 0;
         int posY = 0;
         this.tileMap = new Tile[height][width];
@@ -140,18 +147,8 @@ public class Map {
                 int gid = map[y][x];
                 this.tileMap[y][x] = new Tile(new Point2D.Double(x,y), false, false, false);
 
-                if (gid == 0) {
-//                    graphics.setColor(Color.GREEN);
-//                    graphics.draw(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
-//                    Font font = new Font("Arial", Font.PLAIN, 5);
-//                    graphics.setFont(font);
-//                    graphics.drawString("(" + (int) gridPos.getX()/32 + " , " + (int) gridPos.getY()/32 + ")", (x * tileWidth), (y * tileHeight));
-
-                } else if (gid == 975) {
-//                    graphics.setColor(Color.RED);
-//                    graphics.fill(new Rectangle2D.Double(x * tileWidth, y * tileHeight, 32, 32));
+                if (gid == 975) {
                     this.tileMap[y][x].setWall(true);
-
                 }
             }
 
@@ -159,12 +156,20 @@ public class Map {
         bfs.setTileMap(this.tileMap);
     }
 
-    public void getTargets(int[][] objectLayer){
-        for(int y = 0; y < height; y++){
-            for(int x = 0; x < width; x++){
-
+    /**
+     * Reads the object layer and returns the starting position of the route of the requested target.
+     * @param route this is a string data type, which corresponds with the route of the requested target
+     * @return To return the x and y coordinates of the starting/end point.
+     */
+    public Point2D objectTargets( String route){
+        Point2D point = new Point2D.Double();
+        for(TileObject object : this.objects){
+            if(object.getName().equals(route)){
+                point = new Point2D.Double(object.getX(), object.getY());
+                return point;
             }
         }
+        return point;
     }
 
     //Maybe to make the grid a bit easier to build?

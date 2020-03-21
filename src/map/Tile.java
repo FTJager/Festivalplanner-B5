@@ -49,14 +49,28 @@ public class Tile {
         isWall = wall;
     }
 
+    /**
+     * Boolean visited to check if the current tile has been visited or not.
+     * @return to return the visited boolean
+     */
     public boolean isVisited() {
         return visited;
     }
 
+    /**
+     * This setter sets the current tile's visited boolean either to true(while in the algorith)
+     * or false(when the algorithm has been completed)
+     * @param visited is to check if the current tile has been visited or not.
+     */
     public void setVisited(boolean visited) {
         this.visited = visited;
     }
 
+    /**
+     *
+     * @param route is the name of the given route
+     * @param pos is the starting position of the target(endposition)
+     */
     public void addRoute( String route, Point2D pos){
         this.route.put(route, pos);
     }
