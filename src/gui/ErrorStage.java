@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 public class ErrorStage {
 
+    /**
+     * Popup that gets displayed for a certain error.
+     */
+    //TODO make compatible with other error states.
     ErrorStage(){
         Stage errorStage = new Stage();
         errorStage.setTitle("Error");

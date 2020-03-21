@@ -20,14 +20,16 @@ public class Deserializer implements Serializable {
         List<Artist> artists = null;
 
         try {
-            FileInputStream fileIn = null; //new FileInputStream("Resources/dataStore.ser");
+            FileInputStream fileIn = null;
             ObjectInputStream objIn = null;
 
+            //Return all the Shows saved in the file
             if (type == Serializer.SHOWS){
                 fileIn = new FileInputStream("Resources/dataStore.ser");
                 objIn = new ObjectInputStream(fileIn);
 
                 shows = (List<Show>) objIn.readObject();
+            //Return all Artists saved in the file
             }else if (type == Serializer.ARTISTS){
                 fileIn = new FileInputStream("Resources/artists.ser");
                 objIn = new ObjectInputStream(fileIn);
@@ -37,13 +39,13 @@ public class Deserializer implements Serializable {
 
             objIn.close();
             fileIn.close();
-        } catch (IOException i) {
+        } catch (IOException i) {   //This error commonly shows up when there is a problem with the file.
             i.printStackTrace();
-            serializer.Clear();
-            System.out.println("Please restart the program");
+            serializer.Clear();     //This line resolves most errors, restarting after this error gets caught should fix it.
+            System.out.println("This error is completely normal, please restart the program to fix it");
             return null;
         } catch (ClassNotFoundException c) {
-            System.out.println("Show class not found");
+            System.out.println("Class not found");
             c.printStackTrace();
             return null;
         }

@@ -32,6 +32,9 @@ public class NewStage {
 
     private Stage newStage;
 
+    /**
+     * The popup that appears when the New button is clicked in the GUI. This contains a window that allows the user to create a new show object.
+     */
     public NewStage() {
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();

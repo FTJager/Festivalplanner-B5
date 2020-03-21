@@ -24,6 +24,7 @@ public class Serializer implements Serializable{
         try {
             FileOutputStream fileOut = null;
             ObjectOutputStream objOut = null;
+            //If the type given is SHOWS it writes the data to the dataStore.ser file
             if (type == SHOWS){
                 fileOut = new FileOutputStream("Resources/dataStore.ser");
                 objOut = new ObjectOutputStream(fileOut);
@@ -34,6 +35,7 @@ public class Serializer implements Serializable{
                 objOut.close();
                 fileOut.close();
 
+            //If the type given is ARTISTS it writes the data to the artists.ser file
             }else if (type == ARTISTS){
                 fileOut = new FileOutputStream("Resources/artists.ser");
                 objOut = new ObjectOutputStream(fileOut);
@@ -54,12 +56,12 @@ public class Serializer implements Serializable{
     }
 
     /**
-     * the Clear method overwrites the existing List in dataStore.ser with an empty List, effectively removing all saved data while also functioning as a way to make sure the file is usable.
+     * the Clear method overwrites the existing Lists in dataStore.ser and astists.ser with an empty List, effectively removing all saved data while also functioning as a way to make sure the file is usable.
      */
     public void Clear(){
         try {
-            FileOutputStream fileOut = null;  //new FileOutputStream("Resources/dataStore.ser");
-            ObjectOutputStream objOut = null; //new ObjectOutputStream(fileOut);
+            FileOutputStream fileOut = null;
+            ObjectOutputStream objOut = null;
 
             fileOut = new FileOutputStream("Resources/dataStore.ser");
             objOut = new ObjectOutputStream(fileOut);

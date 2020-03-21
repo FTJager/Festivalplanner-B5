@@ -22,6 +22,10 @@ public class SureStage {
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
 
+    /**
+     * When the user wants to delete a show, this window appears to make sure the user didn't make a mistake.
+     * @param index This index indicates whether the user wants to delete one specific show or all shows.
+     */
     SureStage(int index){
         //Setup for the sureStage with buttons, labels, text fields, etc.
         Stage delStage = new Stage();

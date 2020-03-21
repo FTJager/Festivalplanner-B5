@@ -26,6 +26,9 @@ public class EditStage {
     private Show changedShow = new Show();
     private int index = 0;
 
+    /**
+     * This is the popup that appears when the user clicks on the Edit button in the GUI, here a show's details can be altered
+     */
     EditStage(){
         //Set up for the editStage with buttons, labels, text fields, etc.
         if (!deserializer.Read(Serializer.SHOWS).isEmpty()){
@@ -84,7 +87,7 @@ public class EditStage {
             }
             //Loop through all the shows saved and checks for the one matching the given text in the textfield
             for (Show show : DataStore.getShowsA()){
-                if (show.getArtist().getName().equals(artistField.getText())){
+                if (show.getArtist().getName().equalsIgnoreCase(artistField.getText())){
                     showIndex = this.index;
                     popularityField.setText(Integer.toString(show.getPopularity()));
                     stageField.setText(Integer.toString(show.getStage()));
