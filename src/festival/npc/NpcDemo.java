@@ -53,7 +53,7 @@ public class NpcDemo extends Application {
     }
 
 
-    ArrayList<NPC> people;
+    private ArrayList<NPC> people;
 
 
     public void init() {
