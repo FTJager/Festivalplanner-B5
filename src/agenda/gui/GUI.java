@@ -29,11 +29,6 @@ public class GUI extends Application {
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
 
-
-    public static void main(String[] args) {
-        launch(GUI.class);
-    }
-
     @Override
     public void start(Stage stage) throws Exception {
         DataStore.setShowsA(deserializer.Read());
