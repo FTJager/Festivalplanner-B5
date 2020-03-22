@@ -4,10 +4,7 @@
  */
 package gui;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,6 +14,10 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewStage {
     Show newShow = new Show();
@@ -31,10 +32,14 @@ public class NewStage {
 
     private Stage newStage;
 
+    /**
+     * The popup that appears when the New button is clicked in the GUI. This contains a window that allows the user to create a new show object.
+     */
     public NewStage() {
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
-        DataStore.setShowsA(deserializer.Read());
+        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
         this.newStage = new Stage();
         newStage.setTitle("New show");
 
@@ -58,7 +63,20 @@ public class NewStage {
             if (artistField.getText().isEmpty() || artistField.getText() == null) {
                 artistField.setText("please type in a name");
             } else {
-                newShow.setShow(artistField.getText());
+                boolean artistFound = false;
+                List<Artist> artists = DataStore.getArtists();
+                for (Artist artist : artists){
+                    if (artist.getName().equalsIgnoreCase(artistField.getText())){
+                        newShow.setArtist(artist);
+                        artistFound = true;
+                    }
+                }
+                if (!artistFound){
+                    Artist newArtist = new Artist(artistField.getText());
+                    newShow.setArtist(newArtist);
+                    artists.add(newArtist);
+                    DataStore.setArtists(artists);
+                }
                 inputValid = true;
             }
             //this makes sure the times are either both 0, meaning they are not yet decided, or the endTime is later than the startTime
@@ -80,6 +98,15 @@ public class NewStage {
                 newShow.setEndTime(0);
             }
 
+            for (Show show : DataStore.getShowsA()){
+                if (show.getArtist().getName().equalsIgnoreCase(newShow.getArtist().getName())){
+                    if (newShow.getStartTime() < show.getEndTime() && newShow.getStartTime() >= show.getStartTime() || newShow.getEndTime() <= show.getEndTime() && newShow.getEndTime() > show.getStartTime()){
+                        ErrorStage stage = new ErrorStage();
+                        inputValid = false;
+                    }
+                }
+            }
+
             if (!popularityField.getText().isEmpty()) {
                 newShow.setPopularity(Integer.parseInt(popularityField.getText()));
             } else {
@@ -99,7 +126,11 @@ public class NewStage {
             }
             //Write the saved shows into the file
             if (!DataStore.getShowsA().isEmpty()) {
-                serializer.Write(DataStore.getShowsA());
+                serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
+            }
+            //Write the saved artists into the file
+            if (!DataStore.getArtists().isEmpty()){
+                serializer.Write(DataStore.getArtists(), Serializer.ARTISTS);
             }
         });
 

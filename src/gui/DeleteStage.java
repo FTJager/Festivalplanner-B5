@@ -5,6 +5,7 @@
 
 package gui;
 
+import com.sun.xml.internal.bind.v2.TODO;
 import data.DataStore;
 import data.Deserializer;
 import data.Serializer;
@@ -19,6 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.io.Serializable;
+
 public class DeleteStage {
     public static final int DELETE_ALL = -1;
     Serializer serializer = new Serializer();
@@ -27,13 +31,19 @@ public class DeleteStage {
     private int showIndex;
     private int index = 0;
 
+    /**
+     * DeleteStage is the popup window that appears when the Delete button on the GUI is pressed.
+     */
     DeleteStage(){
         //Set up for the deleteStage with buttons, labels, text fields, etc.
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
-        if (!deserializer.Read().isEmpty()){
-            DataStore.setShowsA(deserializer.Read());
+        if (!deserializer.Read(Serializer.SHOWS).isEmpty()){
+            DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        }
+        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
         }
 
         FlowPane root = new FlowPane();
@@ -49,7 +59,7 @@ public class DeleteStage {
         Label beginTimeLabel = new Label("BeginTime: ");
         Label beginTimeDisplay = new Label();
         Label endTimeLabel = new Label("EndTime: ");
-        Label endtimeDisplay = new Label();
+        Label endTimeDisplay = new Label();
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
@@ -59,7 +69,7 @@ public class DeleteStage {
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
         VBox fieldBox = new VBox();
-        fieldBox.getChildren().addAll(artistField, popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
+        fieldBox.getChildren().addAll(artistField, popularityDisplay, stageDisplay, beginTimeDisplay, endTimeDisplay);
         fieldBox.setSpacing(31);
 
         HBox hBox = new HBox();
@@ -79,13 +89,14 @@ public class DeleteStage {
         //Set the action for searching through the existing shows
         searchButton.setOnAction(e ->{
             //Loop through all the shows saved and checks for the one matching the given text in the textfield
+            //TODO Make it compatible with multiple shows by the same artist.
             for (Show show : DataStore.getShowsA()){
-                if (show.getShow().equals(artistField.getText())){
+                if (show.getArtist().getName().equalsIgnoreCase(artistField.getText())){
                     showIndex = this.index;
                     popularityDisplay.setText(Integer.toString(show.getPopularity()));
                     stageDisplay.setText(Integer.toString(show.getStage()));
                     beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
-                    endtimeDisplay.setText(Integer.toString(show.getEndTime()));
+                    endTimeDisplay.setText(Integer.toString(show.getEndTime()));
                 }
                 this.index++;
             }

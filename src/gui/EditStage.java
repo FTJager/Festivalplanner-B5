@@ -5,10 +5,7 @@
 
 package gui;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 public class EditStage {
     boolean fieldAdded;
     Serializer serializer = new Serializer();
@@ -27,10 +26,16 @@ public class EditStage {
     private Show changedShow = new Show();
     private int index = 0;
 
+    /**
+     * This is the popup that appears when the user clicks on the Edit button in the GUI, here a show's details can be altered
+     */
     EditStage(){
         //Set up for the editStage with buttons, labels, text fields, etc.
-        if (!deserializer.Read().isEmpty()){
-            DataStore.setShowsA(deserializer.Read());
+        if (!deserializer.Read(Serializer.SHOWS).isEmpty()){
+            DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        }
+        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
         }
         Stage editStage = new Stage();
         editStage.setTitle("Edit show");
@@ -82,7 +87,7 @@ public class EditStage {
             }
             //Loop through all the shows saved and checks for the one matching the given text in the textfield
             for (Show show : DataStore.getShowsA()){
-                if (show.getShow().equals(artistField.getText())){
+                if (show.getArtist().getName().equalsIgnoreCase(artistField.getText())){
                     showIndex = this.index;
                     popularityField.setText(Integer.toString(show.getPopularity()));
                     stageField.setText(Integer.toString(show.getStage()));
@@ -115,7 +120,20 @@ public class EditStage {
             if(timeValid == true || timeChanged == false) {
                 if (!artistField.getText().isEmpty() && artistField.getText() != null) {
                     inputValid = true;
-                    changedShow.setShow(artistField.getText());
+                    boolean artistFound = false;
+                    List<Artist> artists = DataStore.getArtists();
+                    for (Artist artist : artists){
+                        if (artist.getName().equalsIgnoreCase(artistField.getText())){
+                            changedShow.setArtist(artist);
+                            artistFound = true;
+                        }
+                    }
+                    if (!artistFound){
+                        Artist newArtist = new Artist(artistField.getText());
+                        changedShow.setArtist(newArtist);
+                        artists.add(newArtist);
+                        DataStore.setArtists(artists);
+                    }
                 }
                 if (popularityField.getText().isEmpty()) {
                     popularityField.setText("0");
@@ -133,7 +151,8 @@ public class EditStage {
                     editStage.close();
                     DataStore.getShowsA().remove(this.showIndex);
                     DataStore.getShowsA().add(changedShow);
-                    serializer.Write(DataStore.getShowsA());
+                    serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
+                    serializer.Write(DataStore.getArtists(), Serializer.ARTISTS);
                     this.showIndex = 0;
                 }
             }

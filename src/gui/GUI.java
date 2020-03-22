@@ -20,7 +20,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 public class GUI extends Application {
-
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
     private ArrayList<Show> shows1;
@@ -37,7 +36,8 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        DataStore.setShowsA(deserializer.Read());
+        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
         this.canvas = new Canvas(900, 710);
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
@@ -48,7 +48,8 @@ public class GUI extends Application {
         Buttoninteraction();
 
         try {
-            System.out.println("Current saved shows: " + deserializer.Read().size());
+            System.out.println("Current saved shows: " + deserializer.Read(Serializer.SHOWS).size());
+            System.out.println("Current saved artists: " + deserializer.Read(Serializer.ARTISTS).size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
             if(DataStore.isStateS()){
                 drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
@@ -186,9 +187,11 @@ public class GUI extends Application {
         int x = 0;
         float beginTime = 0;
         float endTime = 0;
+        String artist;
 
         //Determined the X with the stage, so the artist box lines up with the stages.
         for (Show show : DataStore.getShowsA()) {
+            artist = show.getArtist().getName();
             stage = show.getStage();
             beginTime = show.getStartTime() * 24 + 60;
             endTime = show.getEndTime() * 24 + 60;
@@ -219,25 +222,25 @@ public class GUI extends Application {
             if (show.getEndTime() - show.getStartTime() <= 1) {
                 artistFont = new Font("Arial", Font.BOLD, 10);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 8);
+                graphics.drawString(artist + "", x + 7, beginTime + 8);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 20);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 32);
             } else if (show.getEndTime() - show.getStartTime() <= 2) {
                 artistFont = new Font("Arial", Font.BOLD, 15);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 19);
+                graphics.drawString(artist + "", x + 7, beginTime + 19);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 35);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 51);
             } else if (show.getEndTime() - show.getStartTime() <= 3) {
                 artistFont = new Font("Arial", Font.BOLD, 18);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 25);
+                graphics.drawString(artist + "", x + 7, beginTime + 25);
                 graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 45);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 65);
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", x + 7, beginTime + 30);
+                graphics.drawString(artist + "", x + 7, beginTime + 30);
                 graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", x + 7, beginTime + 60);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }

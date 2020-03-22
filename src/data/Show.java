@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Show implements Serializable {
     private String show;
+    private Artist artist;
     private HashMap<String, Artist> artistH;
     private int startTime;
     private int endTime;
@@ -78,4 +79,13 @@ public class Show implements Serializable {
             this.artistH.put(name, artist);
         }
     }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
 }

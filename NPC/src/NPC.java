@@ -4,6 +4,9 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+/**
+ * Main NPC class. This contains all the logic for the NPCs.
+ */
 abstract class NPC {
     public final static int SPRITESIZE = 64;
 
@@ -23,11 +26,16 @@ abstract class NPC {
         this.angle = 0;
     }
 
+    /**
+     * This updates the current location, target, rotation and collision for each NPC.
+     * @param npcs List of all created NPCs
+     */
     public void update(ArrayList<NPC> npcs){
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(),
                                         this.target.getX() - this.position.getX());
 
+        //Determines how far the NPC has to rotate to face towards its target
         double angleDifference = this.angle - targetAngle;
         while (angleDifference < -Math.PI){
             angleDifference += 2 * Math.PI;
@@ -36,6 +44,7 @@ abstract class NPC {
             angleDifference -= 2 * Math.PI;
         }
 
+        //Rotates the NPC towards its target.
         if (Math.abs(angleDifference) < this.rotationSpeed){
             this.angle = targetAngle;
         }else if (angleDifference < 0){
