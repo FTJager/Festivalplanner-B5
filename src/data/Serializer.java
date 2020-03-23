@@ -20,7 +20,6 @@ public class Serializer implements Serializable{
      * @param type A string indicating what ArrayList you'd like to write to, shows or artists.
      */
     public void Write(List list, int type){
-
         try {
             FileOutputStream fileOut = null;
             ObjectOutputStream objOut = null;
