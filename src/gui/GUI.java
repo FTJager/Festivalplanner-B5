@@ -13,20 +13,18 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
-
 import java.awt.*;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class GUI extends Application {
 
     Serializer serializer = new Serializer();
     Deserializer deserializer = new Deserializer();
     private Stage stage;
-
     private Canvas canvas;
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
@@ -39,7 +37,7 @@ public class GUI extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         DataStore.setShowsA(deserializer.ReadArtist());
         DataStore.setStages(deserializer.ReadStages());
         stageList = new ArrayList<>();
@@ -54,6 +52,7 @@ public class GUI extends Application {
         this.stage.show();
         Buttoninteraction();
 
+        //Displays the current shows and stages, may throw NullPointerException, so its in a try catch.
         try {
             System.out.println("Current saved shows: " + deserializer.ReadArtist().size());
             if(DataStore.getStages().isEmpty()) {
@@ -61,16 +60,15 @@ public class GUI extends Application {
             }
             else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-
-            if(DataStore.isStateS()){
-                drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            }
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
     }
 
-    //Initialises the whole table
+    /**
+     * This method initialises the whole table
+     * @param graphics the java graphics.
+     */
     public void tableDraw(FXGraphics2D graphics) {
 
         //Makes the top part of the table
@@ -159,8 +157,9 @@ public class GUI extends Application {
         });
     }
 
-    //Makes the buttons intractable, remember to match the event box coordinates with the buttons
-    // coordinates if the buttons are ever moved.commit
+    /**
+     * Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved
+     */
     public void Buttoninteraction() {
         canvas.setOnMouseClicked(event -> {
             //Event for "New" button
@@ -181,6 +180,10 @@ public class GUI extends Application {
         });
     }
 
+    /**
+     * draws the stage text at the top of the agenda module.
+     * @param graphics the graphics of java
+     */
     public void drawStage(FXGraphics2D graphics) {
         int X = 100;
         int Y = 45;
@@ -196,6 +199,10 @@ public class GUI extends Application {
         }
     }
 
+    /**
+     * draws the artist box
+     * @param graphics the graphics of java
+     */
     //Draws the box with the artist in the schedule.
     private void drawArtist(FXGraphics2D graphics) {
         stageX = 0;

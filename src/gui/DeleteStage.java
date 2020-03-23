@@ -17,7 +17,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 public class DeleteStage {
     public static final int DELETE_ALL = -1;
@@ -35,6 +40,10 @@ public class DeleteStage {
         if (!deserializer.ReadArtist().isEmpty()){
             DataStore.setShowsA(deserializer.ReadArtist());
         }
+
+        Text artistNotFoundText = new Text(0, 0, "Artist not found!");
+        Paint artistNotFoundPaint = new Color(1, 0, 0, 1);
+        artistNotFoundText.setFill(artistNotFoundPaint);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
@@ -58,8 +67,10 @@ public class DeleteStage {
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(35);
+        VBox artistBox = new VBox();
+        artistBox.getChildren().add(artistField);
         VBox fieldBox = new VBox();
-        fieldBox.getChildren().addAll(artistField, popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
+        fieldBox.getChildren().addAll(artistBox, popularityDisplay, stageDisplay, beginTimeDisplay, endtimeDisplay);
         fieldBox.setSpacing(31);
 
         HBox hBox = new HBox();
@@ -78,6 +89,8 @@ public class DeleteStage {
 
         //Set the action for searching through the existing shows
         searchButton.setOnAction(e ->{
+            boolean found = false;
+            artistBox.getChildren().remove(artistNotFoundText);
             //Loop through all the shows saved and checks for the one matching the given text in the textfield
             for (Show show : DataStore.getShowsA()){
                 if (show.getShow().equals(artistField.getText())){
@@ -86,8 +99,12 @@ public class DeleteStage {
                     stageDisplay.setText(show.getStage());
                     beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
                     endtimeDisplay.setText(Integer.toString(show.getEndTime()));
+                    found = true;
                 }
                 this.index++;
+            }
+            if(!found) {
+                artistBox.getChildren().add(artistNotFoundText);
             }
         });
 
