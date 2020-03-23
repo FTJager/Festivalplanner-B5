@@ -171,7 +171,7 @@ public class EditStage {
                 }
 
                 //Set a new show based on the changes made
-                changedShow.setStartTime(Integer.parseInt(beginTimeField.getText()));
+                changedShow.setBeginTime(Integer.parseInt(beginTimeField.getText()));
                 changedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                 changedShow.setPopularity(Integer.parseInt(popularityField.getText()));
                 data.Stage newStage = new data.Stage();

@@ -26,7 +26,7 @@ public class Show implements Serializable {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setBeginTime(int startTime) {
         this.startTime = startTime;
     }
 
