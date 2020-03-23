@@ -1,7 +1,10 @@
-import data.DataStore;
+import agenda.data.*;
+import agenda.gui.GUI;
+
+import static javafx.application.Application.launch;
 
 public class Main {
     public static void main(String[] args) {
-        DataStore dataStore = new DataStore();
+        launch(GUI.class);
     }
 }

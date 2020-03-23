@@ -1,4 +1,4 @@
-package data;
+package agenda.data;
 
 import java.util.ArrayList;
 import java.util.HashMap;

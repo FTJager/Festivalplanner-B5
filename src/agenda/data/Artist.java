@@ -1,4 +1,4 @@
-package data;
+package agenda.data;
 
 import java.io.Serializable;
 

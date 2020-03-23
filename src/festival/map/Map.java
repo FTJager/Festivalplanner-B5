@@ -1,3 +1,5 @@
+package festival.map;
+
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
@@ -7,7 +9,6 @@ import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class Map {
         //load the tilemaps
         try {
 
-            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
-            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
-            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream(root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
+            BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
+            BufferedImage tilemapAtlas = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(1).getString("image")));
+            BufferedImage tilemapMed = ImageIO.read(getClass().getResourceAsStream("/"+root.getJsonArray("tilesets").getJsonObject(2).getString("image")));
 
             tileHeight = root.getInt("tileheight");
             tileWidth = root.getInt("tilewidth");
@@ -108,7 +109,7 @@ public class Map {
         }
     }
 
-    //createnode maakt alleen punten van alle tiles op de npc.map
+    //createnode maakt alleen punten van alle tiles op de simulation.npc.map
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
         int posY = 0;

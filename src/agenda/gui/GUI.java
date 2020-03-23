@@ -3,10 +3,9 @@
  * When run, the GUI for the festival agenda opens and the user can add, edti, and delete shows.
  */
 
-package gui;
+package agenda.gui;
 
-import data.DataStore;
-import data.*;
+import agenda.data.*;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -28,11 +27,6 @@ public class GUI extends Application {
     private Canvas canvas;
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
-
-
-    public static void main(String[] args) {
-        launch(GUI.class);
-    }
 
     @Override
     public void start(Stage stage) throws Exception {
