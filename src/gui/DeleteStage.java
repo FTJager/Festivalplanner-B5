@@ -96,7 +96,7 @@ public class DeleteStage {
                 if (show.getShow().equals(artistField.getText())){
                     showIndex = this.index;
                     popularityDisplay.setText(Integer.toString(show.getPopularity()));
-                    stageDisplay.setText(show.getStage());
+                    stageDisplay.setText(show.getStage().getName());
                     beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
                     endtimeDisplay.setText(Integer.toString(show.getEndTime()));
                     found = true;
@@ -110,14 +110,14 @@ public class DeleteStage {
 
         //When pressed on the "done" button, a new stage will pop-up to confirm your action of deleting a SINGLE show
         doneButton.setOnAction(e ->{
-            SureStage stage = new SureStage(this.showIndex);
+            new SureStage(this.showIndex);
             this.showIndex = 0;
             delStage.close();
         });
 
         //When pressed on the "clearAll" button, a new stage wil pop-up to confirm your action of deleting ALL existing shows
         clearAllButton.setOnAction(event -> {
-            SureStage stage = new SureStage(DELETE_ALL);
+            new SureStage(DELETE_ALL);
             this.showIndex = 0;
             delStage.close();
         });

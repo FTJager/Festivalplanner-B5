@@ -219,7 +219,7 @@ public class GUI extends Application {
 //                System.out.println(stageList.get(i).getName());
 //                System.out.println(show.getStage());
                 //puts the show under the correct stage
-                if(stageList.get(i).getName().equalsIgnoreCase(show.getStage())) {
+                if(stageList.get(i).getName().equalsIgnoreCase(show.getStage().getName())) {
                     stageX = 100 + i * 200;
                     break;
                 }

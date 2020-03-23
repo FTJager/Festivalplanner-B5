@@ -16,6 +16,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import javax.xml.crypto.Data;
@@ -29,20 +32,31 @@ public class NewStage {
 
     transient Serializer serializer = new Serializer();
     transient Deserializer deserializer = new Deserializer();
-    private TextField artistField = new TextField();
-    private TextField stageField = new TextField();
-    private TextField popularityField = new TextField();
-    private TextField beginTimeField = new TextField();
-    private TextField endTimeField = new TextField();
+    private TextField artistField;
+    private TextField stageField;
+    private TextField popularityField;
+    private TextField beginTimeField;
+    private TextField endTimeField;
 
     private Stage newStage;
 
     public NewStage() {
+        //initialise
+        artistField = new TextField();
+        stageField = new TextField();
+        popularityField = new TextField();
+        beginTimeField = new TextField();
+        endTimeField = new TextField();
+
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
         DataStore.setShowsA(deserializer.ReadArtist());
         this.newStage = new Stage();
         newStage.setTitle("New show");
+
+        Text FillInAStageText = new Text("Please Fill in a Stage!");
+        Paint stagePaint = new Color(1, 0, 0, 1);
+        FillInAStageText.setFill(stagePaint);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
@@ -55,6 +69,24 @@ public class NewStage {
         Label endTimeLabel = new Label("EndTime: ");
 
         Button doneButton = new Button("Done");
+
+        //Creates the fields, labels and buttons for the pop-up
+        VBox stageBox = new VBox();
+        stageBox.getChildren().add(stageField);
+
+        VBox labelBox = new VBox();
+        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
+        labelBox.setSpacing(30);
+        VBox fieldBox = new VBox();
+        fieldBox.getChildren().addAll(artistField, popularityField, stageBox, beginTimeField, endTimeField);
+        fieldBox.setSpacing(20);
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(labelBox, fieldBox);
+        hBox.setSpacing(10);
+        VBox popupVBox = new VBox();
+        popupVBox.getChildren().addAll(hBox, doneButton);
+        popupVBox.setSpacing(15);
 
         doneButton.setOnAction(e -> {
             //This variable is used to make sure the program doesn't create an object with invalid variables
@@ -94,7 +126,9 @@ public class NewStage {
             //important code. Lets the stages work properly!
             if (!stageField.getText().isEmpty()) {
                 boolean stageFound = false;
-                newShow.setStage(stageField.getText());
+                data.Stage newStage = new data.Stage();
+                newStage.setName(stageField.getText());
+                newShow.setStage(newStage);
                 data.Stage showStage = new data.Stage();
                 showStage.setName(stageField.getText());
                 //looks at the datastore, if it is empty, there is no stage to compare
@@ -102,8 +136,6 @@ public class NewStage {
                     System.out.println(DataStore.getStages());
                     //Goes trough all stages and tries to find an equal stage
                     for(data.Stage stage : DataStore.getStages()) {
-//                        System.out.println(stage.getName());
-//                        System.out.println(stageField.getText());
                         //if found, stage found == true
                         if(stage.getName().equalsIgnoreCase(stageField.getText())) {
                             stageFound = true;
@@ -123,9 +155,9 @@ public class NewStage {
                     showStageList.add(showStage);
                     serializer.WriteStage(showStageList);
                 }
-
+            //if stageField is empty
             } else {
-                newShow.setStage("");
+                stageBox.getChildren().add(FillInAStageText);
             }
 
             //Add the newly created show into the dataStore
@@ -139,20 +171,7 @@ public class NewStage {
             }
         });
 
-        //Creates the fields, labels and buttons for the pop-up
-        VBox labelBox = new VBox();
-        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(30);
-        VBox fieldBox = new VBox();
-        fieldBox.getChildren().addAll(artistField, popularityField, stageField, beginTimeField, endTimeField);
-        fieldBox.setSpacing(20);
 
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(labelBox, fieldBox);
-        hBox.setSpacing(10);
-        VBox popupVBox = new VBox();
-        popupVBox.getChildren().addAll(hBox, doneButton);
-        popupVBox.setSpacing(15);
 
         root.getChildren().addAll(popupVBox);
         newStage.setScene(scene);

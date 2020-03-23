@@ -9,7 +9,7 @@ public class Show implements Serializable {
     private int startTime;
     private int endTime;
     private int popularity;
-    private String stage;
+    private data.Stage stage;
 
 
     public Show() {}
@@ -46,13 +46,11 @@ public class Show implements Serializable {
         this.popularity = popularity;
     }
 
-    public String getStage() {
+    public data.Stage getStage() {
         return stage;
     }
 
-    public void setStage(String stage) {
-        this.stage = stage;
-    }
+    public void setStage(data.Stage stage) { this.stage = stage; }
 
     public HashMap<String, Artist> getArtistH() {
         return artistH;
