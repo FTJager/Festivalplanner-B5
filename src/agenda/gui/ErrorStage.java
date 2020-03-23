@@ -1,4 +1,4 @@
-package gui;
+package agenda.gui;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

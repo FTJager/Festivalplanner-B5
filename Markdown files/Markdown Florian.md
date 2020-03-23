@@ -24,7 +24,7 @@ door de loop van de maandag in week 4 nog opgelost.
 
 ##Week 4:
 Deze week is begonnen met het verbeteren van de ObjectIO code. Dit heeft niet al te lang geduurd en daarna was er een compleet functioneel 
-stuk code. Ook zijn we deze week begonnen met het inladen van een map voor de simulatie. Aangezien dit alle taken waren voor deze week,
+stuk code. Ook zijn we deze week begonnen met het inladen van een festival.map_old voor de simulatie. Aangezien dit alle taken waren voor deze week,
 heb ik zelf niet veel gedaan in de rest van de week.
 
 ##Week 5:

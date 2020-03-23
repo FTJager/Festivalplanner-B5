@@ -63,7 +63,7 @@ public class NpcDemo extends Application {
     ArrayList<NPC> people;
 
     /**
-     * In this method the NPCs get created to populate the map.
+     * In this method the NPCs get created to populate the festival.map_old.
      */
     public void init() {
         this.people = new ArrayList<>();

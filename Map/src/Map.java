@@ -108,7 +108,7 @@ public class Map {
         }
     }
 
-    //createnode maakt alleen punten van alle tiles op de npc.map
+    //createnode maakt alleen punten van alle tiles op de festival.npc.festival.map_old
     public void createNode(FXGraphics2D graphics, int[][] map) {
         int posX = 0;
         int posY = 0;

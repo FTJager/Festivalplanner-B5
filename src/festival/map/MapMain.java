@@ -1,4 +1,4 @@
-package map;
+package festival.map;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -57,7 +57,7 @@ public class MapMain extends Application {
 
     /**
      * In the init all the route names and positions get set to be used in the draw method.
-     * The map gets initialized to read the json file, and it reads the collision layer to be used in
+     * The festival.map_old gets initialized to read the json file, and it reads the collision layer to be used in
      * the createdNode method in the Map class.
      */
     public void init() {
@@ -76,10 +76,10 @@ public class MapMain extends Application {
     }
 
     /**
-     * This method draws the map and the elements of the pathfinding(optional).
+     * This method draws the festival.map_old and the elements of the pathfinding(optional).
      * The pathfinding needs a starting position to start the algorithm,
      * which is created when a new bfs object has been intialized bfs.BFS(new Point2D.Double(this.sideStageView.getX()/32, this.sideStageView.getY()/32), this.route1);.
-     * @param graphics is there to draw the map and the pathfinding algortihm elements
+     * @param graphics is there to draw the festival.map_old and the pathfinding algortihm elements
      */
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.black);
@@ -90,9 +90,9 @@ public class MapMain extends Application {
         bfs.BFS(new Point2D.Double(this.mainStageView.getX()/32, this.mainStageView.getY()/32), this.route2);
         bfs.BFS(new Point2D.Double(this.toiletVisitor.getX()/32, this.toiletVisitor.getY()/32), this.route3);
         bfs.BFS(new Point2D.Double(this.bsStageVisitor.getX()/32, this.bsStageVisitor.getY()/32), this.route4);
-//        for (int y = 0; y < map.getHeight(); y++) {
+//        for (int y = 0; y < festival.map_old.getHeight(); y++) {
 //            System.out.println("");
-//            for (int x = 0; x < map.getWidth(); x++) {
+//            for (int x = 0; x < festival.map_old.getWidth(); x++) {
 //                if (bfs.getTileMap()[y][x].isWall()) {
 //                    System.out.print("W ");
 //                } else if (bfs.getTileMap()[y][x].getRoute().get(this.route1) == null) {
@@ -111,9 +111,9 @@ public class MapMain extends Application {
 //            }
 //        }
 //
-//        for (int y = 0; y < map.getHeight(); y++) {
+//        for (int y = 0; y < festival.map_old.getHeight(); y++) {
 //            System.out.println("");
-//            for (int x = 0; x < map.getWidth(); x++) {
+//            for (int x = 0; x < festival.map_old.getWidth(); x++) {
 //                if (bfs.getTileMap()[y][x].isWall()) {
 //                    graphics.setColor(Color.RED);
 //                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
@@ -187,7 +187,7 @@ public class MapMain extends Application {
     }
 
     /**
-     * Launches the map application
+     * Launches the festival.map_old application
      */
     public static void main(String[] args) {
         launch(MapMain.class);
