@@ -1,5 +1,6 @@
 package festival.map;
 
+import festival.npc.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -8,9 +9,14 @@ import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MapMain extends Application {
 
@@ -26,6 +32,11 @@ public class MapMain extends Application {
     private BreadthFirstSearch bfs;
     private ResizableCanvas canvas;
     private Camera camera;
+    private BufferedImage imageArtist;
+    private BufferedImage imageHick;
+    ArrayList<NPC> people;
+    ArrayList<Visitor> visitors = new ArrayList<>();
+    ArrayList<Artist> artists = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -73,6 +84,52 @@ public class MapMain extends Application {
         this.toiletVisitor = this.map.objectTargets(route3);
         this.bsStageVisitor = this.map.objectTargets(route4);
 
+        this.people = new ArrayList<>();
+
+        //Sprite selection
+        BufferedImage imageArtist = null;
+        BufferedImage imageHick = null;
+        try {
+            imageArtist = ImageIO.read(this.getClass().getResourceAsStream("/npc.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            imageHick = ImageIO.read(this.getClass().getResourceAsStream("/hick.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Create 5 artists
+        for(int i = 0; i < 5; i++) {
+            Point2D spawnPoint = new Point2D.Double(Math.random()*320 + (90 * 32), Math.random()*32 + 78 * 32);
+            Artist artist = new Artist(spawnPoint, imageArtist, toiletVisitor,"name");
+            boolean spaceTaken = true;
+            if (people.isEmpty()){
+                this.people.add(artist);
+                this.artists.add(artist);
+            } else if (!people.isEmpty()){
+                for (NPC npc : people){
+                    if (npc.getPosition().distance(spawnPoint) > NPC.SPRITESIZE){
+                        spaceTaken = false;
+                    }
+                }
+                if (!spaceTaken){
+                    this.people.add(artist);
+                    this.artists.add(artist);
+                }
+            }
+        }
+
+        //Create 15 Visitors
+//        for(int i = 0; i < 15; i++) {
+//            Visitor visitor = new Visitor(new Point2D.Double(Math.random()*320 + (90 * 32), Math.random()*32 + 78 * 32), imageHick, toiletVisitor);
+//            this.people.add(visitor);
+//            this.visitors.add(visitor);
+//        }
+
+
     }
 
     /**
@@ -84,12 +141,22 @@ public class MapMain extends Application {
     public void draw(FXGraphics2D graphics) {
         graphics.setBackground(Color.black);
         graphics.setTransform(camera.getTransform(0, 0));
+        graphics.clearRect(0,0,3000,3000);
         map.draw(graphics, canvas);
         map.createGrid(map.getTilelayers().get(3).getLayer(), this.bfs);
         bfs.BFS(new Point2D.Double(this.sideStageView.getX()/32, this.sideStageView.getY()/32), this.route1);
         bfs.BFS(new Point2D.Double(this.mainStageView.getX()/32, this.mainStageView.getY()/32), this.route2);
         bfs.BFS(new Point2D.Double(this.toiletVisitor.getX()/32, this.toiletVisitor.getY()/32), this.route3);
         bfs.BFS(new Point2D.Double(this.bsStageVisitor.getX()/32, this.bsStageVisitor.getY()/32), this.route4);
+
+        //This part prints out small black circles to display each NPC's current target location.
+        //TODO disable this for the final version, only used for testing
+        if (!this.people.isEmpty()){
+            for(NPC person : people) {
+                person.draw(graphics, this.camera);
+//            graphics.drawOval((int)person.getTarget().getX(), (int)person.getTarget().getY(), 25, 25);
+            }
+        }
 //        for (int y = 0; y < festival.map_old.getHeight(); y++) {
 //            System.out.println("");
 //            for (int x = 0; x < festival.map_old.getWidth(); x++) {
@@ -142,6 +209,23 @@ public class MapMain extends Application {
 //            }
 //        }
 
+
+    }
+
+    /**
+     * Should update every position and such, other than that it does nothing of use.
+     * @param deltaTime
+     */
+    public void update(double deltaTime) {
+        for(NPC person : people) {
+//            if (person.getPosition().distance(person.getTarget()) <= 10){
+//                person.setTarget(this.toiletVisitor);
+//                person.setTarget(new Point2D.Double(Math.random() * 1700, Math.random() * 800));
+//                person.setTarget(new Point2D.Double(1500,100));
+//            }
+            person.update(people);
+        }
+
         /**
          * Prints out the pathfinding algorithm to the desired target
          * The two for-loops are to check the grid at that position
@@ -150,39 +234,32 @@ public class MapMain extends Application {
             System.out.println("");
             for (int x = 0; x < map.getWidth(); x++) {
                 if (bfs.getTileMap()[y][x].isWall()) {
-                    graphics.setColor(Color.RED);
-                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
-                    graphics.setColor(Color.BLUE);
+//                    graphics.setColor(Color.RED);
+//                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
+//                    graphics.setColor(Color.BLUE);
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3) == null) {
-                    graphics.setColor(Color.BLACK);
-                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
+//                    graphics.setColor(Color.BLACK);
+//                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
 
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3).getX() == 0 && bfs.getTileMap()[y][x].getRoute().get(this.route3).getY() == 0) {
-
-                    graphics.drawString("X", x * 32, y * 32);
+//                    graphics.drawString("X", x * 32, y * 32);
 
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3).getX() == 1) {
-                    graphics.drawString(">", x * 32, y * 32);
+//                    graphics.drawString(">", x * 32, y * 32);
 
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3).getX() == -1) {
-                    graphics.drawString("<", x * 32, y * 32);
+//                    graphics.drawString("<", x * 32, y * 32);
 
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3).getY() == 1) {
-                    graphics.drawString("v", x * 32, y * 32);
+//                    graphics.drawString("v", x * 32, y * 32);
 
                 } else if (bfs.getTileMap()[y][x].getRoute().get(this.route3).getY() == -1) {
-                    graphics.drawString("^", x * 32, y * 32);
+//                    graphics.drawString("^", x * 32, y * 32);
 
                 }
             }
         }
-    }
 
-    /**
-     * Should update every position and such, other than that it does nothing of use.
-     * @param deltaTime
-     */
-    public void update(double deltaTime) {
 
     }
 
