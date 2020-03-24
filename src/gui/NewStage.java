@@ -4,10 +4,7 @@
  */
 package gui;
 
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,6 +18,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,7 +107,7 @@ public class NewStage {
 
         VBox labelBox = new VBox();
         labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
-        labelBox.setSpacing(lableBoxSpacing);
+        labelBox.setSpacing(this.lableBoxSpacing);
         VBox fieldBox = new VBox();
         fieldBox.getChildren().addAll(artistBox, popularityBox, stageBox, beginTimeBox, endTimeBox);
         fieldBox.setSpacing(20);
@@ -129,6 +127,7 @@ public class NewStage {
             boolean endTimeIsInteger = true;
             boolean stageFound = false;
             List<data.Stage> showStageList = new ArrayList<>(DataStore.getStages());
+            ArrayList<Artist> newShowArtists = new ArrayList<>();
 
 
             // if-else statement makes sure a name has been given for the show
@@ -136,7 +135,7 @@ public class NewStage {
             //Comments by artist can be used by other validation methods
 
             //if nothing is filled in
-            if (artistField.getText().isEmpty() || artistField.getText() == null) {
+            if (this.artistField.getText().isEmpty() || this.artistField.getText() == null) {
                 //removes warning first, so no double warnings show up
                 artistBox.getChildren().remove(fillInAnArtistText);
                 artistBox.getChildren().add(fillInAnArtistText);
@@ -155,8 +154,10 @@ public class NewStage {
                     artistSpacing.clear();
                     this.lableBoxSpacing -= 3;
                 }
-                //sets the artist for the new show
-                newShow.setShow(this.artistField.getText());
+                this.newShow.setArtistA(new ArrayList<>(ArtistSeparation(this.artistField.getText())));
+                for(Artist artist : newShow.getArtistA()) {
+                    System.out.println(artist.getName());
+                }
             }
 
             if(this.popularityField.getText().isEmpty() || this.popularityField.getText() == null) {
@@ -164,7 +165,7 @@ public class NewStage {
                 popularityBox.getChildren().add(fillInAPopularityText);
                 inputValid = false;
                 if(popularitySpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     popularitySpacing.add(1);
                 }
             } else {
@@ -179,21 +180,24 @@ public class NewStage {
                     this.newShow.setPopularity(Integer.parseInt(this.popularityField.getText()));
                 } catch (NumberFormatException popularityExeption) {
                     popularityBox.getChildren().add(popularityNotCorrectText);
+                    inputValid = false;
                 }
 
             }
             //StageValidation is skipped here, will be done below!
             //try and catch for integer validation
             try {
-                Integer.parseInt(beginTimeField.getText());
+                Integer.parseInt(this.beginTimeField.getText());
             } catch (NumberFormatException beginTimeException) {
                 beginTimeIsInteger = false;
+                inputValid = false;
             }
             //try and catch for integer validation
             try {
-                Integer.parseInt(endTimeField.getText());
+                Integer.parseInt(this.endTimeField.getText());
             } catch (NumberFormatException endTimeException) {
                 endTimeIsInteger = false;
+                inputValid = false;
             }
 
             if(this.beginTimeField.getText().isEmpty() || this.beginTimeField.getText() == null) {
@@ -201,7 +205,7 @@ public class NewStage {
                 beginTimeBox.getChildren().add(fillInBeginTimeText);
                 inputValid = false;
                 if(beginTimeSpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     beginTimeSpacing.add(1);
                 }
             //Extra if statement for correct error display
@@ -209,17 +213,17 @@ public class NewStage {
                 beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                 beginTimeBox.getChildren().add(beginTimeNotCorrectText);
                 if (beginTimeSpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     beginTimeSpacing.add(1);
                 }
             } else {
                 //if the begin time is larger then the end time, the validation fails
-                if (Integer.parseInt(beginTimeField.getText()) > Integer.parseInt(endTimeField.getText())) {
+                if (Integer.parseInt(this.beginTimeField.getText()) > Integer.parseInt(this.endTimeField.getText()) || Integer.parseInt(this.beginTimeField.getText()) < 0 || Integer.parseInt(this.beginTimeField.getText()) > 23) {
                     beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                     beginTimeBox.getChildren().add(beginTimeNotCorrectText);
                     inputValid = false;
                     if(beginTimeSpacing.size() == 0) {
-                        lableBoxSpacing += 3;
+                        this.lableBoxSpacing += 3;
                         beginTimeSpacing.add(1);
                     }
                 }
@@ -233,12 +237,12 @@ public class NewStage {
                 }
             }
 
-            if(endTimeField.getText().isEmpty() || endTimeField.getText() == null) {
+            if(this.endTimeField.getText().isEmpty() || this.endTimeField.getText() == null) {
                 endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                 endTimeBox.getChildren().add(fillInEndTimeText);
                 inputValid = false;
                 if(endTimeSpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     endTimeSpacing.add(1);
                 }
             //extra if statement for correct error display
@@ -247,47 +251,48 @@ public class NewStage {
                 endTimeBox.getChildren().add(endTimeNotCorrectText);
                 inputValid = false;
                 if(endTimeSpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     endTimeSpacing.add(1);
                 }
             } else {
-                if (endTimeField.getText().isEmpty()){
-                    endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
-                    endTimeBox.getChildren().add(fillInEndTimeText);
-                    if (endTimeSpacing.size() == 0) {
-                        lableBoxSpacing += 3;
-                        endTimeSpacing.add(1);
-                    }
-                //if begintime is bigger then the end time, done twice for correct error disply
-                } else if(beginTimeIsInteger){
-                    if (Integer.parseInt(endTimeField.getText()) < Integer.parseInt(beginTimeField.getText())) {
+                //if begin time is bigger then the end time, done twice for correct error display
+                if(beginTimeIsInteger){
+                    if (Integer.parseInt(this.endTimeField.getText()) < Integer.parseInt(this.beginTimeField.getText()) || Integer.parseInt(this.endTimeField.getText()) < 0 || Integer.parseInt(this.endTimeField.getText()) > 24) {
                         endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                         endTimeBox.getChildren().add(endTimeNotCorrectText);
                         if (endTimeSpacing.size() == 0) {
-                            lableBoxSpacing += 3;
+                            this.lableBoxSpacing += 3;
                             endTimeSpacing.add(1);
+                        }
+                    }
+                    else {
+                        endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+                        newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+                        if (endTimeSpacing.size() > 0) {
+                            endTimeSpacing.clear();
+                            this.lableBoxSpacing -= 3;
                         }
                     }
                 } else {
                     endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
-                    newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
+                    this.newShow.setEndTime(Integer.parseInt(this.endTimeField.getText()));
                     if (endTimeSpacing.size() > 0) {
                         endTimeSpacing.clear();
-                        lableBoxSpacing -= 3;
+                        this.lableBoxSpacing -= 3;
                     }
                 }
             }
 
             //important code. Lets the stages work properly! Stage Validation
-            if (!stageField.getText().isEmpty()) {
+            if (!this.stageField.getText().isEmpty()) {
                 stageBox.getChildren().remove(fillInAStageText);
                 if(stageSpacing.size() > 0) {
-                    lableBoxSpacing -= 3;
+                    this.lableBoxSpacing -= 3;
                     stageSpacing.clear();
                 }
                 data.Stage newStage = new data.Stage();
-                newStage.setName(stageField.getText());
-                newShow.setStage(newStage);
+                newStage.setName(this.stageField.getText());
+                this.newShow.setStage(newStage);
                 data.Stage showStage = new data.Stage();
                 showStage.setName(stageField.getText());
                 //looks at the data store, if it is empty, there is no stage to compare
@@ -315,7 +320,7 @@ public class NewStage {
                 stageBox.getChildren().add(fillInAStageText);
                 inputValid = false;
                 if(stageSpacing.size() == 0) {
-                    lableBoxSpacing += 3;
+                    this.lableBoxSpacing += 3;
                     stageSpacing.add(1);
                 }
 
@@ -323,16 +328,40 @@ public class NewStage {
             labelBox.setSpacing(lableBoxSpacing);
             //Add the newly created show into the dataStore
             if (inputValid) {
-                serializer.WriteStage(showStageList);
-                DataStore.getShowsA().add(newShow);
-                newStage.close();
+                for(Show show : DataStore.getShowsA()) {
+
+                }
+                this.serializer.WriteStage(showStageList);
+                DataStore.setShowA(this.newShow);
+                this.serializer.Write(DataStore.getShowsA());
+                this.newStage.close();
             }
             //sets the correct spacing with error messages
-            labelBox.setSpacing(lableBoxSpacing);
+            labelBox.setSpacing(this.lableBoxSpacing);
         });
 
         root.getChildren().addAll(popupVBox);
-        newStage.setScene(scene);
-        newStage.show();
+        this.newStage.setScene(scene);
+        this.newStage.show();
+    }
+
+    public ArrayList<Artist> ArtistSeparation(String artist){
+        ArrayList<Artist> artistCounter = new ArrayList<>();
+        String artistSubString;
+        if(artist.contains(",")) {
+            for(int i = 0; i < artist.length(); i++) {
+                char separationChar = artist.charAt(i);
+                String tempString = String.valueOf(separationChar);
+                if(tempString.equals(",")){
+                    artistSubString = artist.substring(0, i);
+                    artistCounter.add(new Artist(artistSubString, ""));
+                    artist = artist.substring(i);
+                }
+            }
+            if(artist.length() > 0) {
+                artistCounter.add(new Artist(artist, ""));
+            }
+        } else artistCounter.add(new Artist(artist, ""));
+        return artistCounter;
     }
 }

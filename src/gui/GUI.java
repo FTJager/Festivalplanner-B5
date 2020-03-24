@@ -216,8 +216,6 @@ public class GUI extends Application {
             endTime = show.getEndTime() * 24 + 60;
 
             for(int i = 0; i < stageList.size(); i++) {
-//                System.out.println(stageList.get(i).getName());
-//                System.out.println(show.getStage());
                 //puts the show under the correct stage
                 if(stageList.get(i).getName().equalsIgnoreCase(show.getStage().getName())) {
                     stageX = 100 + i * 200;
@@ -256,7 +254,11 @@ public class GUI extends Application {
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 30);
+                int artistPlacement = 7;
+                for(Artist artist : show.getArtistA()) {
+                    graphics.drawString(artist.getName() + "", stageX + artistPlacement, beginTime + 30);
+                    artistPlacement += 20;
+                }
                 graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 60);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }

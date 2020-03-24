@@ -31,20 +31,6 @@ public class DataStore {
         stages = new ArrayList<>();
     }
 
-    //Sets an artist object
-    public static void setArtist(Artist artist) throws IllegalArgumentException{
-        artistS = artist;
-    }
-
-    //Gets artist object and checks if it isn't null
-    public static Artist getArtist(){
-        if(artistS == null){
-            throw new NullPointerException("Artist does not exist!");
-        } else {
-            return artistS;
-        }
-    }
-
     //Sets a show object
     public static void setShow(Show show) throws IllegalArgumentException{
         showS = show;
@@ -59,20 +45,6 @@ public class DataStore {
         }
     }
 
-    //This method sets an ArrayList of Artists
-    public static void setArtists(ArrayList<Artist> artists){
-        artistsS = artists;
-    }
-
-    //This method checks the ArrayList of Artists and checks if the object in the list aren't null
-    public ArrayList<Artist> getArtists(){
-        if(artistsS == null){
-            throw new NullPointerException("Ya doofus, it has not been initialized yet!");
-        } else {
-            return artistsS;
-        }
-    }
-
     //This method gets a list of the object Show and checks if it the list isn't null
     public static List<Show> getShowsA(){
         if(showsAS == null){
@@ -84,6 +56,10 @@ public class DataStore {
     //This method sets the List of shows
     public static void setShowsA(List<Show> showsA){
         showsAS = showsA;
+    }
+
+    public static void setShowA(Show show) {
+        showsAS.add(show);
     }
 
     //This method sets the HashMap of artists in the object Show
