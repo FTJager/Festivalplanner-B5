@@ -345,22 +345,30 @@ public class NewStage {
         this.newStage.show();
     }
 
+    //if multiple artists are added, this method will separate them
     public ArrayList<Artist> ArtistSeparation(String artist){
         ArrayList<Artist> artistCounter = new ArrayList<>();
         String artistSubString;
+        //Artist are separated by commas.
         if(artist.contains(",")) {
+            //will repeat for the whole artist lenght
             for(int i = 0; i < artist.length(); i++) {
                 char separationChar = artist.charAt(i);
                 String tempString = String.valueOf(separationChar);
+                //Comma found, so the artists are separated
                 if(tempString.equals(",")){
                     artistSubString = artist.substring(0, i);
+                    //The first part is added
                     artistCounter.add(new Artist(artistSubString, ""));
+                    //The first part is removed, so we dont add the same one twice
                     artist = artist.substring(i);
                 }
             }
+            //No commas left, so the last part is also added
             if(artist.length() > 0) {
                 artistCounter.add(new Artist(artist, ""));
             }
+        //no commas found, so the whole string is added
         } else artistCounter.add(new Artist(artist, ""));
         return artistCounter;
     }
