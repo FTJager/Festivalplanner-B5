@@ -254,12 +254,12 @@ public class GUI extends Application {
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                int artistPlacement = 7;
+                int artistPlacement = 0;
                 for(Artist artist : show.getArtistA()) {
-                    graphics.drawString(artist.getName() + "", stageX + artistPlacement, beginTime + 30);
-                    artistPlacement += 20;
+                    graphics.drawString(artist.getName() + "", stageX + 7, beginTime + 30 + artistPlacement);
+                    artistPlacement += 30;
                 }
-                graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 60);
+                graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 60 + artistPlacement);
 //                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }
         }

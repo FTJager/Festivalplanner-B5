@@ -361,7 +361,7 @@ public class NewStage {
                     //The first part is added
                     artistCounter.add(new Artist(artistSubString, ""));
                     //The first part is removed, so we dont add the same one twice
-                    artist = artist.substring(i);
+                    artist = artist.substring(i + 2);
                 }
             }
             //No commas left, so the last part is also added
