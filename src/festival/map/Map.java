@@ -43,7 +43,9 @@ public class Map {
         this.width = this.root.getInt("width");
         this.height = this.root.getInt("height");
 
-        //load the tilemaps
+        /**
+         * This try, catch construction reads images from the Json file and uses the addtilemap method to store the subimages from these images.
+         */
         try {
 
             BufferedImage tilemapPath = ImageIO.read(getClass().getResourceAsStream("/" + this.root.getJsonArray("tilesets").getJsonObject(0).getString("image")));
@@ -53,8 +55,6 @@ public class Map {
             this.tileHeight = this.root.getInt("tileheight");
             this.tileWidth = this.root.getInt("tilewidth");
 
-
-            //adds tilemap to array tiles
             addtilemap(tilemapPath);
             addtilemap(tilemapAtlas);
             addtilemap(tilemapMed);
@@ -63,14 +63,18 @@ public class Map {
             e.printStackTrace();
         }
 
-        //adds layers to array tilelayers
+        /**
+         * this for loop adds every tilelayer on the map to the arraylist tilelayers.
+         */
         for (int i = 0; i < this.root.getJsonArray("layers").size(); i++) {
             if (this.root.getJsonArray("layers").getJsonObject(i).getString("type").equals("tilelayer")) {
                 this.tilelayers.add(new Tilelayer(fileName, i));
             }
         }
 
-        //adds object to array objects
+        /**
+         * this for loop adds al the target layers on the map to the arraylist objects.
+         */
         for (int i = 0; i < this.root.getJsonArray("layers").size(); i++) {
             if (this.root.getJsonArray("layers").getJsonObject(i).getString("type").equals("objectgroup")) {
                 for (int j = 0; j < this.root.getJsonArray("layers").getJsonObject(i).size(); j++) {
@@ -79,23 +83,23 @@ public class Map {
             }
         }
 
-        //makes map image
+        /**
+         * this for loop makes the map a image. First you're going trough every tilelayer in the arraylist
+         * tilelayers. Then you check if the layer is visible. Then you get 2 for loops, 1 to go through every tile in
+         * the height and 1 to go through every tile in the width. Then you get again 2 for loops. Those for loops
+         * are going through every pixel in the tile. Finally you get for every pixel on the map the
+         * RGB values and set those values on the map bufferedImage
+         */
         for(Tilelayer layer : tilelayers){
-            //tilelayers zijn de verschillende lagen in de map
             if(layer.isVisibility()) {
                 for (int y = 0; y < height; y++) {
-                    //height is 80
                     for (int x = 0; x < width; x++) {
-                        //width = 110
                         if (layer.getLayer()[y][x] <= 0)
                             continue;
 
                         for (int tileY = 0; tileY < 32; tileY++) {
-                            //kijk ik naar alle 32 pixels in de hoogte van de tile
                             for (int tileX = 0; tileX < 32; tileX++) {
-                                //kijk ik naar alle 32 pixels in de breedte van de tile
 
-                                //map = een bufferedimage van 110*32 bij 80*32 dan set ik de pixel door de rgb de krijgen van de juiste tile
                                 if(tiles.get((layer.getLayer()[y][x]) - 1).getRGB(tileX, tileY) != 0) {
                                     map.setRGB(x * 32 + tileX, y * 32 + tileY, tiles.get((layer.getLayer()[y][x]) - 1).getRGB(tileX, tileY));
                                 }
@@ -134,7 +138,10 @@ public class Map {
         g2d.drawImage(map, af, null);
     }
 
-
+    /**
+     * adds the subimages from a bufferedImage to the arraylist tiles
+     * @param tilemap is the buffererdImage that is send with calling this methode
+     */
     public void addtilemap(BufferedImage tilemap) {
         for (int y = 0; y < tilemap.getHeight(); y += tileHeight) {
             for (int x = 0; x < tilemap.getWidth(); x += tileWidth) {
