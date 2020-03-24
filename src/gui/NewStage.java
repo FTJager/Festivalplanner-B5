@@ -255,11 +255,21 @@ public class NewStage {
                     endTimeSpacing.add(1);
                 }
             } else {
+                if(Integer.parseInt(this.endTimeField.getText()) < 1 || Integer.parseInt(this.endTimeField.getText()) > 24) {
+                    endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+                    endTimeBox.getChildren().add(endTimeNotCorrectText);
+                    inputValid = false;
+                    if (endTimeSpacing.size() == 0) {
+                        this.lableBoxSpacing += 3;
+                        endTimeSpacing.add(1);
+                    }
+                }
                 //if begin time is bigger then the end time, done twice for correct error display
                 if(beginTimeIsInteger){
-                    if (Integer.parseInt(this.endTimeField.getText()) < Integer.parseInt(this.beginTimeField.getText()) || Integer.parseInt(this.endTimeField.getText()) < 0 || Integer.parseInt(this.endTimeField.getText()) > 24) {
+                    if (Integer.parseInt(this.endTimeField.getText()) < Integer.parseInt(this.beginTimeField.getText())) {
                         endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                         endTimeBox.getChildren().add(endTimeNotCorrectText);
+                        inputValid = false;
                         if (endTimeSpacing.size() == 0) {
                             this.lableBoxSpacing += 3;
                             endTimeSpacing.add(1);

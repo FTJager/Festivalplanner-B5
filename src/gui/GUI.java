@@ -46,6 +46,7 @@ public class GUI extends Application {
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
 
 
+
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
         this.stage.setResizable(true);
@@ -225,8 +226,15 @@ public class GUI extends Application {
 
 
             RoundRectangle2D artistRectangle = new RoundRectangle2D.Double(stageX, beginTime, 150, endTime - beginTime, 5, 5);
+            final float eventY = beginTime;
+            final float eventYEnd = endTime - beginTime;
+            canvas.setOnMouseClicked(event -> {
+                if (event.getX() > stageX && event.getX() < stageX + 150 && event.getY() > eventY && event.getY() < eventY + eventYEnd) {
+                    StageInformation stageInformation = new StageInformation(show);
+                }
+            });
 
-            graphics.setColor(Color.getHSBColor(0.953f, 0.90f, 0.95f));
+            graphics.setColor(Color.getHSBColor(0.953f, 0.90f, 0.8f));
             graphics.draw(artistRectangle);
             graphics.fill(artistRectangle);
 
