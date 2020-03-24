@@ -79,7 +79,7 @@ public class NpcDemo extends Application {
         }
 
         try {
-            imageHick = ImageIO.read(this.getClass().getResourceAsStream("/hick.png"));
+            imageHick = ImageIO.read(this.getClass().getResourceAsStream("/Visitor.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -184,6 +184,10 @@ public class Map {
         return point;
     }
 
+    public ArrayList<TileObject> getObjects() {
+        return objects;
+    }
+
     //Maybe to make the grid a bit easier to build?
 //    public int[][] getCollisionLayer(){
 //        return

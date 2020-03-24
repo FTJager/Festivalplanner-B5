@@ -14,6 +14,5 @@ public class Visitor extends NPC {
         super(position, sprite, target);
         super.stageCollision = true;
         setSpeed(Math.random() * 1.5 + 0.5);
-        setRotationSpeed(Math.random() / 10 + 0.05);
     }
 }

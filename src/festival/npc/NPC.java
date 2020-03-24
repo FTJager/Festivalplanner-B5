@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public abstract class NPC {
     public final static int SPRITESIZE = 64;
 
+    private Point2D endPoint;
     private Point2D position;
     Boolean stageCollision;
     private double angle;
@@ -23,12 +24,22 @@ public abstract class NPC {
 
     private Point2D target;
     private double rotationSpeed;
+    private boolean wander;
 
+    /**
+     * Constructor for the NPC class
+     * @param position Current position of the NPC
+     * @param sprite Sprite used to represent the NPC on the map
+     * @param target Point the NPC needs to move to
+     */
     public NPC(Point2D position, BufferedImage sprite, Point2D target){
         this.position = position;
         this.sprite = sprite;
+        this.endPoint = target;
         this.target = target;
         this.angle = 0;
+        this.rotationSpeed = 0.25;
+        wander = false;
     }
 
     /**
@@ -63,19 +74,24 @@ public abstract class NPC {
 
         boolean collided = false;
 
-//        for (NPC other : npcs){
-//            if (other != this && newPosition.distance(other.position) < SPRITESIZE){
-//                collided = true;
-//            }
-//        }
-
+        //Checks for collision and makes the NPCs avoid each other when they collide
+        for (NPC other : npcs){
+            if (other != this && newPosition.distance(other.position) < (SPRITESIZE / 3)){
+                collided = true;
+            }
+        }
         if (!collided){
             this.position = newPosition;
         }else {
+//            this.target = new Point2D.Double(getTarget().getX(), getTarget().getY() + 32);
             this.angle -= this.rotationSpeed * 2;
         }
     }
 
+    /**
+     * Calculates the movement, rotation and scale of the character sprites
+     * @return returns the calculated movement, rotation and scale
+     */
     private AffineTransform getTransform() {
         AffineTransform tx = new AffineTransform();
         tx.translate(position.getX() - this.sprite.getWidth()/2, position.getY() - this.sprite.getHeight()/2);
@@ -88,6 +104,11 @@ public abstract class NPC {
         this.target = target;
     }
 
+    /**
+     * Draws the character sprites on the map
+     * @param g Graphics2d object
+     * @param camera Camera object, used to obtain the zoom level
+     */
     public void draw(Graphics2D g, Camera camera) {
         this.camera = camera;
         g.drawImage(sprite, getTransform(), null);
@@ -107,5 +128,25 @@ public abstract class NPC {
 
     public void setRotationSpeed(double rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
+    }
+
+    public void setPosition(Point2D position) {
+        this.position = position;
+    }
+
+    public Point2D getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(Point2D endPoint) {
+        this.endPoint = endPoint;
+    }
+
+    public void setWander(boolean wander) {
+        this.wander = wander;
+    }
+
+    public boolean isWander() {
+        return wander;
     }
 }
