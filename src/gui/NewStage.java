@@ -149,17 +149,19 @@ public class NewStage {
             } else {
                 //removes the error
                 artistBox.getChildren().remove(fillInAnArtistText);
-                //again, a array list as boolean. Makes the spacing smaller, so it looks better
+                //again, an array list as boolean. Makes the spacing smaller, so it looks better
                 if(artistSpacing.size() > 0) {
                     artistSpacing.clear();
                     this.lableBoxSpacing -= 3;
                 }
+                //Separates the artist, if there are more than 1 of them
                 this.newShow.setArtistA(new ArrayList<>(ArtistSeparation(this.artistField.getText())));
                 for(Artist artist : newShow.getArtistA()) {
                     System.out.println(artist.getName());
                 }
             }
 
+            //Same comments as artist
             if(this.popularityField.getText().isEmpty() || this.popularityField.getText() == null) {
                 popularityBox.getChildren().remove(fillInAPopularityText);
                 popularityBox.getChildren().add(fillInAPopularityText);
@@ -184,7 +186,9 @@ public class NewStage {
                 }
 
             }
+
             //StageValidation is skipped here, will be done below!
+
             //try and catch for integer validation
             try {
                 Integer.parseInt(this.beginTimeField.getText());
@@ -200,6 +204,7 @@ public class NewStage {
                 inputValid = false;
             }
 
+            //If nothing is filled in
             if(this.beginTimeField.getText().isEmpty() || this.beginTimeField.getText() == null) {
                 beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                 beginTimeBox.getChildren().add(fillInBeginTimeText);
@@ -304,14 +309,14 @@ public class NewStage {
                 newStage.setName(this.stageField.getText());
                 this.newShow.setStage(newStage);
                 data.Stage showStage = new data.Stage();
-                showStage.setName(stageField.getText());
+                showStage.setName(this.stageField.getText());
                 //looks at the data store, if it is empty, there is no stage to compare
                 if(!DataStore.getStages().isEmpty()) {
                     System.out.println(DataStore.getStages());
                     //Goes trough all stages and tries to find an equal stage
                     for(data.Stage stage : DataStore.getStages()) {
                         //if found, stage found = true
-                        if(stage.getName().equalsIgnoreCase(stageField.getText())) {
+                        if(stage.getName().equalsIgnoreCase(this.stageField.getText())) {
                             stageFound = true;
                         }
                     }
@@ -335,12 +340,54 @@ public class NewStage {
                 }
 
             }
+
+            //Looks at overlapping shows, if the datastore is empty, there is no need for this
+            if(!DataStore.getShowsA().isEmpty() && inputValid) {
+                for(Show show : DataStore.getShowsA()) {
+                    //Will compare stages
+                    if(show.getStage().getName().equalsIgnoreCase(newShow.getStage().getName())){
+                        //If times overlap, validation fails
+                        if(newShow.getStartTime() > show.getStartTime() && newShow.getStartTime() < show.getEndTime()) {
+                            beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
+                            beginTimeBox.getChildren().add(beginTimeNotCorrectText);
+                            inputValid = false;
+                            if(beginTimeSpacing.size() == 0) {
+                                this.lableBoxSpacing += 3;
+                                beginTimeSpacing.add(1);
+                            }
+                        }
+                        //Will look if endtime overlaps, and if endTime completely skips a show
+                        if(newShow.getStartTime() < show.getStartTime()) {
+                            //Looks if endtime overlaps with another show
+                            if(newShow.getEndTime() > show.getStartTime()) {
+                                endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+                                endTimeBox.getChildren().add(endTimeNotCorrectText);
+                                inputValid = false;
+                                if (endTimeSpacing.size() == 0) {
+                                    this.lableBoxSpacing += 3;
+                                    endTimeSpacing.add(1);
+                                }
+                            }
+                        }
+                        //Removes errors, if there are any
+                        if(inputValid) {
+                            beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
+                            endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+                            if (endTimeSpacing.size() > 0) {
+                                endTimeSpacing.clear();
+                                this.lableBoxSpacing -= 3;
+                            }
+                            if(beginTimeSpacing.size() > 0) {
+                                beginTimeSpacing.clear();
+                                lableBoxSpacing -= 3;
+                            }
+                        }
+                    }
+                }
+            }
             labelBox.setSpacing(lableBoxSpacing);
             //Add the newly created show into the dataStore
             if (inputValid) {
-                for(Show show : DataStore.getShowsA()) {
-
-                }
                 this.serializer.WriteStage(showStageList);
                 DataStore.setShowA(this.newShow);
                 this.serializer.Write(DataStore.getShowsA());

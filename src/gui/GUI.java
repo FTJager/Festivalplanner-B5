@@ -8,9 +8,14 @@ package gui;
 import data.DataStore;
 import data.*;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import java.awt.*;
@@ -30,6 +35,7 @@ public class GUI extends Application {
     private static final int BUTTON_ARC = 3;
     List<data.Stage> stageList;
     int stageX;
+    Rectangle artistEventRectangle;
 
 
     public static void main(String[] args) {
@@ -43,9 +49,8 @@ public class GUI extends Application {
         stageList = new ArrayList<>();
         
         this.canvas = new Canvas(900, 710);
+
         tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-
-
 
         this.stage = stage;
         this.stage.setScene(new Scene(new Group(canvas)));
@@ -155,6 +160,16 @@ public class GUI extends Application {
             tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
             drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
             drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+
+            //Opens the stageInformation for each show when the show is clicked
+            this.canvas.setOnMousePressed(artistBox -> {
+                for(Show show : DataStore.getShowsA()) {
+                    //Show boundaries
+                    if(artistBox.getX() > show.getStageX() && artistBox.getX() < show.getStageX() + 150 && artistBox.getY() > (show.getStartTime() *24 + 60) && artistBox.getY() < (show.getEndTime() * 24 + 60)) {
+                        StageInformation stageInformation = new StageInformation(show);
+                    }
+                }
+            });
         });
     }
 
@@ -162,21 +177,24 @@ public class GUI extends Application {
      * Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved
      */
     public void Buttoninteraction() {
-        canvas.setOnMouseClicked(event -> {
-            //Event for "New" button
-            if (event.getX() > 30 && event.getX() < 110 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
-                newStage = new NewStage();
-            }
-            //Event for "Edit" button
-            if (event.getX() > 135 && event.getX() < 215 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
-                EditStage editStage = new EditStage();
-            }
-            //Event for "Delete" button.
-            if (event.getX() > 240 && event.getX() < 320 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
-                DeleteStage deleteStage = new DeleteStage();
-            }
-            if (event.getX() > 345 && event.getX() < 425 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
-                AddStage addStage = new AddStage();
+        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                //Event for "New" button
+                if (event.getX() > 30 && event.getX() < 110 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
+                    newStage = new NewStage();
+                }
+                //Event for "Edit" button
+                if (event.getX() > 135 && event.getX() < 215 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
+                    EditStage editStage = new EditStage();
+                }
+                //Event for "Delete" button.
+                if (event.getX() > 240 && event.getX() < 320 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
+                    DeleteStage deleteStage = new DeleteStage();
+                }
+                if (event.getX() > 345 && event.getX() < 425 && event.getY() > canvas.getHeight() - 40 && event.getY() < canvas.getHeight() - 10) {
+                    AddStage addStage = new AddStage();
+                }
             }
         });
     }
@@ -220,19 +238,14 @@ public class GUI extends Application {
                 //puts the show under the correct stage
                 if(stageList.get(i).getName().equalsIgnoreCase(show.getStage().getName())) {
                     stageX = 100 + i * 200;
+                    show.setStageX(stageX);
                     break;
                 }
             }
 
 
-            RoundRectangle2D artistRectangle = new RoundRectangle2D.Double(stageX, beginTime, 150, endTime - beginTime, 5, 5);
-            final float eventY = beginTime;
-            final float eventYEnd = endTime - beginTime;
-            canvas.setOnMouseClicked(event -> {
-                if (event.getX() > stageX && event.getX() < stageX + 150 && event.getY() > eventY && event.getY() < eventY + eventYEnd) {
-                    StageInformation stageInformation = new StageInformation(show);
-                }
-            });
+            RoundRectangle2D artistRectangle = new RoundRectangle2D.Double(this.stageX, beginTime, 150, endTime - beginTime, 5, 5);
+            this.artistEventRectangle = new javafx.scene.shape.Rectangle(this.stageX, beginTime, 150, endTime - beginTime);
 
             graphics.setColor(Color.getHSBColor(0.953f, 0.90f, 0.8f));
             graphics.draw(artistRectangle);
@@ -241,34 +254,35 @@ public class GUI extends Application {
             Font artistFont;
             graphics.setColor(Color.white);
             //if else statements for the Text in the artist box. Scales with the time of the show. Shorter show == smaller text.
+            int artistPlacement = 0;
             if (show.getEndTime() - show.getStartTime() <= 1) {
                 artistFont = new Font("Arial", Font.BOLD, 10);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 8);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 20);
-//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 32);
+                for(Artist artist : show.getArtistA()) {
+                    graphics.drawString(artist.getName() + "", stageX + 7, beginTime + 15 + artistPlacement);
+                    artistPlacement += 15;
+                }
             } else if (show.getEndTime() - show.getStartTime() <= 2) {
                 artistFont = new Font("Arial", Font.BOLD, 15);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 19);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 35);
-//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 51);
+                for(Artist artist : show.getArtistA()) {
+                    graphics.drawString(artist.getName() + "", stageX + 7, beginTime + 20 + artistPlacement);
+                    artistPlacement += 20;
+                }
             } else if (show.getEndTime() - show.getStartTime() <= 3) {
                 artistFont = new Font("Arial", Font.BOLD, 18);
                 graphics.setFont(artistFont);
-                graphics.drawString(show.getShow() + "", stageX + 7, beginTime + 25);
-                graphics.drawString("Time: " + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 45);
-//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 65);
+                for(Artist artist : show.getArtistA()) {
+                    graphics.drawString(artist.getName() + "", stageX + 7, beginTime + 25 + artistPlacement);
+                    artistPlacement += 25;
+                }
             } else {
                 artistFont = new Font("Arial", Font.BOLD, 20);
                 graphics.setFont(artistFont);
-                int artistPlacement = 0;
                 for(Artist artist : show.getArtistA()) {
                     graphics.drawString(artist.getName() + "", stageX + 7, beginTime + 30 + artistPlacement);
                     artistPlacement += 30;
                 }
-                graphics.drawString("Time: \n" + show.getStartTime() + "h - " + show.getEndTime() + "h", stageX + 7, beginTime + 60 + artistPlacement);
-//                graphics.drawString("Popularity: " + show.getPopularity(), x + 7, beginTime + 108);
             }
         }
     }

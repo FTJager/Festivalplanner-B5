@@ -52,7 +52,7 @@ public class StageInformation {
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
-        Scene scene = new Scene(root, 250, 250);
+        Scene scene = new Scene(root, 280, 250);
 
         root.getChildren().addAll(hBox);
 

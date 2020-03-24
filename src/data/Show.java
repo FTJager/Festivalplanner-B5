@@ -11,6 +11,7 @@ public class Show implements Serializable {
     private int endTime;
     private int popularity;
     private data.Stage stage;
+    private int stageX;
 
 
     public Show() {}
@@ -24,7 +25,9 @@ public class Show implements Serializable {
     }
 
     public int getStartTime() {
-        return startTime;
+        //Made final, so events handel them better
+        final int finalStartTime = startTime;
+        return finalStartTime;
     }
 
     public void setBeginTime(int startTime) {
@@ -32,7 +35,8 @@ public class Show implements Serializable {
     }
 
     public int getEndTime() {
-        return endTime;
+        final int finalEndTime = endTime;
+        return finalEndTime;
     }
 
     public void setEndTime(int endTime) {
@@ -66,5 +70,14 @@ public class Show implements Serializable {
 
     public void addArtists(Artist artist){
         this.artistA.add(artist);
+    }
+
+    public void setStageX(int stageX){
+        this.stageX = stageX;
+    }
+
+    public int getStageX() {
+        final int finalStageX = stageX;
+        return finalStageX;
     }
 }
