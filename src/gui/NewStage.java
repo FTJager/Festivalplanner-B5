@@ -344,6 +344,26 @@ public class NewStage {
             //Looks at overlapping shows, if the datastore is empty, there is no need for this
             if(!DataStore.getShowsA().isEmpty() && inputValid) {
                 for(Show show : DataStore.getShowsA()) {
+
+                    //looks if the newShow artist has the same time and name of an other artist
+                    for(Artist artist : show.getArtistA()) {
+                        for(Artist artist2 : newShow.getArtistA()) {
+                            if(artist.getName().equalsIgnoreCase(artist2.getName())) {
+                                //looks if the startTime is in the artists show
+                                if(newShow.getStartTime() >= show.getStartTime() && newShow.getStartTime() <= show.getEndTime()) {
+                                    inputValid = false;
+                                }
+                                //looks if the endtime is in the artists show
+                                if(newShow.getEndTime() >= show.getStartTime() && newShow.getEndTime() <= show.getEndTime()) {
+                                    inputValid = false;
+                                }
+                                //looks if the show overlaps
+                                if(newShow.getStartTime() <= show.getStartTime() && newShow.getEndTime() >= show.getEndTime()) {
+                                    inputValid = false;
+                                }
+                            }
+                        }
+                    }
                     //Will compare stages
                     if(show.getStage().getName().equalsIgnoreCase(newShow.getStage().getName())){
                         //If times overlap, validation fails
@@ -419,6 +439,7 @@ public class NewStage {
                     artistCounter.add(new Artist(artistSubString, ""));
                     //The first part is removed, so we dont add the same one twice
                     artist = artist.substring(i + 2);
+                    i = 0;
                 }
             }
             //No commas left, so the last part is also added

@@ -63,9 +63,7 @@ public class GUI extends Application {
             System.out.println("Current saved shows: " + deserializer.ReadArtist().size());
             if(DataStore.getStages().isEmpty()) {
                 System.out.println("Current saved stages: 0");
-            }
-            else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
-            drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            } else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
