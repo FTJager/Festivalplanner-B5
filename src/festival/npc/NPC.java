@@ -25,6 +25,7 @@ public abstract class NPC {
     private Point2D target;
     private double rotationSpeed;
     private boolean wander;
+    private String route;
 
     /**
      * Constructor for the NPC class
@@ -38,7 +39,7 @@ public abstract class NPC {
         this.endPoint = target;
         this.target = target;
         this.angle = 0;
-        this.rotationSpeed = 0.25;
+        this.rotationSpeed = 0.15;
         wander = false;
     }
 
@@ -148,5 +149,21 @@ public abstract class NPC {
 
     public boolean isWander() {
         return wander;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle;
+    }
+
+    public double getAngle() {
+        return angle;
     }
 }

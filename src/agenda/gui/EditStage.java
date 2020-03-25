@@ -3,9 +3,9 @@
  * as a pop-up that allows you to edit the details of an existing show.
  */
 
-package gui;
+package agenda.gui;
 
-import data.*;
+import agenda.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -63,8 +63,8 @@ public class EditStage {
 
 
         //Set up for the editStage with buttons, labels, text fields, etc.
-        if (!deserializer.ReadArtist().isEmpty()){
-            DataStore.setShowsA(deserializer.ReadArtist());
+        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setShowsA(deserializer.Read(Serializer.ARTISTS));
         }
 
         FlowPane root = new FlowPane();
@@ -142,7 +142,7 @@ public class EditStage {
             ArrayList<Artist> editArtistArray = new ArrayList<>();
             editArtistArray.add(editArtist);
             this.editedShow.setArtistA(editArtistArray);
-            data.Stage editStage = new data.Stage();
+            agenda.data.Stage editStage = new agenda.data.Stage();
             editStage.setName(stageField.getText());
             this.editedShow.setStage(editStage);
             this.editedShow.setPopularity(Integer.parseInt(popularityField.getText()));
@@ -230,8 +230,8 @@ public class EditStage {
             if (inputValid) {
                 //Checks if a new stage needs to be made or not
                 boolean stageExists = false;
-                ArrayList<data.Stage> stageList = new ArrayList<>(DataStore.getStages());
-                for(data.Stage stage : stageList) {
+                ArrayList<agenda.data.Stage> stageList = new ArrayList<>(DataStore.getStages());
+                for(agenda.data.Stage stage : stageList) {
                     if(editedShow.getStage().getName().equalsIgnoreCase(stage.getName())) {
                         stageExists = true;
                     }
@@ -243,7 +243,7 @@ public class EditStage {
                 editShow.close();
                 DataStore.getShowsA().remove(deletedShow);
                 DataStore.getShowsA().add(editedShow);
-                serializer.Write(DataStore.getShowsA());
+                serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
 
             }
             fieldAdded = false;
@@ -263,7 +263,7 @@ public class EditStage {
         }
         //Loop through all the shows saved and checks for the one matching the given text in the textfield
         if(valid) {
-            for (data.Show show : nextArray){
+            for (Show show : nextArray){
                 for(int i = 0; i < show.getArtistA().size() ; i++) {
                     String showArtist = show.getArtistA().get(i).getName() + "";
                     if (showArtist.equalsIgnoreCase(artistField.getText())){

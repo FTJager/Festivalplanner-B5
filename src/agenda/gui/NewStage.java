@@ -2,9 +2,9 @@
  * The NewStage class gets called when the "new" button is pressed, and shows up in the GUI
  * as a pop-up that allows you to fill in the details for a new show.
  */
-package gui;
+package agenda.gui;
 
-import data.*;
+import agenda.data.*;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,7 +18,6 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class NewStage {
 
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
-        DataStore.setShowsA(deserializer.ReadArtist());
+        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
         this.newStage = new Stage();
         newStage.setTitle("New show");
 
@@ -126,7 +125,7 @@ public class NewStage {
             boolean beginTimeIsInteger = true;
             boolean endTimeIsInteger = true;
             boolean stageFound = false;
-            List<data.Stage> showStageList = new ArrayList<>(DataStore.getStages());
+            List<agenda.data.Stage> showStageList = new ArrayList<>(DataStore.getStages());
             ArrayList<Artist> newShowArtists = new ArrayList<>();
 
 
@@ -305,16 +304,16 @@ public class NewStage {
                     this.lableBoxSpacing -= 3;
                     stageSpacing.clear();
                 }
-                data.Stage newStage = new data.Stage();
+                agenda.data.Stage newStage = new agenda.data.Stage();
                 newStage.setName(this.stageField.getText());
                 this.newShow.setStage(newStage);
-                data.Stage showStage = new data.Stage();
+                agenda.data.Stage showStage = new agenda.data.Stage();
                 showStage.setName(this.stageField.getText());
                 //looks at the data store, if it is empty, there is no stage to compare
                 if(!DataStore.getStages().isEmpty()) {
                     System.out.println(DataStore.getStages());
                     //Goes trough all stages and tries to find an equal stage
-                    for(data.Stage stage : DataStore.getStages()) {
+                    for(agenda.data.Stage stage : DataStore.getStages()) {
                         //if found, stage found = true
                         if(stage.getName().equalsIgnoreCase(this.stageField.getText())) {
                             stageFound = true;
@@ -410,7 +409,7 @@ public class NewStage {
             if (inputValid) {
                 this.serializer.WriteStage(showStageList);
                 DataStore.setShowA(this.newShow);
-                this.serializer.Write(DataStore.getShowsA());
+                this.serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
                 this.newStage.close();
             }
             //sets the correct spacing with error messages

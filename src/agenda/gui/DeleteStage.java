@@ -3,13 +3,12 @@
  * as a pop-up that allows you to delete a single show or all of the existing shows.
  */
 
-package gui;
+package agenda.gui;
 
-import com.sun.corba.se.impl.ior.StubIORImpl;
-import data.DataStore;
-import data.Deserializer;
-import data.Serializer;
-import data.Show;
+import agenda.data.DataStore;
+import agenda.data.Deserializer;
+import agenda.data.Serializer;
+import agenda.data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,8 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 public class DeleteStage {
     public static final int DELETE_ALL = -1;
@@ -40,8 +37,8 @@ public class DeleteStage {
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
 
-        if (!deserializer.ReadArtist().isEmpty()){
-            DataStore.setShowsA(deserializer.ReadArtist());
+        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setShowsA(deserializer.Read(Serializer.ARTISTS));
         }
 
         Text artistNotFoundText = new Text("Artist not found!");
@@ -143,7 +140,7 @@ public class DeleteStage {
             //Searches for a stage
             else if(artistField.getText().isEmpty() && !stageDeleteField.getText().isEmpty()){
                 if(!DataStore.getStages().isEmpty()){
-                    for(data.Stage stage : DataStore.getStages()) {
+                    for(agenda.data.Stage stage : DataStore.getStages()) {
                         if(stageDeleteField.getText().equalsIgnoreCase(stage.getName())) {
                             found = true;
                             this.stageFinalIndex = this.stageIndex;
@@ -193,7 +190,7 @@ public class DeleteStage {
             }
             else if(artistField.getText().isEmpty() && !stageDeleteField.getText().isEmpty()) {
                 if (!DataStore.getStages().isEmpty()) {
-                    for (data.Stage stage : DataStore.getStages()) {
+                    for (agenda.data.Stage stage : DataStore.getStages()) {
                         if (stageDeleteField.getText().equalsIgnoreCase(stage.getName())) {
                             found = true;
                             this.stageFinalIndex = this.stageIndex;

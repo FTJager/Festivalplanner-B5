@@ -61,4 +61,28 @@ public class Deserializer implements Serializable {
 
         return null;
     }
+
+    public List ReadStages(){
+        List<Show> stages = null;
+
+        try{
+            FileInputStream fileIn = new FileInputStream("Resources/stageStore.ser");
+            ObjectInputStream objIn = new ObjectInputStream(fileIn);
+            stages = (List)objIn.readObject();
+
+            objIn.close();
+            fileIn.close();
+        }catch (IOException i){
+            i.printStackTrace();
+            serializer.Clear();
+            System.out.println("Please restart the program");
+            return null;
+        }catch (ClassNotFoundException c){
+            System.out.println("Show class not found");
+            c.printStackTrace();
+            return null;
+        }
+
+        return stages;
+    }
 }

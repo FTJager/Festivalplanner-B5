@@ -1,24 +1,17 @@
-package gui;
-import data.*;
+package agenda.gui;
+import agenda.data.*;
 
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.jfree.fx.FXGraphics2D;
 
-import javax.swing.*;
-import javax.swing.border.MatteBorder;
-import java.awt.*;
 import java.util.ArrayList;
 
 public class AddStage {
@@ -78,8 +71,8 @@ public class AddStage {
             } else {
                 //goes through the data store to find equals, if the data store is empty, there is no need for it
                 if (!DataStore.getStages().isEmpty()) {
-                    ArrayList<data.Stage> stageList = new ArrayList<>(DataStore.getStages());
-                    for (data.Stage stage : stageList) {
+                    ArrayList<agenda.data.Stage> stageList = new ArrayList<>(DataStore.getStages());
+                    for (agenda.data.Stage stage : stageList) {
                         //If the stage Already exist
                         if (stage.getName().equalsIgnoreCase(stageField.getText())) {
                             text.setText("\t   This stage already exists!");
@@ -92,7 +85,7 @@ public class AddStage {
 
             //if the check passes, the stage can be added to the data store
             if(check) {
-                data.Stage newStage = new data.Stage();
+                agenda.data.Stage newStage = new agenda.data.Stage();
                 newStage.setName(stageField.getText());
                 DataStore.setNewStages(newStage);
                 serializer.WriteStage(DataStore.getStages());

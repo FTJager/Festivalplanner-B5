@@ -1,8 +1,9 @@
-package data;
+package agenda.data;
+
+import agenda.data.Stage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Show implements Serializable {
     private String show;
@@ -10,7 +11,7 @@ public class Show implements Serializable {
     private int startTime;
     private int endTime;
     private int popularity;
-    private data.Stage stage;
+    private Stage stage;
     private int stageX;
 
 
@@ -51,11 +52,11 @@ public class Show implements Serializable {
         this.popularity = popularity;
     }
 
-    public data.Stage getStage() {
+    public Stage getStage() {
         return stage;
     }
 
-    public void setStage(data.Stage stage) { this.stage = stage; }
+    public void setStage(Stage stage) { this.stage = stage; }
 
     public ArrayList<Artist> getArtistA() {
         return artistA;

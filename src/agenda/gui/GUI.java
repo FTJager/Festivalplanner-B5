@@ -3,18 +3,16 @@
  * When run, the GUI for the festival agenda opens and the user can add, edti, and delete shows.
  */
 
-package gui;
+package agenda.gui;
 
-import data.DataStore;
-import data.*;
+import agenda.data.DataStore;
+import agenda.data.*;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
@@ -33,7 +31,7 @@ public class GUI extends Application {
     private Canvas canvas;
     private NewStage newStage;
     private static final int BUTTON_ARC = 3;
-    List<data.Stage> stageList;
+    List<agenda.data.Stage> stageList;
     int stageX;
     Rectangle artistEventRectangle;
 
@@ -44,7 +42,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) {
-        DataStore.setShowsA(deserializer.ReadArtist());
+        DataStore.setShowsA(deserializer.Read(Serializer.ARTISTS));
         DataStore.setStages(deserializer.ReadStages());
         stageList = new ArrayList<>();
         
@@ -60,7 +58,7 @@ public class GUI extends Application {
 
         //Displays the current shows and stages, may throw NullPointerException, so its in a try catch.
         try {
-            System.out.println("Current saved shows: " + deserializer.ReadArtist().size());
+            System.out.println("Current saved shows: " + deserializer.Read(Serializer.SHOWS).size());
             if(DataStore.getStages().isEmpty()) {
                 System.out.println("Current saved stages: 0");
             } else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
@@ -150,7 +148,7 @@ public class GUI extends Application {
 
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
         canvas.setOnMouseEntered(event -> {
-            DataStore.setShowsA(deserializer.ReadArtist());
+            DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
             DataStore.setStages(deserializer.ReadStages());
 
             graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
@@ -210,7 +208,7 @@ public class GUI extends Application {
         //gets all the stages and puts them into a list
        stageList = DataStore.getStages();
        //cycles through them and displays them correctly
-        for(data.Stage stage : stageList) {
+        for(agenda.data.Stage stage : stageList) {
             graphics.drawString(stage.getName() + "", X, Y);
             X += 200;
         }

@@ -1,4 +1,6 @@
-package data;
+package agenda.data;
+
+import agenda.data.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +16,8 @@ public class DataStore {
     private static List<Show> showsAS;
     private static HashMap<String, Artist> showsHS;
     private static List<Stage> stages;
+    private Serializer serializer = new Serializer();
+    private Deserializer deserializer = new Deserializer();
 
     public static boolean isStateS() {
         return stateS;

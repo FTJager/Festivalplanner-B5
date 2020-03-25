@@ -73,11 +73,32 @@ public class Serializer implements Serializable{
 
             objOut.writeObject(new ArrayList<Artist>());
 
+            fileOut = new FileOutputStream("Resources/stageStore.ser");
+            objOut = new ObjectOutputStream(fileOut);
+
+            objOut.writeObject(new ArrayList<Stage>());
+
             objOut.close();
             fileOut.close();
 
         }catch (IOException i){
             i.printStackTrace();
         }
+    }
+
+    public void WriteStage(List<Stage> stages){
+        try {
+            FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+
+            objOut.writeObject(stages);
+
+            objOut.close();
+            fileOut.close();
+
+        }catch (IOException i){
+            i.printStackTrace();
+        }
+
     }
 }
