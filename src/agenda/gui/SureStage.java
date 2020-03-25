@@ -2,9 +2,11 @@
  * The SureStage is a pop-up in the GUI that comes up when pressing a "done" button in the delete pop-up, giving you an extra chance to cancel if you selected the wrong show to delete
  * @param index the index is the position of the selected show in the arrayList
  */
-package agenda.gui;
+package gui;
 
-import agenda.data.*;
+import data.DataStore;
+import data.Deserializer;
+import data.Serializer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,17 +16,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.Serializable;
+import javax.xml.crypto.Data;
 
 public class SureStage {
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
 
-    /**
-     * When the user wants to delete a show, this window appears to make sure the user didn't make a mistake.
-     * @param index This index indicates whether the user wants to delete one specific show or all shows.
-     */
-    SureStage(int index){
+    SureStage(int artistIndex, int stageIndex){
         //Setup for the sureStage with buttons, labels, text fields, etc.
         Stage delStage = new Stage();
         delStage.setTitle("Delete show");
@@ -39,24 +37,32 @@ public class SureStage {
 
         yesButton.setOnAction(e -> {
             //Since we don't need an index when we want to delete all elements, we replace it with -1 or DELETE_ALL
-            if (index == DeleteStage.DELETE_ALL){    serializer.Clear();
-                DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
-                DataStore.setArtists(deserializer.Read(Serializer.ARTISTS));
-            }else {
+            if (artistIndex == DeleteStage.DELETE_ALL && stageIndex == DeleteStage.DELETE_ALL){    serializer.Clear();
+                DataStore.setShowsA(deserializer.ReadArtist());
+            //if nothing is filled in the stage field, we know we need to delete an artist
+            }else if(stageIndex == 0) {
                 //If the dataStore file is not already empty, we remove the show that was selected in DeleteStage
-                if (!deserializer.Read(Serializer.SHOWS).isEmpty()){
-                    DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+                if (!deserializer.ReadArtist().isEmpty()){
+                    DataStore.setShowsA(deserializer.ReadArtist());
                 }
-                DataStore.getShowsA().remove(index);
-                serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
+                DataStore.getShowsA().remove(artistIndex-1);
+                serializer.Write(DataStore.getShowsA());
+            }
+            //If nothing is filled in the artist field, we know we need to delete a stage
+            else if(artistIndex == 0) {
+                if(!deserializer.ReadStages().isEmpty()) {
+                    DataStore.setStages(deserializer.ReadStages());
+                }
+                DataStore.getStages().remove(stageIndex-1);
+                serializer.WriteStage(DataStore.getStages());
             }
             //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
             System.out.println("Current saved shows: " + DataStore.getShowsA().size());
-            System.out.println("Current saved artists: " + DataStore.getArtists().size());
+            System.out.println("Current saved stages: " + DataStore.getStages().size());
         });
 
-        //When pressed on the "no" button, the desired show will not be deleted from the existing shows
+        //When pressed on the "no" button, the desired show or stage will not be deleted from the existing shows
         noButton.setOnAction(e -> {
             delStage.close();
         });

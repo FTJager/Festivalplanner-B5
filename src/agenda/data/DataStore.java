@@ -1,4 +1,4 @@
-package agenda.data;
+package data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,9 +10,10 @@ public class DataStore {
     private static boolean stateS;
     private static Artist artistS;
     private static Show showS;
-    private static List<Artist> artistsS;
+    private static ArrayList<Artist> artistsS;
     private static List<Show> showsAS;
     private static HashMap<String, Artist> showsHS;
+    private static List<Stage> stages;
 
     public static boolean isStateS() {
         return stateS;
@@ -27,20 +28,7 @@ public class DataStore {
         artistsS = new ArrayList<>();
         showsHS = new HashMap<>();
         showsAS = new ArrayList<>();
-    }
-
-    //Sets an artist object
-    public static void setArtist(Artist artist) throws IllegalArgumentException{
-        artistS = artist;
-    }
-
-    //Gets artist object and checks if it isn't null
-    public static Artist getArtist(){
-        if(artistS == null){
-            throw new NullPointerException("Artist does not exist!");
-        } else {
-            return artistS;
-        }
+        stages = new ArrayList<>();
     }
 
     //Sets a show object
@@ -57,20 +45,6 @@ public class DataStore {
         }
     }
 
-    //This method sets an ArrayList of Artists
-    public static void setArtists(List<Artist> artists){
-        artistsS = artists;
-    }
-
-    //This method checks the ArrayList of Artists and checks if the object in the list aren't null
-    public static List<Artist> getArtists(){
-        if(artistsS == null){
-            throw new NullPointerException("Ya doofus, it has not been initialized yet!");
-        } else {
-            return artistsS;
-        }
-    }
-
     //This method gets a list of the object Show and checks if it the list isn't null
     public static List<Show> getShowsA(){
         if(showsAS == null){
@@ -82,6 +56,10 @@ public class DataStore {
     //This method sets the List of shows
     public static void setShowsA(List<Show> showsA){
         showsAS = showsA;
+    }
+
+    public static void setShowA(Show show) {
+        showsAS.add(show);
     }
 
     //This method sets the HashMap of artists in the object Show
@@ -96,6 +74,22 @@ public class DataStore {
         } else {
             return showsHS;
         }
+    }
+
+    //This method gets a lists of stages
+    public static List<Stage> getStages() {
+        if(stages == null) {
+            stages = new ArrayList<>();
+        }
+        return stages;
+    }
+
+    public static void setNewStages(Stage stage){
+        stages.add(stage);
+    }
+
+    public static void setStages(List<Stage> stage) {
+        stages = stage;
     }
 
 }
