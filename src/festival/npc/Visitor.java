@@ -12,7 +12,8 @@ public class Visitor extends NPC {
      */
     public Visitor(Point2D position, BufferedImage sprite, Point2D target) {
         super(position, sprite, target);
+        super.isArtist = false;
         super.stageCollision = true;
-        setSpeed(Math.random() * 1.5 + 0.5);
+        setSpeed(Math.random() + 4.5);
     }
 }

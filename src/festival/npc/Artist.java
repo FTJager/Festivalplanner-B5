@@ -15,9 +15,17 @@ public class Artist extends NPC {
      */
     public Artist(Point2D position, BufferedImage sprite, Point2D target,String name) {
         super(position, sprite, target);
+        super.isArtist = true;
         super.stageCollision = false;
         this.name = name;
-        setSpeed(Math.random() + 1);
+        setSpeed(Math.random() + 4.5);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

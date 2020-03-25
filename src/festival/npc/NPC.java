@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class NPC {
     public final static int SPRITESIZE = 32;
+    boolean isArtist;
 
     private Point2D endPoint;
     private Point2D position;
@@ -47,7 +48,7 @@ public abstract class NPC {
      * This updates the current location, target, rotation and collision for each NPC.
      * @param npcs List of all created NPCs
      */
-    public void update(ArrayList<NPC> npcs){
+    public void update(ArrayList<NPC> npcs, BreadthFirstSearch bfs, Map map){
 
         double targetAngle = Math.atan2(this.target.getY() - this.position.getY(),
                 this.target.getX() - this.position.getX());
@@ -86,6 +87,39 @@ public abstract class NPC {
         }else {
 //            this.target = new Point2D.Double(getTarget().getX(), getTarget().getY() + 32);
             this.angle -= this.rotationSpeed * 2;
+        }
+
+        //Pathfinding, checks the tile the NPC is currently on and in which direction they need to go to follow their route
+        if (!this.wander) {
+            if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].isWall()) {
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int)this.position.getX() / 32].getRoute().get(this.route) == null) {
+
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getX() == 0 && bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getY() == 0) {
+                //If the endpoint was reached, set the NPC to Wander state
+                this.wander = true;
+
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getX() == 1) {
+                this.target = (new Point2D.Double(this.position.getX() + 32, this.position.getY()));
+
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getX() == -1) {
+                this.target = (new Point2D.Double(this.position.getX() - 32, this.position.getY()));
+
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getY() == 1) {
+                this.target = (new Point2D.Double(this.position.getX(), this.position.getY() + 32));
+
+            } else if (bfs.getTileMap()[(int) this.position.getY() / 32][(int) this.position.getX() / 32].getRoute().get(this.route).getY() == -1) {
+                this.target = (new Point2D.Double(this.position.getX(), this.position.getY() - 32));
+
+            }
+        } else {
+            //If the NPC is in its Wander state targets are randomised within the target area
+            if (this.target.distance(this.position) < 10) {
+                for (TileObject object : map.getObjects()) {
+                    if (object.getName().equals(this.route)) {
+                        this.target = (new Point2D.Double(Math.random() * object.getWidth() + this.endPoint.getX(), Math.random() * object.getHeight() + this.endPoint.getY()));
+                    }
+                }
+            }
         }
     }
 
@@ -165,5 +199,9 @@ public abstract class NPC {
 
     public double getAngle() {
         return angle;
+    }
+
+    public boolean isArtist() {
+        return isArtist;
     }
 }

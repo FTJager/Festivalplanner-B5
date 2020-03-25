@@ -32,10 +32,22 @@ public class MapMain extends Application {
     private Point2D mainStageView;
     private Point2D toiletVisitor;
     private Point2D bsStageVisitor;
+    private Point2D smallStage;
+    private Point2D backStageArtist;
+    private Point2D breakRoom;
+    private Point2D mainStageArtist;
+    private Point2D foodArea;
+    private Point2D sideStageArtist;
     private String route1;
     private String route2;
     private String route3;
     private String route4;
+    private String route5;
+    private String route6;
+    private String route7;
+    private String route8;
+    private String route9;
+    private String route10;
     private BreadthFirstSearch bfs;
     private ResizableCanvas canvas;
     private Camera camera;
@@ -86,10 +98,22 @@ public class MapMain extends Application {
         this.route2 = "ms view area";
         this.route3 = "Toilet";
         this.route4 = "bs view area";
-        this.sideStageView = this.map.objectTargets(route1);
-        this.mainStageView = this.map.objectTargets(route2);
-        this.toiletVisitor = this.map.objectTargets(route3);
-        this.bsStageVisitor = this.map.objectTargets(route4);
+        this.route5 = "small stage";
+        this.route6 = "Back stage";
+        this.route7 = "break room";
+        this.route8 = "Main stage";
+        this.route9 = "Side stage";
+        this.route10 = "food area";
+        this.sideStageView = this.map.objectTargets(this.route1);
+        this.mainStageView = this.map.objectTargets(this.route2);
+        this.toiletVisitor = this.map.objectTargets(this.route3);
+        this.bsStageVisitor = this.map.objectTargets(this.route4);
+        this.smallStage = this.map.objectTargets(this.route5);
+        this.backStageArtist = this.map.objectTargets(this.route6);
+        this.breakRoom = this.map.objectTargets(this.route7);
+        this.mainStageArtist = this.map.objectTargets(this.route8);
+        this.sideStageArtist = this.map.objectTargets(this.route9);
+        this.foodArea = this.map.objectTargets(this.route10);
 
         this.people = new ArrayList<>();
 
@@ -109,15 +133,16 @@ public class MapMain extends Application {
         }
 
         //Create a number of artists
+        //TODO spawn artists according to the names in the artists file.
 //        for(int i = 0; i < 5; i++) {
         double spawnX = NPC.SPRITESIZE;
         double spawnY = NPC.SPRITESIZE;
-        while(people.size() < 50){
-            Point2D spawnPoint = new Point2D.Double(Math.random()*320 + (50 * 32), Math.random()*320 + 40 * 32);
+        while(artists.size() < 5){
+            Point2D spawnPoint = new Point2D.Double(Math.random()*320 + (10 * 32), Math.random()*320 + 10 * 32);
 //            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
             Artist artist = new Artist(spawnPoint, imageArtist, toiletVisitor,"name");
             boolean spaceTaken = false;
-            if (people.isEmpty()){
+            if (artists.isEmpty()){
                 artist.setRoute(this.route3);
                 this.people.add(artist);
                 this.artists.add(artist);
@@ -142,12 +167,29 @@ public class MapMain extends Application {
             }
         }
 
-        //Create 15 Visitors
-//        for(int i = 0; i < 15; i++) {
-//            Visitor visitor = new Visitor(new Point2D.Double(Math.random()*320 + (90 * 32), Math.random()*32 + 78 * 32), imageVisitor, toiletVisitor);
-//            this.people.add(visitor);
-//            this.visitors.add(visitor);
-//        }
+        //Create a number of Visitors
+        while(visitors.size() < 20){
+            Point2D spawnPoint = new Point2D.Double(Math.random()*320 + (50 * 32), Math.random()*320 + 40 * 32);
+//            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
+            Visitor visitor = new Visitor(spawnPoint, imageVisitor, toiletVisitor);
+            boolean spaceTaken = false;
+            if (visitors.isEmpty()){
+                visitor.setRoute(this.route3);
+                this.people.add(visitor);
+                this.visitors.add(visitor);
+            } else if (!people.isEmpty()){
+                for (NPC npc : people){
+                    if (npc.getPosition().distance(spawnPoint) <= NPC.SPRITESIZE){
+                        spaceTaken = true;
+                    }
+                }
+                if (!spaceTaken){
+                    visitor.setRoute(this.route3);
+                    this.people.add(visitor);
+                    this.visitors.add(visitor);
+                }
+            }
+        }
 
 
     }
@@ -168,6 +210,12 @@ public class MapMain extends Application {
         bfs.BFS(new Point2D.Double(this.mainStageView.getX()/32 + 1, this.mainStageView.getY()/32 + 1), this.route2);
         bfs.BFS(new Point2D.Double(this.toiletVisitor.getX()/32 + 1, this.toiletVisitor.getY()/32 + 1), this.route3);
         bfs.BFS(new Point2D.Double(this.bsStageVisitor.getX()/32 + 1, this.bsStageVisitor.getY()/32 + 1), this.route4);
+        bfs.BFS(new Point2D.Double(this.smallStage.getX()/32 + 1, this.smallStage.getY()/32 + 1), this.route5);
+        bfs.BFS(new Point2D.Double(this.backStageArtist.getX()/32 + 1, this.backStageArtist.getY()/32 + 1), this.route6);
+        bfs.BFS(new Point2D.Double(this.breakRoom.getX()/32 + 1, this.breakRoom.getY()/32 + 1), this.route7);
+        bfs.BFS(new Point2D.Double(this.mainStageArtist.getX()/32 + 1, this.mainStageArtist.getY()/32 + 1), this.route8);
+        bfs.BFS(new Point2D.Double(this.sideStageArtist.getX()/32 + 1, this.sideStageArtist.getY()/32 + 1), this.route9);
+        bfs.BFS(new Point2D.Double(this.foodArea.getX()/32 + 1, this.foodArea.getY()/32 + 1), this.route10);
 
         //This part prints out small black circles to display each NPC's current target location.
         //TODO disable this for the final version, only used for testing
@@ -180,6 +228,7 @@ public class MapMain extends Application {
                 graphics.drawOval((int)person.getEndPoint().getX(), (int)person.getEndPoint().getY(), 25, 25);
             }
         }
+        //Prints a clock on the break room
         graphics.setFont(new Font("Arial", Font.BOLD, 50));
         graphics.setColor(Color.black);
         graphics.drawString(this.hours + ":" + (int)this.minutes, 110,240);
@@ -247,84 +296,125 @@ public class MapMain extends Application {
             this.hours++;
             this.minutes = 0;
         } else {
-            this.minutes += deltaTime * 3;
+            this.minutes += deltaTime;
         }
 //        System.out.println(this.hours + ":" + this.minutes);
 
+        //Reads the shows from the file
         DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
 
-        for (NPC person : people) {
-            if (!DataStore.getShowsA().isEmpty()){
-                for (Show show : DataStore.getShowsA()) {
-                    if (show.getStartTime() == this.hours) {
-                        if (this.minutes <= 5){
-                            System.out.println("SET WANDER TO FALSE");
-                            person.setWander(false);
+        //Updates the destination for the visitors
+        for (Visitor visitor : this.visitors) {
+            if (!DataStore.getShowsA().isEmpty()){  //Checks if any shows exist
+                for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
+                    if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
+                        //TODO use popularity, allow multiple shows to start at the same time
+                        if (this.minutes <= 5){ //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
+//                            System.out.println("SET WANDER TO FALSE");
+                            visitor.setWander(false);
                         }
                         if (show.getStage().getName().equalsIgnoreCase("main")) {
-                            person.setEndPoint(this.mainStageView);
-                            person.setRoute(this.route2);
+                            visitor.setEndPoint(this.mainStageView);
+                            visitor.setRoute(this.route2);
                         } else if (show.getStage().getName().equalsIgnoreCase("side")) {
-                            person.setEndPoint(this.sideStageView);
-                            person.setRoute(this.route1);
+                            visitor.setEndPoint(this.sideStageView);
+                            visitor.setRoute(this.route1);
                         } else if (show.getStage().getName().equalsIgnoreCase("back")){
-                            person.setEndPoint(this.bsStageVisitor);
-                            person.setRoute(this.route4);
+                            visitor.setEndPoint(this.bsStageVisitor);
+                            visitor.setRoute(this.route4);
+                        } else if (show.getStage().getName().equalsIgnoreCase("small")) {
+                            visitor.setEndPoint(this.smallStage);
+                            visitor.setRoute(this.route5);
                         }
                     }
 
-//            if (person.getPosition().distance(person.getTarget()) <= 10){
-//                person.setTarget(this.toiletVisitor);
-//                person.setTarget(new Point2D.Double(Math.random() * 1700, Math.random() * 800));
-//                person.setTarget(new Point2D.Double(1500,100));
+//            if (visitor.getPosition().distance(visitor.getTarget()) <= 10){
+//                visitor.setTarget(this.toiletVisitor);
+//                visitor.setTarget(new Point2D.Double(Math.random() * 1700, Math.random() * 800));
+//                visitor.setTarget(new Point2D.Double(1500,100));
 //            }
                     //If the NPC is not in Wander state it will try to move to the endpoint of its route
-                    if (!person.isWander()) {
-                        if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].isWall()) {
-//                    graphics.setColor(Color.RED);
-//                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
-//                    graphics.setColor(Color.BLUE);
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()) == null) {
-//                    graphics.setColor(Color.BLACK);
-//                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
-
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getX() == 0 && bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getY() == 0) {
-                            //If the endpoint was reached, set the NPC to Wander state
-                            person.setWander(true);
-//                    graphics.drawString("X", x * 32, y * 32);
-
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getX() == 1) {
-                            person.setTarget(new Point2D.Double(person.getPosition().getX() + 32, person.getPosition().getY()));
-//                    graphics.drawString(">", x * 32, y * 32);
-
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getX() == -1) {
-                            person.setTarget(new Point2D.Double(person.getPosition().getX() - 32, person.getPosition().getY()));
-//                    graphics.drawString("<", x * 32, y * 32);
-
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getY() == 1) {
-                            person.setTarget(new Point2D.Double(person.getPosition().getX(), person.getPosition().getY() + 32));
-//                    graphics.drawString("v", x * 32, y * 32);
-
-                        } else if (bfs.getTileMap()[(int) person.getPosition().getY() / 32][(int) person.getPosition().getX() / 32].getRoute().get(person.getRoute()).getY() == -1) {
-                            person.setTarget(new Point2D.Double(person.getPosition().getX(), person.getPosition().getY() - 32));
-//                    graphics.drawString("^", x * 32, y * 32);
-
+//                    if (!visitor.isWander()) {
+//                        if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].isWall()) {
+////                    graphics.setColor(Color.RED);
+////                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
+////                    graphics.setColor(Color.BLUE);
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()) == null) {
+////                    graphics.setColor(Color.BLACK);
+////                    graphics.fill(new Rectangle2D.Double( x * 32.0, y * 32.0, 32, 32));
+//
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getX() == 0 && bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getY() == 0) {
+//                            //If the endpoint was reached, set the NPC to Wander state
+//                            visitor.setWander(true);
+////                    graphics.drawString("X", x * 32, y * 32);
+//
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getX() == 1) {
+//                            visitor.setTarget(new Point2D.Double(visitor.getPosition().getX() + 32, visitor.getPosition().getY()));
+////                    graphics.drawString(">", x * 32, y * 32);
+//
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getX() == -1) {
+//                            visitor.setTarget(new Point2D.Double(visitor.getPosition().getX() - 32, visitor.getPosition().getY()));
+////                    graphics.drawString("<", x * 32, y * 32);
+//
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getY() == 1) {
+//                            visitor.setTarget(new Point2D.Double(visitor.getPosition().getX(), visitor.getPosition().getY() + 32));
+////                    graphics.drawString("v", x * 32, y * 32);
+//
+//                        } else if (bfs.getTileMap()[(int) visitor.getPosition().getY() / 32][(int) visitor.getPosition().getX() / 32].getRoute().get(visitor.getRoute()).getY() == -1) {
+//                            visitor.setTarget(new Point2D.Double(visitor.getPosition().getX(), visitor.getPosition().getY() - 32));
+////                    graphics.drawString("^", x * 32, y * 32);
+//
+//                        }
+//                    } else {
+////                        System.out.println("WANDERING, ROUTE: " + visitor.getRoute());
+//                        //If the NPC is in its Wander state targets are randomised within the target area
+//                        if (visitor.getTarget().distance(visitor.getPosition()) < 10) {
+//                            for (TileObject object : this.map.getObjects()) {
+//                                if (object.getName().equals(visitor.getRoute())) {
+//                                    visitor.setTarget(new Point2D.Double(Math.random() * object.getWidth() + visitor.getEndPoint().getX(), Math.random() * object.getHeight() + visitor.getEndPoint().getY()));
+//                                }
+//                            }
+//                        }
+//                    }
+                }
+            }
+            visitor.update(people, bfs, map);
+        }
+        //Updates the destination for the artists
+        for (Artist artist : this.artists){
+            if (!DataStore.getShowsA().isEmpty()){  //Checks if any shows exist
+                for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
+                    if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
+                        if (this.minutes <= 5){     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
+                            System.out.println("SET WANDER TO FALSE");
+                            artist.setWander(false);
                         }
-                    } else {
-//                        System.out.println("WANDERING, ROUTE: " + person.getRoute());
-                        //If the NPC is in its Wander state targets are randomised within the target area
-                        if (person.getTarget().distance(person.getPosition()) < 10) {
-                            for (TileObject object : this.map.getObjects()) {
-                                if (object.getName().equals(person.getRoute())) {
-                                    person.setTarget(new Point2D.Double(Math.random() * object.getWidth() + person.getEndPoint().getX(), Math.random() * object.getHeight() + person.getEndPoint().getY()));
-                                }
+                        boolean sameArtist = false;
+                        for (agenda.data.Artist artist1 : show.getArtistA()){   //Compares the names of the artist and the name of the performing artist to see if they match
+                         if (artist.getName().equalsIgnoreCase(artist1.getName())){ //If the names match this artist needs to go to the stage
+                             sameArtist = true;
+                         }
+                        }
+                        if (sameArtist){
+                            if (show.getStage().getName().equalsIgnoreCase("main")) {
+                                artist.setEndPoint(this.mainStageArtist);
+                                artist.setRoute(this.route8);
+                            } else if (show.getStage().getName().equalsIgnoreCase("side")) {
+                                artist.setEndPoint(this.sideStageArtist);
+                                artist.setRoute(this.route9);
+                            } else if (show.getStage().getName().equalsIgnoreCase("back")){
+                                artist.setEndPoint(this.backStageArtist);
+                                artist.setRoute(this.route6);
+                            } else if (show.getStage().getName().equalsIgnoreCase("small")) {
+                                artist.setEndPoint(this.smallStage);
+                                artist.setRoute(this.route5);
                             }
                         }
                     }
-                    person.update(people);
                 }
-
             }
+
+            artist.update(people, bfs, map);
         }
     }
 
