@@ -1,5 +1,7 @@
 package festival.map;
 
+import agenda.data.DataStore;
+import agenda.data.Show;
 import festival.npc.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class MapMain extends Application {
+    private int hours;
+    private double minutes;
 
     private Map map;
     private Point2D sideStageView;
@@ -170,6 +174,9 @@ public class MapMain extends Application {
                 graphics.drawOval((int)person.getEndPoint().getX(), (int)person.getEndPoint().getY(), 25, 25);
             }
         }
+        graphics.setFont(new Font("Arial", Font.BOLD, 50));
+        graphics.setColor(Color.black);
+        graphics.drawString(this.hours + ":" + (int)this.minutes, 110,240);
 //        for (int y = 0; y < festival.map_old.getHeight(); y++) {
 //            System.out.println("");
 //            for (int x = 0; x < festival.map_old.getWidth(); x++) {
@@ -227,11 +234,27 @@ public class MapMain extends Application {
     }
 
     /**
-     * Updates the targets for every NPC, checks in which direction the NPCs need to move
+     * Updates the targets for every NPC, checks in which direction the NPCs need to move, updates the time
      * @param deltaTime
      */
     public void update(double deltaTime) {
+        if (this.minutes >= 59.9){
+            this.hours++;
+            this.minutes = 0;
+        }else {
+            this.minutes += deltaTime;
+        }
+        System.out.println(this.hours + ":" + this.minutes);
+
         for(NPC person : people) {
+            String currentRoute;
+            for (Show show : DataStore.getShowsA()){
+                if (show.getStartTime() == this.hours){
+                    person.setWander(false);
+                    if (show.getStage() == 1);
+                }
+            }
+
 //            if (person.getPosition().distance(person.getTarget()) <= 10){
 //                person.setTarget(this.toiletVisitor);
 //                person.setTarget(new Point2D.Double(Math.random() * 1700, Math.random() * 800));
