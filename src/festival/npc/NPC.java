@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Main NPC class. This contains all the logic for the NPCs.
  */
 public abstract class NPC {
-    public final static int SPRITESIZE = 64;
+    public final static int SPRITESIZE = 32;
 
     private Point2D endPoint;
     private Point2D position;
@@ -77,7 +77,7 @@ public abstract class NPC {
 
         //Checks for collision and makes the NPCs avoid each other when they collide
         for (NPC other : npcs){
-            if (other != this && newPosition.distance(other.position) < (SPRITESIZE / 3)){
+            if (other != this && newPosition.distance(other.position) < (SPRITESIZE / 2)){
                 collided = true;
             }
         }
