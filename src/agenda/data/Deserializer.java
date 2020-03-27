@@ -62,6 +62,7 @@ public class Deserializer implements Serializable {
         return null;
     }
 
+    //TODO Voeg samen met de Read methode
     public List ReadStages(){
         List<Show> stages = null;
 

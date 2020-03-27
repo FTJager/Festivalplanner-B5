@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.omg.CORBA.DATA_CONVERSION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ public class NewStage {
 
     public NewStage() {
         //initialise
-        artistField = new TextField();
-        popularityField = new TextField();
-        stageField = new TextField();
-        beginTimeField = new TextField();
-        endTimeField = new TextField();
+        this.artistField = new TextField();
+        this.popularityField = new TextField();
+        this.stageField = new TextField();
+        this.beginTimeField = new TextField();
+        this.endTimeField = new TextField();
 
        ArrayList<Integer> artistSpacing = new ArrayList<>();
        ArrayList<Integer> popularitySpacing = new ArrayList<>();
@@ -50,13 +51,14 @@ public class NewStage {
        ArrayList<Integer> beginTimeSpacing = new ArrayList<>();
        ArrayList<Integer> endTimeSpacing = new ArrayList<>();
 
-        lableBoxSpacing = 30;
+        this.lableBoxSpacing = 30;
 
         //Setup for the newStage with buttons, labels, text fields, etc.
         State state = new State();
-        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
+        DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
         this.newStage = new Stage();
-        newStage.setTitle("New show");
+        this.newStage.setTitle("New show");
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
@@ -72,15 +74,15 @@ public class NewStage {
 
         //Creates the fields, labels and buttons for the pop-up
         VBox artistBox = new VBox();
-        artistBox.getChildren().add(artistField);
+        artistBox.getChildren().add(this.artistField);
         VBox popularityBox = new VBox();
-        popularityBox.getChildren().add(popularityField);
+        popularityBox.getChildren().add(this.popularityField);
         VBox stageBox = new VBox();
-        stageBox.getChildren().add(stageField);
+        stageBox.getChildren().add(this.stageField);
         VBox beginTimeBox = new VBox();
-        beginTimeBox.getChildren().add(beginTimeField);
+        beginTimeBox.getChildren().add(this.beginTimeField);
         VBox endTimeBox = new VBox();
-        endTimeBox.getChildren().add(endTimeField);
+        endTimeBox.getChildren().add(this.endTimeField);
 
         Paint errorPaint = new Color(1, 0, 0, 1);
 
@@ -155,7 +157,7 @@ public class NewStage {
                 }
                 //Separates the artist, if there are more than 1 of them
                 this.newShow.setArtistA(new ArrayList<>(ArtistSeparation(this.artistField.getText())));
-                for(Artist artist : newShow.getArtistA()) {
+                for(Artist artist : this.newShow.getArtistA()) {
                     System.out.println(artist.getName());
                 }
             }
@@ -340,33 +342,57 @@ public class NewStage {
 
             }
 
+            boolean artistFound = false;
+            if (!DataStore.getArtistsS().isEmpty()) {
+                List<Artist> artists = DataStore.getArtistsS();
+                for (Artist artist : DataStore.getArtistsS()) {
+                    for (Artist artistNew : newShow.getArtistA()) {
+                        if (artist.getName().equalsIgnoreCase(artistNew.getName())) {
+                            artistFound = true;
+                        }
+                        if (!artistFound) {
+                            artists.add(artistNew);
+                        }
+                    }
+                }
+                DataStore.setArtistsS(artists);
+            }
+            else{
+                ArrayList<Artist> newArtists = new ArrayList<>();
+                for (Artist artist : newShow.getArtistA()){
+                    newArtists.add(artist);
+                }
+                DataStore.setArtistsS(newArtists);
+            }
+            inputValid = true;
+
             //Looks at overlapping shows, if the datastore is empty, there is no need for this
             if(!DataStore.getShowsA().isEmpty() && inputValid) {
                 for(Show show : DataStore.getShowsA()) {
 
                     //looks if the newShow artist has the same time and name of an other artist
                     for(Artist artist : show.getArtistA()) {
-                        for(Artist artist2 : newShow.getArtistA()) {
+                        for(Artist artist2 : this.newShow.getArtistA()) {
                             if(artist.getName().equalsIgnoreCase(artist2.getName())) {
                                 //looks if the startTime is in the artists show
-                                if(newShow.getStartTime() >= show.getStartTime() && newShow.getStartTime() <= show.getEndTime()) {
+                                if(this.newShow.getStartTime() >= show.getStartTime() && this.newShow.getStartTime() <= show.getEndTime()) {
                                     inputValid = false;
                                 }
                                 //looks if the endtime is in the artists show
-                                if(newShow.getEndTime() >= show.getStartTime() && newShow.getEndTime() <= show.getEndTime()) {
+                                if(this.newShow.getEndTime() >= show.getStartTime() && this.newShow.getEndTime() <= show.getEndTime()) {
                                     inputValid = false;
                                 }
                                 //looks if the show overlaps
-                                if(newShow.getStartTime() <= show.getStartTime() && newShow.getEndTime() >= show.getEndTime()) {
+                                if(this.newShow.getStartTime() <= show.getStartTime() && this.newShow.getEndTime() >= show.getEndTime()) {
                                     inputValid = false;
                                 }
                             }
                         }
                     }
                     //Will compare stages
-                    if(show.getStage().getName().equalsIgnoreCase(newShow.getStage().getName())){
+                    if(show.getStage().getName().equalsIgnoreCase(this.newShow.getStage().getName())){
                         //If times overlap, validation fails
-                        if(newShow.getStartTime() > show.getStartTime() && newShow.getStartTime() < show.getEndTime()) {
+                        if(this.newShow.getStartTime() > show.getStartTime() && this.newShow.getStartTime() < show.getEndTime()) {
                             beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                             beginTimeBox.getChildren().add(beginTimeNotCorrectText);
                             inputValid = false;
@@ -376,9 +402,9 @@ public class NewStage {
                             }
                         }
                         //Will look if endtime overlaps, and if endTime completely skips a show
-                        if(newShow.getStartTime() < show.getStartTime()) {
+                        if(this.newShow.getStartTime() < show.getStartTime()) {
                             //Looks if endtime overlaps with another show
-                            if(newShow.getEndTime() > show.getStartTime()) {
+                            if(this.newShow.getEndTime() > show.getStartTime()) {
                                 endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                                 endTimeBox.getChildren().add(endTimeNotCorrectText);
                                 inputValid = false;
@@ -407,6 +433,7 @@ public class NewStage {
             labelBox.setSpacing(lableBoxSpacing);
             //Add the newly created show into the dataStore
             if (inputValid) {
+                this.serializer.Write(DataStore.getArtistsS(), Serializer.ARTISTS);
                 this.serializer.WriteStage(showStageList);
                 DataStore.setShowA(this.newShow);
                 this.serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);

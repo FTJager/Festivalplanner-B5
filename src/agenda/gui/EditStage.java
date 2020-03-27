@@ -49,53 +49,53 @@ public class EditStage {
 
 
     EditStage(){
-        nextArray = new ArrayList<>();
-        deserializer = new Deserializer();
-        serializer = new Serializer();
-        index = 0;
-        deletedShow = new Show();
-        editedShow = new Show();
-        nextShow = new Show();
+        this.nextArray = new ArrayList<>();
+        this.deserializer = new Deserializer();
+        this.serializer = new Serializer();
+        this.index = 0;
+        this.deletedShow = new Show();
+        this.editedShow = new Show();
+        this.nextShow = new Show();
         Stage editShow = new Stage();
         editShow.setTitle("Edit show");
 
-        nextArray.addAll(DataStore.getShowsA());
+        this.nextArray.addAll(DataStore.getShowsA());
 
 
         //Set up for the editStage with buttons, labels, text fields, etc.
-        if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
-            DataStore.setShowsA(deserializer.Read(Serializer.ARTISTS));
+        if (!this.deserializer.Read(Serializer.ARTISTS).isEmpty()){
+            DataStore.setShowsA(this.deserializer.Read(Serializer.ARTISTS));
         }
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 300, 300);
 
-        artistNotFoundText = new Text(0, 0, "Artist not found!");
-        fillInAnArtist = new Text(0, 0, "Please fill in an artist!");
+        this.artistNotFoundText = new Text(0, 0, "Artist not found!");
+        this.fillInAnArtist = new Text(0, 0, "Please fill in an artist!");
         Text noStageFound = new Text(0, 0, "Please fill in a stage!");
         Paint artistPaint = new Color(1, 0, 0, 1);
-        artistNotFoundText.setFill(artistPaint);
-        fillInAnArtist.setFill(artistPaint);
+        this.artistNotFoundText.setFill(artistPaint);
+        this.fillInAnArtist.setFill(artistPaint);
         noStageFound.setFill(artistPaint);
 
         Label artistLabel = new Label("Artist: ");
-        artistField = new TextField();
+        this.artistField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
-        popularityField = new TextField();
+        this.popularityField = new TextField();
         Label stageLabel = new Label("Stage:");
-        stageField = new TextField();
+        this.stageField = new TextField();
         Label beginTimeLabel = new Label("BeginTime: ");
-        beginTimeField = new TextField();
+        this.beginTimeField = new TextField();
         Label endTimeLabel = new Label("EndTime: ");
-        endTimeField = new TextField();
+        this.endTimeField = new TextField();
 
         Button doneButton = new Button("Done");
         Button searchButton = new Button("Search");
         Button nextButton = new Button("Next");
 
-        artistBox = new VBox();
-        artistBox.getChildren().add(artistField);
+        this.artistBox = new VBox();
+        this.artistBox.getChildren().add(artistField);
 
         stageBox = new VBox();
         stageBox.getChildren().add(stageField);

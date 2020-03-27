@@ -2,6 +2,7 @@ package agenda.data;
 
 import agenda.data.Stage;
 
+import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,11 +11,10 @@ import java.util.List;
 //These variables store data from the input in the gui
 public class DataStore {
     private static boolean stateS;
-    private static Artist artistS;
+//    private static Artist artistS;
     private static Show showS;
-    private static ArrayList<Artist> artistsS;
+    private static List<Artist> artistsS;
     private static List<Show> showsAS;
-    private static HashMap<String, Artist> showsHS;
     private static List<Stage> stages;
     private Serializer serializer = new Serializer();
     private Deserializer deserializer = new Deserializer();
@@ -30,7 +30,6 @@ public class DataStore {
     public DataStore() {
         stateS = true;
         artistsS = new ArrayList<>();
-        showsHS = new HashMap<>();
         showsAS = new ArrayList<>();
         stages = new ArrayList<>();
     }
@@ -57,6 +56,17 @@ public class DataStore {
         return showsAS;
     }
 
+    public static void setArtistsS(List<Artist> artists){
+        artistsS = artists;
+    }
+
+    public static List<Artist> getArtistsS(){
+        if(artistsS == null){
+            throw new NullPointerException("The list of artists has not been initialized yet!");
+        }
+        return artistsS;
+    }
+
     //This method sets the List of shows
     public static void setShowsA(List<Show> showsA){
         showsAS = showsA;
@@ -64,20 +74,6 @@ public class DataStore {
 
     public static void setShowA(Show show) {
         showsAS.add(show);
-    }
-
-    //This method sets the HashMap of artists in the object Show
-    public static void setShowsH(HashMap<String, Artist> shows){
-        showsHS = shows;
-    }
-
-    //This method checks if the HashMap is not null, and gets the HashMap if it isn't null
-    public static HashMap<String, Artist> getShows(){
-        if(showsHS == null){
-            throw new NullPointerException("Ya doofus, ya did again!");
-        } else {
-            return showsHS;
-        }
     }
 
     //This method gets a lists of stages

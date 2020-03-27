@@ -42,26 +42,31 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage stage) {
-        DataStore.setShowsA(deserializer.Read(Serializer.ARTISTS));
-        DataStore.setStages(deserializer.ReadStages());
-        stageList = new ArrayList<>();
+        DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
+        DataStore.setStages(this.deserializer.ReadStages());
+
+        for(Show show : DataStore.getShowsA()){
+            DataStore.setArtistsS(show.getArtistA());
+        }
+
+        this.stageList = new ArrayList<>();
         
         this.canvas = new Canvas(900, 710);
 
-        tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        tableDraw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
 
         this.stage = stage;
-        this.stage.setScene(new Scene(new Group(canvas)));
+        this.stage.setScene(new Scene(new Group(this.canvas)));
         this.stage.setResizable(true);
         this.stage.show();
         Buttoninteraction();
 
         //Displays the current shows and stages, may throw NullPointerException, so its in a try catch.
         try {
-            System.out.println("Current saved shows: " + deserializer.Read(Serializer.SHOWS).size());
+            System.out.println("Current saved shows: " + this.deserializer.Read(Serializer.SHOWS).size());
             if(DataStore.getStages().isEmpty()) {
                 System.out.println("Current saved stages: 0");
-            } else System.out.println("Current saved stages: "+ deserializer.ReadStages().size());
+            } else System.out.println("Current saved stages: "+ this.deserializer.ReadStages().size());
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
@@ -74,15 +79,15 @@ public class GUI extends Application {
     public void tableDraw(FXGraphics2D graphics) {
 
         //Makes the top part of the table
-        Rectangle2D topBlock = new Rectangle2D.Double(0, 0, canvas.getWidth(), 57);
+        Rectangle2D topBlock = new Rectangle2D.Double(0, 0, this.canvas.getWidth(), 57);
         graphics.setColor(Color.getHSBColor(0.95f, 1, 0.65f));
         graphics.fill(topBlock);
 
         //Draws the stages at the top
-        drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        drawStage(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
 
         //Makes the small black line at the top of the table
-        Rectangle2D topLine = new Rectangle2D.Double(0, 57, canvas.getWidth(), 3);
+        Rectangle2D topLine = new Rectangle2D.Double(0, 57, this.canvas.getWidth(), 3);
         graphics.setColor(Color.black);
         graphics.fill(topLine);
 
@@ -147,15 +152,15 @@ public class GUI extends Application {
         graphics.drawString("stages", 350, (int)canvas.getHeight() - 20);
 
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
-        canvas.setOnMouseEntered(event -> {
-            DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
-            DataStore.setStages(deserializer.ReadStages());
+        this.canvas.setOnMouseEntered(event -> {
+            DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
+            DataStore.setStages(this.deserializer.ReadStages());
 
-            graphics.clearRect(0, 0, (int)canvas.getWidth(), (int)canvas.getHeight());
+            graphics.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
 
-            tableDraw(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
-            drawArtist(new FXGraphics2D(canvas.getGraphicsContext2D()));
+            tableDraw(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+            drawStage(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
+            drawArtist(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
 
             //Opens the stageInformation for each show when the show is clicked
             this.canvas.setOnMousePressed(artistBox -> {
@@ -173,7 +178,7 @@ public class GUI extends Application {
      * Makes the buttons intractable, remember to match the event box coordinates with the buttons coordinates if the buttons are ever moved
      */
     public void Buttoninteraction() {
-        canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        this.canvas.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 //Event for "New" button
@@ -206,9 +211,9 @@ public class GUI extends Application {
         graphics.setFont(GUIFont);
         graphics.setColor(Color.white);
         //gets all the stages and puts them into a list
-       stageList = DataStore.getStages();
+        this.stageList = DataStore.getStages();
        //cycles through them and displays them correctly
-        for(agenda.data.Stage stage : stageList) {
+        for(agenda.data.Stage stage : this.stageList) {
             graphics.drawString(stage.getName() + "", X, Y);
             X += 200;
         }
@@ -220,21 +225,21 @@ public class GUI extends Application {
      */
     //Draws the box with the artist in the schedule.
     private void drawArtist(FXGraphics2D graphics) {
-        stageX = 0;
+        this.stageX = 0;
         float beginTime;
         float endTime;
 
         //Determined the X with the stage, so the artist box lines up with the stages.
-        drawStage(new FXGraphics2D(canvas.getGraphicsContext2D()));
+        drawStage(new FXGraphics2D(this.canvas.getGraphicsContext2D()));
         for (Show show : DataStore.getShowsA()) {
             beginTime = show.getStartTime() * 24 + 60;
             endTime = show.getEndTime() * 24 + 60;
 
-            for(int i = 0; i < stageList.size(); i++) {
+            for(int i = 0; i < this.stageList.size(); i++) {
                 //puts the show under the correct stage
-                if(stageList.get(i).getName().equalsIgnoreCase(show.getStage().getName())) {
-                    stageX = 100 + i * 200;
-                    show.setStageX(stageX);
+                if(this.stageList.get(i).getName().equalsIgnoreCase(show.getStage().getName())) {
+                    this.stageX = 100 + i * 200;
+                    show.setStageX(this.stageX);
                     break;
                 }
             }

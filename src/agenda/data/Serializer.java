@@ -86,6 +86,7 @@ public class Serializer implements Serializable{
         }
     }
 
+    //TODO Voeg samen met de Write methode
     public void WriteStage(List<Stage> stages){
         try {
             FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
