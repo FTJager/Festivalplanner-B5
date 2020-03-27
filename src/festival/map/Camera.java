@@ -6,6 +6,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.Resizable;
+import org.jfree.fx.ResizableCanvas;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -19,6 +20,7 @@ public class Camera {
 	private Canvas canvas;
 	private Resizable resizable;
 	private FXGraphics2D graphics;
+//	private ResizableCanvas canvas;
 
 	public Camera(Canvas canvas, Resizable resizable, FXGraphics2D graphics) {
 		this.canvas = canvas;
@@ -60,9 +62,26 @@ public class Camera {
 	}
 
 	public void mouseScroll(ScrollEvent e) {
-		this.zoom *= (1 + e.getDeltaY()/250.0f);
-
 		this.resizable.draw(this.graphics);
+		this.resizable.draw(this.graphics);
+		if (this.zoom < 0.16){
+			if(e.getDeltaY() > 0){
+				this.zoom = 0.16;
+			}
 
+		} else if (this.zoom > 2){
+			if(e.getDeltaY() < 0) {
+				this.zoom = 2;
+			}
+
+		} else {
+			this.zoom *= (1 + e.getDeltaY() / 250.0f);
+		}
+
+
+	}
+
+	public double getZoom() {
+		return zoom;
 	}
 }

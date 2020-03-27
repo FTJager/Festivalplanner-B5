@@ -1,28 +1,21 @@
 package agenda.data;
 
+import agenda.data.Stage;
+
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Show implements Serializable {
     private String show;
-    private HashMap<String, Artist> artistH;
+    private ArrayList<Artist> artistA;
     private int startTime;
     private int endTime;
     private int popularity;
-    private int stage;
+    private Stage stage;
+    private int stageX;
 
 
-    public Show() {
-    }
-
-//    public Show(String show, int startTime, int endTime, int popularity, int stage) {
-//        this.show = show;
-//        this.artistH = new HashMap<>();
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//        this.popularity = popularity;
-//        this.stage = stage;
-//    }
+    public Show() {}
 
     public String getShow() {
         return show;
@@ -33,15 +26,18 @@ public class Show implements Serializable {
     }
 
     public int getStartTime() {
-        return startTime;
+        //Made final, so events handel them better
+        final int finalStartTime = startTime;
+        return finalStartTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setBeginTime(int startTime) {
         this.startTime = startTime;
     }
 
     public int getEndTime() {
-        return endTime;
+        final int finalEndTime = endTime;
+        return finalEndTime;
     }
 
     public void setEndTime(int endTime) {
@@ -56,26 +52,33 @@ public class Show implements Serializable {
         this.popularity = popularity;
     }
 
-    public int getStage() {
+    public Stage getStage() {
         return stage;
     }
 
-    public void setStage(int stage) {
-        this.stage = stage;
+    public void setStage(Stage stage) { this.stage = stage; }
+
+    public ArrayList<Artist> getArtistA() {
+        return artistA;
     }
 
-    public HashMap<String, Artist> getArtistH() {
-        return artistH;
-    }
-
-    public void setArtistH(HashMap<String, Artist> artistH) {
-        this.artistH = artistH;
+    public void setArtistA(ArrayList<Artist> artistA) {
+        if(artistA == null) {
+            throw new NullPointerException("Artist Array doesn't exit yet!");
+        }
+        this.artistA = artistA;
     }
 
     public void addArtists(Artist artist){
-        String name = artist.getName().toLowerCase();
-        if(!this.artistH.containsKey(name) && name.equalsIgnoreCase(artist.getName())){
-            this.artistH.put(name, artist);
-        }
+        this.artistA.add(artist);
+    }
+
+    public void setStageX(int stageX){
+        this.stageX = stageX;
+    }
+
+    public int getStageX() {
+        final int finalStageX = stageX;
+        return finalStageX;
     }
 }
