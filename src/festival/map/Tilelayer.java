@@ -13,6 +13,11 @@ public class Tilelayer {
     private boolean visibility;
     private int[][] layer;
 
+    /**
+     * This tilelayer class stores 1 layer from the tilemap.
+     * @param fileName this parameter is the name of the json file.
+     * @param jsonObject this parameter is the number of the tilelayer you want to get
+     */
     public Tilelayer(String fileName, int jsonObject) {
         JsonReader reader = null;
         reader = Json.createReader(getClass().getResourceAsStream(fileName));
@@ -51,10 +56,18 @@ public class Tilelayer {
         return type;
     }
 
+    /**
+     * With this boolean you can check if the layer is set visible or not
+     * @return returns true if visible and false if not visible
+     */
     public boolean isVisibility() {
         return visibility;
     }
 
+    /**
+     * With this you can get the value of a specific layer.
+     * @return returns the layer
+     */
     public int[][] getLayer() {
         return layer;
     }

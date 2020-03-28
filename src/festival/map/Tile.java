@@ -1,4 +1,4 @@
-package map;
+package festival.map;
 
 import java.awt.geom.Point2D;
 

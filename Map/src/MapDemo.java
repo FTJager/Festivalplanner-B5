@@ -11,7 +11,7 @@
 //
 //public class MapDemo extends Application {
 //
-//    private Map map;
+//    private Map festival.map_old;
 //    private ResizableCanvas canvas;
 //    private Camera camera;
 //
@@ -41,19 +41,19 @@
 //        stage.show();
 //        draw(g2d);
 //
-//        map.createNode(g2d, map.getTilelayers().get(3).getLayer());
+//        festival.map_old.createNode(g2d, festival.map_old.getTilelayers().get(3).getLayer());
 //    }
 //
 //
 //    public void init() {
-//        map = new Map("festival.json");
+//        festival.map_old = new Map("festival.json");
 //    }
 //
 //
 //    public void draw(Graphics2D graphics) {
 //        graphics.setBackground(Color.black);
 //        graphics.setTransform(camera.getTransform(0, 0));
-//        map.draw(graphics, canvas);
+//        festival.map_old.draw(graphics, canvas);
 //    }
 //
 //    public void update(double deltaTime) {

@@ -1,13 +1,18 @@
 package agenda.data;
 
-public class Artist {
+import java.io.Serializable;
+
+/**
+ * This class is used to create Artist objects. They have a name and genre, which can be retrieved or overwritten using
+ * the getters and setters
+ */
+public class Artist implements Serializable {
     private String name;
     private String genre;
 
     public Artist(String name, String genre){
         this.name = name;
         this.genre = genre;
-
     }
 
     public String getName(){

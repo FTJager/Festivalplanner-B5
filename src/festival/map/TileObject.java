@@ -13,6 +13,12 @@ public class TileObject {
     private double x;
     private double y;
 
+    /**
+     * This tileobject class stores 1 object from the tilemap
+     * @param fileName this parameter is the name of the json file.
+     * @param jsonObject this parameter is the number to get to the right array where the objects are stored
+     * @param object this parameter is the number to get the right object.
+     */
     public TileObject(String fileName, int jsonObject, int object){
         JsonReader reader = null;
         reader = Json.createReader(getClass().getResourceAsStream(fileName));
@@ -42,10 +48,16 @@ public class TileObject {
         return width;
     }
 
+    /**
+     * @return returns the x position of the top left corner from the object
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * @return returns the y position of the top left corner from the object
+     */
     public double getY() {
         return y;
     }

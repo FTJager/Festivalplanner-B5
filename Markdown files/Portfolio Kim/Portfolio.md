@@ -27,7 +27,7 @@ Dit in combinatie met gebruik van ObjectIO wat Florian heeft geïmplementeerd. H
 ![GUI](agendaGUI.png)
 
 ## Week 4:
-In deze week zijn we begonnen met het inladen van JSON-files in InteliJ. Hiermee kunnen we een aparte file maken wat als "map" achtergrond gebruikt kan worden.
+In deze week zijn we begonnen met het inladen van JSON-files in InteliJ. Hiermee kunnen we een aparte file maken wat als "festival.map_old" achtergrond gebruikt kan worden.
 Hierop plaatsen we de vier verschillende podiums, toiletten, eettentjes en rustplaatsen waar de karakters op kunnen rondlopen.
 Verder hebben we tijdens het senior gesprek met Johan besproken dat we de individuele portfolio's in de git-repository van het project toevoegen. Hierdoor is de toegang tot onze portfolio's voor onze eigen senior, Joep, makkelijker.
 
@@ -35,7 +35,7 @@ Verder hebben we tijdens het senior gesprek met Johan besproken dat we de indivi
 In deze week zijn we begonnen met de opzet van de festival simulatormodule. Hiervoor hebben we een globaal overzicht gemaakt van welke klassen er nodig zullen zijn.
 Op basis van de globale opzet kunnen we een klassendiagram maken van welke klassen er nodig zijn voor de simulator zelf.
 ![Globale opzet](simulatiemodule.png)
-Wanneer de klasse voor NPC en gasten af is, kunnen de karakters op de map worden ingeladen. In eerste instantie testen we of deze karakters over de map heen kunnen lopen en of de collisiondetection goed werkt.
+Wanneer de klasse voor NPC en gasten af is, kunnen de karakters op de festival.map_old worden ingeladen. In eerste instantie testen we of deze karakters over de festival.map_old heen kunnen lopen en of de collisiondetection goed werkt.
 In week 6 kunnen we met A-STAR pathfinding ervoor zorgen dat deze karakters tussen de verschillende podiums, toiletten en eettentjes kunnen lopen.
 Zo kan het gedrag van gasten op een festival gesimuleerd worden en kunnen de knelpunten van het festival terrein in kaart worden gebracht.
 
