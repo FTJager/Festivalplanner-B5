@@ -40,7 +40,7 @@ public abstract class NPC {
         this.endPoint = target;
         this.target = target;
         this.angle = 0;
-        this.rotationSpeed = 0.15;
+        this.rotationSpeed = 0.20;
         wander = false;
     }
 

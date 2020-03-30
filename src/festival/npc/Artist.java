@@ -18,7 +18,7 @@ public class Artist extends NPC {
         super.isArtist = true;
         super.stageCollision = false;
         this.name = name;
-        setSpeed(Math.random() + 4.5);
+        setSpeed(Math.random() + 2.5);
     }
 
     public String getName() {

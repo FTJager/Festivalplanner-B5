@@ -142,10 +142,10 @@ public class MapMain extends Application {
         for (agenda.data.Artist artist : DataStore.getArtistsS()) {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 320 + (10 * 32), Math.random() * 320 + 10 * 32);
 //            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
-            Artist artistNpc = new Artist(spawnPoint, imageArtist, this.toiletVisitor, artist.getName());
+            Artist artistNpc = new Artist(spawnPoint, imageArtist, this.breakRoom, artist.getName());
             boolean spaceTaken = false;
             if (this.artists.isEmpty()) {
-                artistNpc.setRoute(this.route3);
+                artistNpc.setRoute(this.route7);
                 this.people.add(artistNpc);
                 this.artists.add(artistNpc);
             } else if (!this.people.isEmpty()) {
@@ -155,7 +155,7 @@ public class MapMain extends Application {
                     }
                 }
                 if (!spaceTaken) {
-                    artistNpc.setRoute(this.route3);
+                    artistNpc.setRoute(this.route7);
                     this.people.add(artistNpc);
                     this.artists.add(artistNpc);
                     //TODO Tweak the spawning of the NPC in general
