@@ -8,7 +8,11 @@ import festival.npc.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
@@ -26,6 +30,12 @@ public class MapMain extends Application {
     private double minutes;
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
+
+    private Clock clock;
+    private double smallDegree;
+    private double bigDegree;
+    private int timeSpeed;
+    private javafx.scene.control.Label timeSpeedLabel;
 
     private Map map;
     private Point2D sideStageView;
@@ -57,6 +67,8 @@ public class MapMain extends Application {
     ArrayList<Visitor> visitors = new ArrayList<>();
     ArrayList<Artist> artists = new ArrayList<>();
 
+    private ScrollBar scrollBar;
+
     @Override
     public void start(Stage stage) throws Exception {
         BorderPane mainPane = new BorderPane();
@@ -78,6 +90,42 @@ public class MapMain extends Application {
             }
         }.start();
 
+        HBox hbox = new HBox();
+        hbox.setSpacing(5);
+
+        this.timeSpeedLabel = new javafx.scene.control.Label("Time speed " + this.timeSpeed);
+        javafx.scene.control.Button timeSpeedUp = new javafx.scene.control.Button("+");
+        javafx.scene.control.Button timeSpeedDown = new javafx.scene.control.Button("-");
+
+        timeSpeedUp.setOnAction( e -> {
+            if(this.timeSpeed == 1){
+                this.timeSpeed++;
+            } else if(this.timeSpeed <= 8){
+                this.timeSpeed += 2;
+            }
+        });
+
+        timeSpeedDown.setOnAction( e -> {
+            if(this.timeSpeed == 2){
+                this.timeSpeed--;
+            } else if(this.timeSpeed >= 4){
+                this.timeSpeed -= 2;
+            }
+        });
+
+
+        //makes a scrollbar to control the time
+        this.scrollBar = new ScrollBar();
+        this.scrollBar.setMin(0);
+        this.scrollBar.setMax(1440);
+        this.scrollBar.setMinHeight(25);
+        this.scrollBar.setMinWidth(500);
+        this.scrollBar.setMaxWidth(500);
+
+        hbox.getChildren().addAll(this.scrollBar, this.timeSpeedLabel, timeSpeedUp, timeSpeedDown);
+        mainPane.setTop(hbox);
+
+
         stage.setScene(new Scene(mainPane));
         stage.setTitle("Festival");
         stage.show();
@@ -91,6 +139,8 @@ public class MapMain extends Application {
      * the createdNode method in the Map class.
      */
     public void init() {
+        this.clock = new Clock();
+        this.timeSpeed = 1;
         this.map = new Map("/festival.json");
         this.bfs = new BreadthFirstSearch();
         bfs.setSize(map.getWidth(), map.getHeight());
@@ -195,8 +245,6 @@ public class MapMain extends Application {
                 }
             }
         }
-
-
     }
 
     /**
@@ -211,6 +259,13 @@ public class MapMain extends Application {
         graphics.setTransform(this.camera.getTransform(0, 0));
         graphics.clearRect(0, 0, 3000, 3000);
         this.map.draw(graphics, this.canvas);
+
+
+
+        this.clock.draw(graphics, this.bigDegree, this.smallDegree);
+
+
+
         this.map.createGrid(this.map.getTilelayers().get(3).getLayer(), this.bfs);
         //TODO make it so that the BFS gets called once, for example a for loop that gets the route name every iteration
         this.bfs.BFS(new Point2D.Double(this.sideStageView.getX() / 32 + 1, this.sideStageView.getY() / 32 + 1), this.route1);
@@ -238,7 +293,15 @@ public class MapMain extends Application {
         //Prints a clock on the break room
         graphics.setFont(new Font("Arial", Font.BOLD, 50));
         graphics.setColor(Color.black);
-        graphics.drawString(this.hours + ":" + (int) this.minutes, 110, 240);
+        if(this.hours < 10 && this.minutes >= 10){
+            graphics.drawString("0" + this.hours + ":" + (int) this.minutes, 110, 240);
+        } else if (this.hours < 10 && this.minutes < 10){
+            graphics.drawString("0" + this.hours + ":" + "0" + (int) this.minutes, 110, 240);
+        } else if(this.hours >= 10 && this.minutes < 10){
+            graphics.drawString(this.hours + ":" + "0" + (int) this.minutes, 110, 240);
+        } else {
+            graphics.drawString(this.hours + ":" + (int) this.minutes, 110, 240);
+        }
     }
 
     /**
@@ -247,13 +310,16 @@ public class MapMain extends Application {
      * @param deltaTime
      */
     public void update(double deltaTime) {
-        if (this.minutes >= 59.9) {
-            this.hours++;
-            this.minutes = 0;
-        } else {
-            this.minutes += deltaTime;
+
+        //increases the scrollbar and changing te hours and minutes from the scrollbar values and increasing the degrees for the clock
+        if(scrollBar.getValue() < scrollBar.getMax()) {
+            scrollBar.setValue(scrollBar.getValue() + (deltaTime * this.timeSpeed));
+            this.hours = (int) (scrollBar.getValue() / 60) % 60;
+            this.minutes = (int) (scrollBar.getValue() % 60);
+            this.smallDegree = (30 * (this.hours % 120) + (this.minutes * 0.5));
+            this.bigDegree = (6 * this.minutes);
         }
-//        System.out.println(this.hours + ":" + this.minutes);
+        timeSpeedLabel.setText("Time speed " + this.timeSpeed);
 
         //Reads the shows from the file
 
