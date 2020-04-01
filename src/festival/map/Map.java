@@ -157,8 +157,6 @@ public class Map {
      * @param bfs is the breadth first search algorithm, which needs a grid to read
      */
     public void createGrid(int[][] map, BreadthFirstSearch bfs) {
-        int posX = 0;
-        int posY = 0;
         this.tileMap = new Tile[height][width];
 
         for (int y = 0; y < height; y++) {
