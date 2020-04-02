@@ -261,25 +261,57 @@ public class MapMain extends Application {
         for (Visitor visitor : this.visitors) {
             if (!DataStore.getShowsA().isEmpty()) {  //Checks if any shows exist
                 for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
-                    if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
+                    //This part is used to identify what the visitors need to do for this show
+                    int visitorAction = 0;      //Integer that indicates what the visitor needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
+                    if (show.getStartTime() == this.hours) {    //Verifies whether the current time matches the starting time of the show
                         //TODO use popularity, allow multiple shows to start at the same time
                         //TODO use the Datastore to get the stage names, instead of hardcoding it
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
 //                            System.out.println("SET WANDER TO FALSE");
                             visitor.setWander(false);
+                            visitorAction = 1;
                         }
+                    } else if (show.getEndTime() == this.hours) {     //Verifies whether the current time matches the end time of the show
+                        if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
+//                            System.out.println("SET WANDER TO FALSE");
+                            visitor.setWander(false);
+                            visitorAction = -1;
+                        }
+                    }
+                    //This part translates the desired actions into an actual goal and route for the visitors.
+                    if (visitorAction != 0) {
                         if (show.getStage().getName().equalsIgnoreCase("main")) {
-                            visitor.setEndPoint(this.mainStageView);
-                            visitor.setRoute(this.route2);
+                            if (visitorAction == 1) {
+                                visitor.setEndPoint(this.mainStageView);
+                                visitor.setRoute(this.route2);
+                            } else if (visitorAction == -1 && visitor.getRoute().equalsIgnoreCase(this.route2)) {
+                                visitor.setEndPoint(this.toiletVisitor);
+                                visitor.setRoute(this.route3);
+                            }
                         } else if (show.getStage().getName().equalsIgnoreCase("side")) {
-                            visitor.setEndPoint(this.sideStageView);
-                            visitor.setRoute(this.route1);
+                            if (visitorAction == 1) {
+                                visitor.setEndPoint(this.sideStageView);
+                                visitor.setRoute(this.route1);
+                            } else if (visitorAction == -1 && visitor.getRoute().equalsIgnoreCase(this.route1)) {
+                                visitor.setEndPoint(this.toiletVisitor);
+                                visitor.setRoute(this.route3);
+                            }
                         } else if (show.getStage().getName().equalsIgnoreCase("back")) {
-                            visitor.setEndPoint(this.bsStageVisitor);
-                            visitor.setRoute(this.route4);
+                            if (visitorAction == 1) {
+                                visitor.setEndPoint(this.bsStageVisitor);
+                                visitor.setRoute(this.route4);
+                            } else if (visitorAction == -1 && visitor.getRoute().equalsIgnoreCase(this.route4)) {
+                                visitor.setEndPoint(this.toiletVisitor);
+                                visitor.setRoute(this.route3);
+                            }
                         } else if (show.getStage().getName().equalsIgnoreCase("small")) {
-                            visitor.setEndPoint(this.smallStage);
-                            visitor.setRoute(this.route5);
+                            if (visitorAction == 1) {
+                                visitor.setEndPoint(this.smallStage);
+                                visitor.setRoute(this.route5);
+                            } else if (visitorAction == -1 && visitor.getRoute().equalsIgnoreCase(this.route5)) {
+                                visitor.setEndPoint(this.toiletVisitor);
+                                visitor.setRoute(this.route3);
+                            }
                         }
                     }
                 }
@@ -290,30 +322,59 @@ public class MapMain extends Application {
         for (Artist artist : this.artists) {
             if (!DataStore.getShowsA().isEmpty()) {  //Checks if any shows exist
                 for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
+                    int artistAction = 0;       //Integer that indicates what the artist needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
                     if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
                         if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
                             System.out.println("SET WANDER TO FALSE");
                             artist.setWander(false);
+                            artistAction = 1;
                         }
-                        boolean sameArtist = false;
-                        for (agenda.data.Artist artist1 : show.getArtistA()) {   //Compares the names of the artist and the name of the performing artist to see if they match
-                            if (artist.getName().equalsIgnoreCase(artist1.getName())) { //If the names match this artist needs to go to the stage
-                                sameArtist = true;
-                            }
+                    }
+                    if (show.getEndTime() == this.hours) {
+                        if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
+                            System.out.println("SET WANDER TO FALSE");
+                            artist.setWander(false);
+                            artistAction = -1;
                         }
-                        if (sameArtist) {
-                            if (show.getStage().getName().equalsIgnoreCase("main")) {
+                    }
+                    boolean sameArtist = false;
+                    for (agenda.data.Artist artist1 : show.getArtistA()) {   //Compares the names of the artist and the name of the performing artist to see if they match
+                        if (artist.getName().equalsIgnoreCase(artist1.getName())) { //If the names match this artist needs to go to the stage
+                            sameArtist = true;
+                        }
+                    }
+                    if (sameArtist && artistAction != 0) {
+                        if (show.getStage().getName().equalsIgnoreCase("main")) {
+                            if (artistAction == 1) {
                                 artist.setEndPoint(this.mainStageArtist);
                                 artist.setRoute(this.route8);
-                            } else if (show.getStage().getName().equalsIgnoreCase("side")) {
+                            } else if (artistAction == -1) {
+                                artist.setEndPoint(this.breakRoom);
+                                artist.setRoute(this.route7);
+                            }
+                        } else if (show.getStage().getName().equalsIgnoreCase("side")) {
+                            if (artistAction == 1) {
                                 artist.setEndPoint(this.sideStageArtist);
                                 artist.setRoute(this.route9);
-                            } else if (show.getStage().getName().equalsIgnoreCase("back")) {
+                            } else if (artistAction == -1) {
+                                artist.setEndPoint(this.breakRoom);
+                                artist.setRoute(this.route7);
+                            }
+                        } else if (show.getStage().getName().equalsIgnoreCase("back")) {
+                            if (artistAction == 1) {
                                 artist.setEndPoint(this.backStageArtist);
                                 artist.setRoute(this.route6);
-                            } else if (show.getStage().getName().equalsIgnoreCase("small")) {
+                            } else if (artistAction == -1) {
+                                artist.setEndPoint(this.breakRoom);
+                                artist.setRoute(this.route7);
+                            }
+                        } else if (show.getStage().getName().equalsIgnoreCase("small")) {
+                            if (artistAction == 1) {
                                 artist.setEndPoint(this.smallStage);
                                 artist.setRoute(this.route5);
+                            } else if (artistAction == -1) {
+                                artist.setEndPoint(this.breakRoom);
+                                artist.setRoute(this.route7);
                             }
                         }
                     }
