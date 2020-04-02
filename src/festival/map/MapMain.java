@@ -59,6 +59,9 @@ public class MapMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
+        DataStore.setArtistsS(deserializer.Read(Serializer.ARTISTS));
+        System.out.println(DataStore.getArtistsS());
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
@@ -269,7 +272,9 @@ public class MapMain extends Application {
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
 //                            System.out.println("SET WANDER TO FALSE");
                             visitor.setWander(false);
-                            visitorAction = 1;
+                            if ((int)(Math.random() * 100) <= show.getPopularity()){
+                                visitorAction = 1;
+                            }
                         }
                     } else if (show.getEndTime() == this.hours) {     //Verifies whether the current time matches the end time of the show
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
