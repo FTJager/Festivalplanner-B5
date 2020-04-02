@@ -1,5 +1,6 @@
 package festival.map;
 
+import javafx.scene.image.Image;
 import org.jfree.fx.FXGraphics2D;
 import org.jfree.fx.ResizableCanvas;
 
