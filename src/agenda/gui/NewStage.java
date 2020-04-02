@@ -57,6 +57,7 @@ public class NewStage {
         State state = new State();
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
+        DataStore.setStages(this.deserializer.ReadStages());
         this.newStage = new Stage();
         this.newStage.setTitle("New show");
 
@@ -342,27 +343,21 @@ public class NewStage {
 
             }
 
-            boolean artistFound = false;
             if (!DataStore.getArtistsS().isEmpty()) {
-                List<Artist> artists = DataStore.getArtistsS();
+                List<Artist> artistsNotAdded = new ArrayList<>();
                 for (Artist artist : DataStore.getArtistsS()) {
                     for (Artist artistNew : newShow.getArtistA()) {
-                        if (artist.getName().equalsIgnoreCase(artistNew.getName())) {
-                            artistFound = true;
-                        }
-                        if (!artistFound) {
-                            artists.add(artistNew);
+                        if (!artist.getName().equalsIgnoreCase(artistNew.getName())) {
+                            artistsNotAdded.add(artistNew);
                         }
                     }
                 }
-                DataStore.setArtistsS(artists);
+                List<Artist> artistsInList = DataStore.getArtistsS();
+                artistsInList.addAll(artistsNotAdded);
+                DataStore.setArtistsS(artistsInList);
             }
             else{
-                ArrayList<Artist> newArtists = new ArrayList<>();
-                for (Artist artist : newShow.getArtistA()){
-                    newArtists.add(artist);
-                }
-                DataStore.setArtistsS(newArtists);
+                DataStore.setArtistsS(newShow.getArtistA());
             }
             inputValid = true;
 

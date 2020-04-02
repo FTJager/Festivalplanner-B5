@@ -61,7 +61,6 @@ public class MapMain extends Application {
     public void start(Stage stage) throws Exception {
         DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
         DataStore.setArtistsS(deserializer.Read(Serializer.ARTISTS));
-        System.out.println(DataStore.getArtistsS());
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
@@ -267,12 +266,11 @@ public class MapMain extends Application {
                     //This part is used to identify what the visitors need to do for this show
                     int visitorAction = 0;      //Integer that indicates what the visitor needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
                     if (show.getStartTime() == this.hours) {    //Verifies whether the current time matches the starting time of the show
-                        //TODO use popularity, allow multiple shows to start at the same time
                         //TODO use the Datastore to get the stage names, instead of hardcoding it
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
 //                            System.out.println("SET WANDER TO FALSE");
                             visitor.setWander(false);
-                            if ((int)(Math.random() * 100) <= show.getPopularity()){
+                            if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
                                 visitorAction = 1;
                             }
                         }
