@@ -204,6 +204,9 @@ public class NewStage {
                 endTimeIsInteger = false;
                 inputValid = false;
             }
+            if(Integer.parseInt(this.beginTimeField.getText()) > 23 || Integer.parseInt(this.beginTimeField.getText()) < 0 || Integer.parseInt(this.endTimeField.getText()) > 24 || Integer.parseInt(this.endTimeField.getText()) < 1 && inputValid && beginTimeIsInteger && endTimeIsInteger) {
+                inputValid = false;
+            }
 
             //If nothing is filled in
             if(this.beginTimeField.getText().isEmpty() || this.beginTimeField.getText() == null) {
@@ -364,7 +367,6 @@ public class NewStage {
                 }
                 DataStore.setArtistsS(newArtists);
             }
-            inputValid = true;
 
             //Looks at overlapping shows, if the datastore is empty, there is no need for this
             if(!DataStore.getShowsA().isEmpty() && inputValid) {
