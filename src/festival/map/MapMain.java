@@ -59,8 +59,6 @@ public class MapMain extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        DataStore.setShowsA(deserializer.Read(Serializer.SHOWS));
-        DataStore.setArtistsS(deserializer.Read(Serializer.ARTISTS));
         BorderPane mainPane = new BorderPane();
         canvas = new ResizableCanvas(g -> draw(g), mainPane);
         mainPane.setCenter(canvas);
@@ -137,13 +135,10 @@ public class MapMain extends Application {
         }
 
         //Create a number of artists
-        //TODO spawn artists according to the names in the artists file.
-//        for(int i = 0; i < 5; i++) {
         double spawnX = NPC.SPRITESIZE;
         double spawnY = NPC.SPRITESIZE;
         for (agenda.data.Artist artist : DataStore.getArtistsS()) {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 320 + (10 * 32), Math.random() * 320 + 10 * 32);
-//            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
             Artist artistNpc = new Artist(spawnPoint, imageArtist, this.breakRoom, artist.getName());
             boolean spaceTaken = false;
             if (this.artists.isEmpty()) {
@@ -177,7 +172,6 @@ public class MapMain extends Application {
         //Create a number of Visitors
         while (this.visitors.size() < 20) {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 320 + (50 * 32), Math.random() * 320 + 40 * 32);
-//            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
             Visitor visitor = new Visitor(spawnPoint, imageVisitor, this.toiletVisitor);
             boolean spaceTaken = false;
             if (this.visitors.isEmpty()) {
@@ -255,7 +249,6 @@ public class MapMain extends Application {
         } else {
             this.minutes += deltaTime;
         }
-//        System.out.println(this.hours + ":" + this.minutes);
 
         //Reads the shows from the file
 
@@ -268,7 +261,6 @@ public class MapMain extends Application {
                     if (show.getStartTime() == this.hours) {    //Verifies whether the current time matches the starting time of the show
                         //TODO use the Datastore to get the stage names, instead of hardcoding it
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
-//                            System.out.println("SET WANDER TO FALSE");
                             visitor.setWander(false);
                             if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
                                 visitorAction = 1;
@@ -276,7 +268,6 @@ public class MapMain extends Application {
                         }
                     } else if (show.getEndTime() == this.hours) {     //Verifies whether the current time matches the end time of the show
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
-//                            System.out.println("SET WANDER TO FALSE");
                             visitor.setWander(false);
                             visitorAction = -1;
                         }
