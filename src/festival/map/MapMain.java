@@ -322,6 +322,8 @@ public class MapMain extends Application {
 
         //Updates the destination for the visitors
         for (Visitor visitor : this.visitors) {
+            visitor.setSpeed(visitor.getBaseSpeed() * this.timeSpeed);
+            visitor.setRotationSpeed(0.2 * this.timeSpeed);
             if (!DataStore.getShowsA().isEmpty()) {  //Checks if any shows exist
                 for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
                     //This part is used to identify what the visitors need to do for this show
@@ -330,15 +332,15 @@ public class MapMain extends Application {
                         //TODO use the Datastore to get the stage names, instead of hardcoding it
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
                             visitor.setWander(false);
-                            if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
-                                visitorAction = 1;
-                            }
                         }
-                    } else if (show.getEndTime() == this.hours) {     //Verifies whether the current time matches the end time of the show
+                        if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
+                            visitorAction = 1;
+                        }
+                    } else if (show.getEndTime() <= this.hours) {     //Verifies whether the current time matches the end time of the show
                         if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
                             visitor.setWander(false);
-                            visitorAction = -1;
                         }
+                        visitorAction = -1;
                     }
                     //This part translates the desired actions into an actual goal and route for the visitors.
                     if (visitorAction != 0) {
@@ -382,22 +384,22 @@ public class MapMain extends Application {
         }
         //Updates the destination for the artists
         for (Artist artist : this.artists) {
+            artist.setSpeed(artist.getBaseSpeed() * this.timeSpeed);
+            artist.setRotationSpeed(0.2 * this.timeSpeed);
             if (!DataStore.getShowsA().isEmpty()) {  //Checks if any shows exist
                 for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
                     int artistAction = 0;       //Integer that indicates what the artist needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
                     if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
                         if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
-                            System.out.println("SET WANDER TO FALSE");
                             artist.setWander(false);
-                            artistAction = 1;
                         }
+                        artistAction = 1;
                     }
-                    if (show.getEndTime() == this.hours) {
+                    if (show.getEndTime() <= this.hours) {
                         if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
-                            System.out.println("SET WANDER TO FALSE");
                             artist.setWander(false);
-                            artistAction = -1;
                         }
+                        artistAction = -1;
                     }
                     boolean sameArtist = false;
                     for (agenda.data.Artist artist1 : show.getArtistA()) {   //Compares the names of the artist and the name of the performing artist to see if they match

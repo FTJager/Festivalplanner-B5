@@ -19,6 +19,7 @@ public abstract class NPC {
     private Point2D position;
     Boolean stageCollision;
     private double angle;
+    private double baseSpeed;
     private double speed;
     private BufferedImage sprite;
     private Camera camera;
@@ -42,6 +43,8 @@ public abstract class NPC {
         this.angle = 0;
         this.rotationSpeed = 0.20;
         wander = false;
+        this.speed = Math.random() + 2.5;
+        this.baseSpeed = this.speed;
     }
 
     /**
@@ -203,5 +206,13 @@ public abstract class NPC {
 
     public boolean isArtist() {
         return isArtist;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getBaseSpeed() {
+        return baseSpeed;
     }
 }
