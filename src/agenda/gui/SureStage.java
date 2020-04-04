@@ -7,6 +7,7 @@ package agenda.gui;
 import agenda.data.DataStore;
 import agenda.data.Deserializer;
 import agenda.data.Serializer;
+import agenda.data.Show;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,17 +46,30 @@ public class SureStage {
                 if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
                     DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
                 }
-                DataStore.getShowsA().
-                        remove(artistIndex-1);
+                DataStore.getShowsA().remove(artistIndex-1);
                 serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
             }
             //If nothing is filled in the artist field, we know we need to delete a stage
             else if(artistIndex == 0) {
+                Show deletedShow = null;
                 if(!this.deserializer.ReadStages().isEmpty()) {
                     DataStore.setStages(this.deserializer.ReadStages());
                 }
+                for(Show show : DataStore.getShowsA()) {
+                    if(show.getStage().getName().equalsIgnoreCase(DataStore.getStages().get(stageIndex-1).getName())) {
+                        deletedShow = show;
+
+                    }
+                }
+                if(deletedShow != null) {
+                    DataStore.getShowsA().remove(deletedShow);
+                }
                 DataStore.getStages().remove(stageIndex-1);
                 this.serializer.WriteStage(DataStore.getStages());
+                for(Show show : DataStore.getShowsA()) {
+                    System.out.println(show.getArtistA().get(0));
+                }
+                this.serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
             }
             //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();

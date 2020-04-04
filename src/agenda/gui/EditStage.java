@@ -23,7 +23,8 @@ import java.util.ArrayList;
 
 public class EditStage {
     boolean fieldAdded;
-    Serializer serializer ;
+    boolean searched;
+    Serializer serializer;
     Deserializer deserializer;
 
     private ArrayList<Show> nextArray;
@@ -138,114 +139,119 @@ public class EditStage {
             boolean timeValid = true;
             boolean timeChanged = false;
 
+            artistBox.getChildren().remove(fillInAnArtist);
+            stageBox.getChildren().remove(noStageFound);
+
             Artist editArtist = new Artist(artistField.getText(), "");
             ArrayList<Artist> editArtistArray = new ArrayList<>();
             editArtistArray.add(editArtist);
             this.editedShow.setArtistA(editArtistArray);
             agenda.data.Stage editStage = new agenda.data.Stage();
             editStage.setName(stageField.getText());
-            this.editedShow.setStage(editStage);
-            this.editedShow.setPopularity(Integer.parseInt(popularityField.getText()));
-            this.editedShow.setBeginTime(Integer.parseInt(beginTimeField.getText()));
-            this.editedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
-
-            artistBox.getChildren().remove(artistNotFoundText);
-            artistBox.getChildren().remove(fillInAnArtist);
-
             if(artistField.getText().isEmpty() || artistField.getText() == null || artistField.getText().equals("")) {
                 artistBox.getChildren().add(fillInAnArtist);
                 inputValid = false;
             }
-            //Checks if the begin time of a show is not equal or smaller than the end time of a shows
-            if(inputValid) {
-                try { timeValid = (Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                        && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) && inputValid;
-                }catch (NumberFormatException notANumberException ) {
-                    inputValid = false;
-                    timeValid = false;
+            if(searched) {
+                if(inputValid) {
+                    this.editedShow.setStage(editStage);
+                    this.editedShow.setPopularity(Integer.parseInt(popularityField.getText()));
+                    this.editedShow.setBeginTime(Integer.parseInt(beginTimeField.getText()));
+                    this.editedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                 }
-                //Checks if the begin and/or end time of a show has been modified, needs to be a valid input, or a indexOutOfBoundsException occurs
-                timeChanged = this.editedShow.getStartTime() != Integer.parseInt(beginTimeField.getText()) ||
-                        this.editedShow.getEndTime() != Integer.parseInt(endTimeField.getText());
-            }
-            System.out.println(inputValid);
-            System.out.println("TimeValid: " + timeValid + "\nTimeChanged: " + timeChanged);
-            if(timeValid && timeChanged) {
-                boolean oldShow;
-                //Will look if new times overlap
-                if(!DataStore.getShowsA().isEmpty()) {
-                    for(Show show : DataStore.getShowsA()) {
-                        oldShow = false;
-                        //Will ignore the old show
-                        if(show.getStage().getName().equalsIgnoreCase(deletedShow.getStage().getName()) && show.getStartTime() == deletedShow.getStartTime()) {
-                            oldShow = true;
-                        }
-                        //Will compare stages
-                        if(show.getStage().getName().equalsIgnoreCase(editedShow.getStage().getName()) && !oldShow){
-                            //If times overlap, validation fails
-                            if(editedShow.getStartTime() > show.getStartTime() && editedShow.getStartTime() < show.getEndTime()) {
-                                inputValid = false;
-                            };
-                            //Will look if endtime overlaps, and if endTime completely skips a show
-                            if(editedShow.getStartTime() < show.getStartTime()) {
-                                //Looks if endtime overlaps with another show
-                                if(editedShow.getEndTime() > show.getStartTime()) {
+
+                //Checks if the begin time of a show is not equal or smaller than the end time of a shows
+                if(inputValid) {
+                    try { timeValid = (Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                            && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) && inputValid;
+                    }catch (NumberFormatException notANumberException ) {
+                        inputValid = false;
+                        timeValid = false;
+                    }
+                    //Checks if the begin and/or end time of a show has been modified, needs to be a valid input, or a indexOutOfBoundsException occurs
+                    timeChanged = this.editedShow.getStartTime() != Integer.parseInt(beginTimeField.getText()) ||
+                            this.editedShow.getEndTime() != Integer.parseInt(endTimeField.getText());
+                }
+                System.out.println(inputValid);
+                System.out.println("TimeValid: " + timeValid + "\nTimeChanged: " + timeChanged);
+                if(timeValid && timeChanged) {
+                    boolean oldShow;
+                    //Will look if new times overlap
+                    if(!DataStore.getShowsA().isEmpty()) {
+                        for(Show show : DataStore.getShowsA()) {
+                            oldShow = false;
+                            //Will ignore the old show
+                            if(show.getStage().getName().equalsIgnoreCase(deletedShow.getStage().getName()) && show.getStartTime() == deletedShow.getStartTime()) {
+                                oldShow = true;
+                            }
+                            //Will compare stages
+                            if(show.getStage().getName().equalsIgnoreCase(editedShow.getStage().getName()) && !oldShow){
+                                //If times overlap, validation fails
+                                if(editedShow.getStartTime() > show.getStartTime() && editedShow.getStartTime() < show.getEndTime()) {
                                     inputValid = false;
+                                };
+                                //Will look if endtime overlaps, and if endTime completely skips a show
+                                if(editedShow.getStartTime() < show.getStartTime()) {
+                                    //Looks if endtime overlaps with another show
+                                    if(editedShow.getEndTime() > show.getStartTime()) {
+                                        inputValid = false;
+                                    }
                                 }
                             }
-                        }
-                        //looks if the newShow artist has the same time and name of an other artist
-                        for(Artist artist : show.getArtistA()) {
-                            for(Artist artist2 : editedShow.getArtistA()) {
-                                if(artist.getName().equalsIgnoreCase(artist2.getName())) {
-                                    //looks if the startTime is in the artists show
-                                    if(editedShow.getStartTime() > show.getStartTime() && editedShow.getStartTime() < show.getEndTime()) {
-                                        inputValid = false;
-                                    }
-                                    //looks if the endtime is in the artists show
-                                    if(editedShow.getEndTime() > show.getStartTime() && editedShow.getEndTime() < show.getEndTime()) {
-                                        inputValid = false;
-                                    }
-                                    //looks if the show overlaps
-                                    if(editedShow.getStartTime() < show.getStartTime() && editedShow.getEndTime() > show.getEndTime()) {
-                                        inputValid = false;
+                            //looks if the newShow artist has the same time and name of an other artist
+                            for(Artist artist : show.getArtistA()) {
+                                for(Artist artist2 : editedShow.getArtistA()) {
+                                    if(artist.getName().equalsIgnoreCase(artist2.getName())) {
+                                        //looks if the startTime is in the artists show
+                                        if(editedShow.getStartTime() > show.getStartTime() && editedShow.getStartTime() < show.getEndTime()) {
+                                            inputValid = false;
+                                        }
+                                        //looks if the endtime is in the artists show
+                                        if(editedShow.getEndTime() > show.getStartTime() && editedShow.getEndTime() < show.getEndTime()) {
+                                            inputValid = false;
+                                        }
+                                        //looks if the show overlaps
+                                        if(editedShow.getStartTime() < show.getStartTime() && editedShow.getEndTime() > show.getEndTime()) {
+                                            inputValid = false;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            System.out.println(inputValid);
-            if (popularityField.getText().isEmpty()) {
-                inputValid = false;
-            }
-            if (stageField.getText().isEmpty()) {
-                stageBox.getChildren().remove(noStageFound);
-                stageBox.getChildren().add(noStageFound);
-                inputValid = false;
-            }
+                System.out.println(inputValid);
+                if (popularityField.getText().isEmpty()) {
+                    inputValid = false;
+                }
+                if (stageField.getText().isEmpty()) {
 
-            //Set a new show based on the changes made
-            if (inputValid) {
-                //Checks if a new stage needs to be made or not
-                boolean stageExists = false;
-                ArrayList<agenda.data.Stage> stageList = new ArrayList<>(DataStore.getStages());
-                for(agenda.data.Stage stage : stageList) {
-                    if(editedShow.getStage().getName().equalsIgnoreCase(stage.getName())) {
-                        stageExists = true;
+                    stageBox.getChildren().add(noStageFound);
+                    inputValid = false;
+                }
+
+                //Set a new show based on the changes made
+                if (inputValid) {
+                    //Checks if a new stage needs to be made or not
+                    boolean stageExists = false;
+                    ArrayList<agenda.data.Stage> stageList = new ArrayList<>(DataStore.getStages());
+                    for(agenda.data.Stage stage : stageList) {
+                        if(editedShow.getStage().getName().equalsIgnoreCase(stage.getName())) {
+                            stageExists = true;
+                        }
                     }
-                }
-                if(!stageExists) {
-                    DataStore.setNewStages(editedShow.getStage());
-                    serializer.WriteStage(DataStore.getStages());
-                }
-                editShow.close();
-                DataStore.getShowsA().remove(deletedShow);
-                DataStore.getShowsA().add(editedShow);
-                serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
+                    if(!stageExists) {
+                        DataStore.setNewStages(editedShow.getStage());
+                        serializer.WriteStage(DataStore.getStages());
+                    }
+                    editShow.close();
+                    DataStore.getShowsA().remove(deletedShow);
+                    DataStore.getShowsA().add(editedShow);
+                    serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
 
+                }
             }
+
             fieldAdded = false;
         });
     }
@@ -253,8 +259,11 @@ public class EditStage {
     public void search() {
         artistBox.getChildren().remove(artistNotFoundText);
         artistBox.getChildren().remove(fillInAnArtist);
+        fieldBox.getChildren().removeAll(popularityField, stageBox, beginTimeField, endTimeField);
+
         boolean valid = true;
         boolean found = false;
+        searched = true;
 
         //If nothing is filled in, it will set valid on false and wont search for an artist.
         if(artistField.getText().isEmpty()) {
@@ -273,7 +282,7 @@ public class EditStage {
                     }
                 }
                 if(found) {
-                    fieldBox.getChildren().removeAll(popularityField, stageBox, beginTimeField, endTimeField);
+
                     fieldBox.getChildren().addAll(popularityField, stageBox, beginTimeField, endTimeField);
 
                     popularityField.setText(Integer.toString(show.getPopularity()));
@@ -289,6 +298,10 @@ public class EditStage {
         //No artist found, so artistNotFoundText is displayed
         if(!found && valid) {
             artistBox.getChildren().add(artistNotFoundText);
+        }
+        //Prevents clicking on done, when the search failed
+        if(!valid) {
+            searched = false;
         }
         this.index = 0;
 
