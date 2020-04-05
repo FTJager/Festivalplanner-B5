@@ -95,7 +95,7 @@ public class AddStage {
                 agenda.data.Stage newStage = new agenda.data.Stage();
                 newStage.setName(stageField.getText());
                 DataStore.setNewStages(newStage);
-                serializer.WriteStage(DataStore.getStages());
+                serializer.Write(DataStore.getStages(), Serializer.STAGES);
                 addStage.close();
             }
         });

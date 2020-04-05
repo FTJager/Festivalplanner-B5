@@ -45,7 +45,7 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) {
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
-        DataStore.setStages(this.deserializer.ReadStages());
+        DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
 
         try {
             for(Show show : DataStore.getShowsA()){
@@ -73,7 +73,7 @@ public class GUI extends Application {
             System.out.println("Current saved shows: " + this.deserializer.Read(Serializer.SHOWS).size());
             if(DataStore.getStages().isEmpty()) {
                 System.out.println("Current saved stages: 0");
-            } else System.out.println("Current saved stages: "+ this.deserializer.ReadStages().size());
+            } else System.out.println("Current saved stages: "+ this.deserializer.Read(Serializer.STAGES));
         } catch (NullPointerException n) {
             n.printStackTrace();
         }
@@ -161,7 +161,7 @@ public class GUI extends Application {
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
         this.canvas.setOnMouseEntered(event -> {
             DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
-            DataStore.setStages(this.deserializer.ReadStages());
+            DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
 
             graphics.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
 

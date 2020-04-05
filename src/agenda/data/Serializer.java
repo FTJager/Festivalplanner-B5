@@ -10,6 +10,7 @@ public class Serializer implements Serializable{
 
     public static final int SHOWS = 0;
     public static final int ARTISTS = 1;
+    public static final int STAGES = 2;
 
     public Serializer() {
     }
@@ -41,6 +42,14 @@ public class Serializer implements Serializable{
 
                 List<Artist> artists = list;
                 objOut.writeObject(artists);
+
+            //If the given type is STAGES it writes the data to the stageStore.ser file
+            }else if (type == STAGES){
+                fileOut = new FileOutputStream("Resources/stageStore.ser");
+                objOut = new ObjectOutputStream(fileOut);
+
+                List<Stage> stages = list;
+                objOut.writeObject(stages);
             }
 
             objOut.close();
