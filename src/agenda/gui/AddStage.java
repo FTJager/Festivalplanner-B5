@@ -32,8 +32,10 @@ public class AddStage {
 
     public void buildStage() {
 
-        Text text = new Text(80, 0, "");
-        text.setFill(colorUnActive);
+        Text stageExistsText = new Text("This stage already exists!");
+        stageExistsText.setFill(colorActive);
+        Text tooManyStagesText = new Text("Only four stages can exist at a certain time!");
+        tooManyStagesText.setFill(colorActive);
 
         FlowPane root = new FlowPane();
         root.setAlignment(Pos.CENTER);
@@ -43,30 +45,31 @@ public class AddStage {
         TextField stageField = new TextField();
         Button doneButton = new Button("Done");
 
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(stageLabel, stageField);
+        VBox stageBox = new VBox();
+        stageBox.getChildren().add(stageField);
+        stageBox.setSpacing(10);
 
-        VBox vBoxSmallSpacing = new VBox();
-        vBoxSmallSpacing.getChildren().addAll(hbox, text);
-        vBoxSmallSpacing.setSpacing(10);
+
+        HBox hbox = new HBox();
+        hbox.getChildren().addAll(stageLabel, stageBox);
+
         VBox vBoxNormalSpacing = new VBox();
         vBoxNormalSpacing.setSpacing(30);
         vBoxNormalSpacing.getChildren().add(doneButton);
 
         VBox vBox = new VBox();
         vBox.setSpacing(30);
-        vBox.getChildren().addAll(vBoxSmallSpacing, vBoxNormalSpacing);
+        vBox.getChildren().addAll(hbox, vBoxNormalSpacing);
 
         root.getChildren().add(vBox);
 
         //Adds new stage to the stageStore.ser after the done button is clicked
         doneButton.setOnAction(e -> {
             boolean check = true;
-            text.setFill(this.colorUnActive);
+            stageBox.getChildren().removeAll(stageExistsText, tooManyStagesText);
             //if the field is empty
             if (stageField.getText().isEmpty()) {
-                text.setText("\t   Please fill in a stage!");
-                text.setFill(this.colorActive);
+                stageBox.getChildren().add(stageExistsText);
                 check = false;
             } else {
                 //goes through the data store to find equals, if the data store is empty, there is no need for it
@@ -75,11 +78,15 @@ public class AddStage {
                     for (agenda.data.Stage stage : stageList) {
                         //If the stage Already exist
                         if (stage.getName().equalsIgnoreCase(stageField.getText())) {
-                            text.setText("\t   This stage already exists!");
-                            text.setFill(this.colorActive);
+                            stageBox.getChildren().add(stageExistsText);
                             check = false;
                         }
                     }
+                }
+                if(DataStore.getStages().size() >= 4) {
+                    stageBox.getChildren().removeAll(stageExistsText);
+                    check = false;
+                    stageBox.getChildren().add(tooManyStagesText);
                 }
             }
 

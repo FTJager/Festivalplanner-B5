@@ -28,6 +28,7 @@ public class NewStage {
     transient Serializer serializer = new Serializer();
     transient Deserializer deserializer = new Deserializer();
     private TextField artistField;
+    private TextField genreField;
     private TextField stageField;
     private TextField popularityField;
     private TextField beginTimeField;
@@ -45,6 +46,7 @@ public class NewStage {
     public NewStage() {
         //initialise
         this.artistField = new TextField();
+        this.genreField = new TextField();
         this.popularityField = new TextField();
         this.stageField = new TextField();
         this.beginTimeField = new TextField();
@@ -70,6 +72,7 @@ public class NewStage {
         Scene scene = new Scene(root, 300, 400);
 
         Label artistLabel = new Label("Artist: ");
+        Label genreLable = new Label("Genre: ");
         Label popularityLabel = new Label("Popularity: ");
         Label stageLabel = new Label("Stage:");
         Label beginTimeLabel = new Label("BeginTime: ");
@@ -80,6 +83,8 @@ public class NewStage {
         //Creates the fields, labels and buttons for the pop-up
         VBox artistBox = new VBox();
         artistBox.getChildren().add(this.artistField);
+        VBox genreBox = new VBox();
+        genreBox.getChildren().add(this.genreField);
         VBox popularityBox = new VBox();
         popularityBox.getChildren().add(this.popularityField);
         VBox stageBox = new VBox();
@@ -92,6 +97,7 @@ public class NewStage {
         Paint errorPaint = new Color(1, 0, 0, 1);
 
         Text fillInAnArtistText = new Text("Please fill in an artist");
+        Text fillInAGenreText = new Text("Please fill in a genre!");
         Text fillInAPopularityText = new Text("Please fill in a popularity!");
         Text fillInAStageText = new Text("Please fill in a stage!");
         Text fillInBeginTimeText = new Text("Please fill in a begin time!");
@@ -103,6 +109,7 @@ public class NewStage {
         Text artistsOverlapText = new Text("The artist already has a show on this time!");
 
         fillInAnArtistText.setFill(errorPaint);
+        fillInAGenreText.setFill(errorPaint);
         fillInAStageText.setFill(errorPaint);
         fillInAPopularityText.setFill(errorPaint);
         fillInBeginTimeText.setFill(errorPaint);
@@ -114,10 +121,10 @@ public class NewStage {
         artistsOverlapText.setFill(errorPaint);
 
         VBox labelBox = new VBox();
-        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
+        labelBox.getChildren().addAll(artistLabel, genreLable, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(this.lableBoxSpacing);
         VBox fieldBox = new VBox();
-        fieldBox.getChildren().addAll(artistBox, popularityBox, stageBox, beginTimeBox, endTimeBox);
+        fieldBox.getChildren().addAll(artistBox, genreBox, popularityBox, stageBox, beginTimeBox, endTimeBox);
         fieldBox.setSpacing(20);
 
         HBox hBox = new HBox();
@@ -137,7 +144,13 @@ public class NewStage {
             List<agenda.data.Stage> showStageList = new ArrayList<>(DataStore.getStages());
             ArrayList<Artist> newShowArtists = new ArrayList<>();
 
-
+            artistBox.getChildren().remove(fillInAnArtistText);
+            genreBox.getChildren().remove(fillInAGenreText);
+            popularityBox.getChildren().removeAll(fillInAPopularityText, popularityNotCorrectText);
+            beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
+            endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+            stageBox.getChildren().remove(fillInAStageText);
+            artistBox.getChildren().remove(artistsOverlapText);
             // if-else statement makes sure a name has been given for the show
             //LOT of if statements. They will make it look nice on the GUI
             //Comments by artist can be used by other validation methods
@@ -145,36 +158,35 @@ public class NewStage {
             //if nothing is filled in
             if (this.artistField.getText().isEmpty() || this.artistField.getText() == null) {
                 //removes warning first, so no double warnings show up
-                artistBox.getChildren().remove(fillInAnArtistText);
+
                 artistBox.getChildren().add(fillInAnArtistText);
                 inputValid = false;
                 //Could not use changing booleans, so the array list is a boolean. Makes the spacing bigger, so it looks better.
                 spacingSize(1);
             //valid input
             } else {
-                //removes the error
-                artistBox.getChildren().remove(fillInAnArtistText);
                 //again, an array list as boolean. Makes the spacing smaller, so it looks better
                 spacingSize(2);
                 //Separates the artist, if there are more than 1 of them
                 this.newShow.setArtistA(new ArrayList<>(ArtistSeparation(this.artistField.getText())));
-                for(Artist artist : this.newShow.getArtistA()) {
-                    System.out.println(artist.getName());
-                }
+            }
+
+            if(this.genreField.getText().isEmpty() ||this.genreField.getText() == null) {
+                genreBox.getChildren().add(fillInAGenreText);
+            } else {
+                this.newShow.setGenre(genreField.getText());
             }
 
             //Same comments as artist
             if(this.popularityField.getText().isEmpty() || this.popularityField.getText() == null) {
-                popularityBox.getChildren().remove(fillInAPopularityText);
                 popularityBox.getChildren().add(fillInAPopularityText);
                 inputValid = false;
                 spacingSize(3);
             } else {
-                popularityBox.getChildren().removeAll(fillInAPopularityText, popularityNotCorrectText);
+
                 spacingSize(4);
                 //Try and catch for integer validation
-                try {
-                    popularityBox.getChildren().removeAll(fillInAPopularityText, popularityNotCorrectText);
+                try { ;
                     this.newShow.setPopularity(Integer.parseInt(this.popularityField.getText()));
                 } catch (NumberFormatException popularityExeption) {
                     popularityBox.getChildren().add(popularityNotCorrectText);
@@ -204,48 +216,42 @@ public class NewStage {
                     inputValid = false;
                 }
             }
-
-
             //If nothing is filled in
             if(this.beginTimeField.getText().isEmpty() || this.beginTimeField.getText() == null) {
-                beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
+
                 beginTimeBox.getChildren().add(fillInBeginTimeText);
                 inputValid = false;
                 spacingSize(5);
             //Extra if statement for correct error display
             } else if(!beginTimeIsInteger){
-                beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
+
                 beginTimeBox.getChildren().add(beginTimeNotCorrectText);
                 spacingSize(5);
             } else {
                 //if the begin time is larger then the end time, the validation fails
                 if (Integer.parseInt(this.beginTimeField.getText()) > Integer.parseInt(this.endTimeField.getText()) || Integer.parseInt(this.beginTimeField.getText()) < 0 || Integer.parseInt(this.beginTimeField.getText()) > 23) {
-                    beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                     beginTimeBox.getChildren().add(beginTimeNotCorrectText);
                     inputValid = false;
                     spacingSize(5);
                 }
                 else {
-                    beginTimeBox.getChildren().removeAll(fillInBeginTimeText, beginTimeNotCorrectText);
                     this.newShow.setBeginTime(Integer.parseInt(this.beginTimeField.getText()));
                     spacingSize(6);
                 }
             }
 
             if(this.endTimeField.getText().isEmpty() || this.endTimeField.getText() == null) {
-                endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+
                 endTimeBox.getChildren().add(fillInEndTimeText);
                 inputValid = false;
                 spacingSize(7);
             //extra if statement for correct error display
             } else if(!endTimeIsInteger){
-                endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                 endTimeBox.getChildren().add(endTimeNotCorrectText);
                 inputValid = false;
                 spacingSize(7);
             } else {
                 if(Integer.parseInt(this.endTimeField.getText()) < 1 || Integer.parseInt(this.endTimeField.getText()) > 24) {
-                    endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                     endTimeBox.getChildren().add(endTimeNotCorrectText);
                     inputValid = false;
                     spacingSize(7);
@@ -253,18 +259,16 @@ public class NewStage {
                 //if begin time is bigger then the end time, done twice for correct error display
                 if(beginTimeIsInteger){
                     if (Integer.parseInt(this.endTimeField.getText()) < Integer.parseInt(this.beginTimeField.getText())) {
-                        endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                         endTimeBox.getChildren().add(endTimeNotCorrectText);
                         inputValid = false;
                         spacingSize(7);
                     }
                     else {
-                        endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
+
                         newShow.setEndTime(Integer.parseInt(endTimeField.getText()));
                         spacingSize(8);
                     }
                 } else {
-                    endTimeBox.getChildren().removeAll(fillInEndTimeText, endTimeNotCorrectText);
                     this.newShow.setEndTime(Integer.parseInt(this.endTimeField.getText()));
                     spacingSize(8);
                 }
@@ -272,7 +276,6 @@ public class NewStage {
 
             //important code. Lets the stages work properly! Stage Validation
             if (!this.stageField.getText().isEmpty()) {
-                stageBox.getChildren().remove(fillInAStageText);
                 spacingSize(9);
                 agenda.data.Stage newStage = new agenda.data.Stage();
                 newStage.setName(this.stageField.getText());
@@ -495,14 +498,5 @@ public class NewStage {
                 stageSpacing.clear();
             }
         }
-
-
-
-
-
-
-
-
-
     }
 }
