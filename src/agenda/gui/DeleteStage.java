@@ -121,9 +121,10 @@ public class DeleteStage {
             //If something is filled in the artist field, and not in the stage field
             else if(stageDeleteField.getText().isEmpty() && !artistField.getText().isEmpty()) {
                 //Loop through all the shows saved and checks for the one matching the given text in the textfield
-                try {
+//                try {
+//                System.out.println(DataStore.getShowsA().get(0).getClass());
                     for (Show show : DataStore.getShowsA()) {
-                        if (show.getArtistA().get(0).equals(artistField.getText())) {
+                        if (show.getArtistA().get(0).getName().equals(artistField.getText())) {
                             this.showIndex = this.artistIndex;
                             popularityDisplay.setText(Integer.toString(show.getPopularity()));
                             stageDisplay.setText(show.getStage().getName());
@@ -133,9 +134,9 @@ public class DeleteStage {
                         }
                         this.artistIndex++;
                     }
-                } catch (ClassCastException c) {
-                    System.out.println("Please restart the program!");
-                }
+//                } catch (ClassCastException c) {
+//                    System.out.println("Please restart the program!");
+//                }
 
                 //Displays error that it couldn't find an artist
                 if(!found) {
@@ -181,17 +182,17 @@ public class DeleteStage {
             }
             else if(stageDeleteField.getText().isEmpty() && !artistField.getText().isEmpty()) {
                 //Loop through all the shows saved and checks for the one matching the given text in the textfield
-                try {
+//                try {
                     for (Show show : DataStore.getShowsA()) {
-                        if (show.getArtistA().get(0).equals(artistField.getText())) {
+                        if (show.getArtistA().get(0).getName().equals(artistField.getText())) {
                             this.showIndex = this.artistIndex;
                             found = true;
                         }
                         this.artistIndex++;
                     }
-                } catch (ClassCastException c) {
-                    System.out.println("Please restart the program!");
-                }
+//                } catch (ClassCastException c) {
+//                    System.out.println("Please restart the program!");
+//                }
                 if (!found) {
                     artistBox.getChildren().add(artistNotFoundText);
                     closes = false;

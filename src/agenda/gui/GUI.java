@@ -52,7 +52,7 @@ public class GUI extends Application {
                 DataStore.setArtistsS(show.getArtistA());
             }
         } catch (ClassCastException c) {
-            System.out.println("Please clear the programme!");
+            System.out.println("Please clear the program!");
         }
 
 
