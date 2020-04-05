@@ -1,9 +1,9 @@
-#Festival Planner
-##Dogukan Akyazi 
-##Student nummer: 2158676
-##Klas: B5
+# Festival Planner
+## Dogukan Akyazi 
+## Student nummer: 2158676
+## Klas: B5
 ***
-##Week 2
+## Week 2
 Week 2 begon met het implementeren van code.
 We hadden in week 1 een ontwerp en datastructuur voor de agenda module bedacht, en het is nu in deze week de taak om dit te realiseren.
 De opzet voor de datastructuur ziet er zo uit:
@@ -47,7 +47,7 @@ public HashMap<String, Artist> getArtistH() {
 Hoe het werkt is: Er wordt een lege hashmap gemaakt om de data erin te stoppen, daarna word er op basis van de ingevulde artiest naam gekeken (het heeft ook geen hoofdlettergevoeligheid).
 Deze manier werkte, maar is later weer terug gegaan naar een arraylist die de data van een artiest opslaat. Het ophalen van de data uit de hashmap ging niet zo soepel als verwacht, waardoor het is omgegooid naar een arraylist.
 ***
-##Week 3
+## Week 3
 In week 3 werd er besproken wat er nog gedaan moest worden. Uiteindelijk hebben we een ander datastructruur gebruikt zodat elke klasse die data bevat opgeslagen kan worden in een centrale plek.
 Deze centrale plek kon dan ook weer data doorgeven aan de klassen die het nodig hadden.
 De revamped versie van de agenda module ziet er als volgt uit:
@@ -62,7 +62,7 @@ Alle methodes in de datastore statics maken, daardoor is alles van de datastore 
 Ik wil later de datastore veranderen in een singleton zodat de data makkelijker te bereiken is, en zonder risico van de static functies kan het programma nog soepeler lopen.
 Het opslaan van de data wordt gedaan d.m.v. object I/O, zodat de datastore dat later kan ophalen vanwege de deserializer. 
 ****
-##Week 4
+## Week 4
 In week 4 hebben we wat meer informatie gekregen over hoe we een map kunnen maken en inladen.
 We hebben ervoor gekozen om twee personen dit te laten doen, zodat er goed wordt overlegd over de map opbouw.
 De eindversie van de map ziet er als volgt uit: 
@@ -79,7 +79,7 @@ Het inladen van de map d.m.v. json was onderverdeeld tussen: Timo en Natalie.
 Het inladen van de map is een succes. We moeten nu nog wachten op de characters afbeelden in de map, en de pathfinding voor het laten lopen van de characters.
 
 ****
-##Week 5
+## Week 5
 In week 5 was het de doel om een persoon (NPC) op de gemaakte JSON map te laten lopen. 
 We hebben dit zo opgedeeld:
 ![Datastructuur van de simulatie](Simulatie.jpg)
@@ -94,7 +94,7 @@ Wat ik uiteindelijk beter kon doen was vooral meer werk opdelen zodat iedereen i
 maar dit was niet gelukt dus hoop ik dat het volgende week beter kan.
 
 ****
-##Week 6
+## Week 6
 Deze week moesten we (Kim en ik) beginnen aan de pathfinding van het project. 
 De opties die we hadden waren:
 - Zelf uitzoeken, d.m.v. informatieve bronnen.
@@ -142,7 +142,7 @@ We hadden nog steeds geen idee hoe we het algoritme moesten implementeren in cod
 Het werdt ons langzamerhand steeds duidelijker hoe het algortime werkte en hebben we besloten om in week 7 dit af te maken.
 
 ****
-##Week 7
+## Week 7
 Deze week hadden we weer te maken met het pathfinding algoritme. Onze opties waren nog steeds hetzelfde als in week 6.
 We hebben deze keer om hulp gevraagd. We kozen hiervoor omdat we geen tijd meer konden wegzetten voor het pathfinding algoritme.
 Nadat we hulp hadden gekregen, was de rest van de code schrijven makkelijker. We hebben uiteindelijk de breadth first search algoritme uitgewerkt en het kwam er zo uit te zien:
@@ -229,7 +229,7 @@ Dit hebben we nagelopen d.m.v. de pijlen uitprinten op de map met een opgeslagen
 Er zijn niet echt verbeter punten in deze week gevallen.
 
 ****
-##Week 8
+## Week 8
 Deze week heeft de groep een situatie waar alle geschreven code nu bijelkaar gebracht moest worden.
 - Elke dag eraan zitten 
 - Het opdelen van aan elkaar koppelen
@@ -243,13 +243,13 @@ Daarna was het ophalen van data uit de Datastore nodig zodat er specifieke route
 Wat ik zelf beter kon doen was het opdelen van wat er gedaan moest worden, zodat iedereen iets te doen had. Dit zal ik zeker meenemen voor het volgende project.
 
 ****
-##Week 9
+## Week 9
 In week negen hebben we het volgende gedaan: We hebben gekeken naar de laatste dingen die nog moeten gebeuren, en het opgedeeld aan de hand van wat er nog moest gebeuren.
 Dus we hadden alleen nog een klok nodig voor het voor- en achteruit spoelen. En het verbeteren van de begin- en eindtijden van de shows.
 
 
 ****
-##Is software goed voor simulaties in het bedrijfsleven?
+## Is software goed voor simulaties in het bedrijfsleven?
 De stelling “In het bedrijfsleven wordt steeds meer in software gesimuleerd” is zeker waar. Veel processen zoals een auto laten botsen wordt gesimuleerd, 
 dit is zodat er vooraf gekeken kan worden of de opbouw van de auto goed is of niet. Ze kunnen dan ook nieuwe ideeën hebben tijdens het simuleren van de bouw van een auto, waardoor meer innovative ideeeën kunnen voortkomen ([meer hierover](https://blog.designsolutions.nl/hoe-kan-simulatie-software-bijdragen-aan-betere-innovaties)).
 Doordat ze het eerst simuleren zie je ook meteen de fouten die erin kunnen voortkomen bijvoorbeeld:
@@ -270,7 +270,7 @@ Dus als je goed kijkt naar waarom er meer wordt gesimuleerd, is zodat bedrijven 
 Simulatie kan nieuwe ideeën voortbrengen doordat er fouten sneller opgelost worden. 
 
 ****
-##JSON APPLICATIONS
+## JSON APPLICATIONS
 Json toepassingen zijn bijvoorbeeld in:
 - PHP
 - HTML

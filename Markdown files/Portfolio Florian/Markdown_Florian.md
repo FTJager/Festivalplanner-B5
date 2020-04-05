@@ -1,11 +1,11 @@
-#Portfolio
-###Florian Jäger
-#####Studentnummer: 2116120
-#####Klas: 1B
+# Portfolio
+### Florian Jäger
+##### Studentnummer: 2116120
+##### Klas: 1B
 
-#Wekelijkse Reflecties
+# Wekelijkse Reflecties
 
-##Week 1:
+## Week 1:
 In deze week zijn we nog niet begonnen met Java code. We hebben vooral gewerkt aan een plan van aanpak. Dit was onderverdeeld in aparte kopjes,
 zelf heb ik de achtergronden uitgewerkt. Dit was een relatief kort kopje, dus ik heb niet veel gedaan in deze week, terwijl anderen in het 
 groepje veel grotere stukken hebben moeten schrijven. In andere woorden: deze week was het werk niet compleet "eerlijk" verdeeld.
@@ -16,24 +16,24 @@ agenda module staan omschreven. Ik heb de Show klasse gemaakt, maar net als in w
 en dus ook weinig tijd en moeite. Andere mensen in het groepje hadden weer wat meer werk, en hoewel het niet veel beter ingedeeld had 
 kunnen worden is het toch vervelend om te kunnen zien dat je groepsgenoten veel meer werk aan het doen zijn dan jij.
 
-##Week 3:
+## Week 3:
 In deze week heb ik zelf al een stuk meer gedaan. Deze week heb ik gewerkt aan ObjectIO, oftewel het opslaan van onze gegevens in een bestand.
 Aan het begin van de week ging het lastiger, maar in het weekend is veel vooruitgang gemaakt en heb ik dus voor de deadline een grotendeels
 functioneel stuk code kunnen opleveren. Er waren nog wat fouten en imperfecties waardoor de code niet helemaal goed werkte, maar dit is 
 door de loop van de maandag in week 4 nog opgelost.
 
-##Week 4:
+## Week 4:
 Deze week is begonnen met het verbeteren van de ObjectIO code. Dit heeft niet al te lang geduurd en daarna was er een compleet functioneel 
 stuk code. Ook zijn we deze week begonnen met het inladen van een festival.map_old voor de simulatie. Aangezien dit alle taken waren voor deze week,
 heb ik zelf niet veel gedaan in de rest van de week.
 
-##Week 5:
+## Week 5:
 De opzet van de simulatie is in deze week gemaakt. Op maandag hebben we eerst samen wat definitieve keuzes gemaakt over hoe het eruit 
 komt te zien en wie wat moet doen. Daarna ben ik begonnen met het maken van de NPC klasse. Voor een groot deel van de week heb ik dit
 uitgesteld. Voor een gedeelte omdat ik er vanuit ging dat het een simpel programma was om te maken, maar ook omdat ik niet alle dagen
 tijd had om eraan te werken. In het weekend is het werkend gemaakt, met wat kleine verbeteringen en bufxixes aan het begin van week 6.
 
-##Week 6:
+## Week 6:
 In deze week heb ik geen tijd gehad om veel met de groep samen te zitten, maar ik heb op maandag verder gewerkt aan het verbeteren van de
 NPC klasse. Later in de week heb ik wat verbeteringen gemaakt aan de Artist klasse voor de agenda module. Dit is niet een hoge prioriteit
 in deze fase van het project, maar wel iets wat we als groep nog graag verbeterd willen hebben. Aangezien de enige grote taak voor deze 
@@ -41,7 +41,7 @@ week de pathfinding was en hier al twee mensen aan werkten, hadden we als groep 
 naar de agendamodule kunnen gaan. Zelfs al had ik dingen te verbeteren in de agenda module heb ik er niet veel aan gedaan. Ik heb deze week 
 besloten meer te werken aan individuele school taken waardoor de proftaak voor mij persoonlijk een lagere prioriteit was.
 
-##Week 7:
+## Week 7:
 Deze week zijn veel verbeteringen gemaakt. Om te beginnen heb ik samen met Remco gewerkt aan de agenda module. Dit hield in dat we extra features
 toe voegden om te zorgen dat we alle functionaliteit hebben wie we in de simulatie module willen, maar ook dat meer restricties hebben 
 toegevoegd voor dingen die de gebruiker niet mag doen. Verder zijn er algemene bugfixes toegepast en is gewerkt aan de algemene stabiliteit.
@@ -55,7 +55,7 @@ hebben we in de groep ook al wel geaccepteerd dat niet iedereen altijd bezig kan
 het de realiteit van het project en kan er momenteel niet veel aan gedaan worden, dus ik moet andere taken vinden om mezelf nuttig 
 te maken. 
 
-##Week 8:
+## Week 8:
 In deze week begon het moeilijk te worden om goed samen te werken in verband met de COVID-19 maatregelen. Tot nu toe hebben we de meeste 
 minstens één of twee maal per week samen gezeten om aan het project te werken, wat nu dus via Discord moet gebeuren. Het is natuurlijk
 niet ideaal, maar het aanpassen hieraan gaat relatief goed. De grote taak voor deze week bestond uit drie dingen: NPC's op de map 
@@ -66,7 +66,7 @@ het belangrijker om het eerst functioneel te maken. Zelfs met de moeilijkere sam
 werken en was het ook wel sneller klaar dan wanneer één iemand er alleen aan had gezeten. Ik vraag me wel af hoe dit gaat werken als we
 de volgende periode in gaan met een nieuwe projectgroep, daar kijk ik zelf een beetje tegenop als het zo door gaat.
 
-##Week 9:
+## Week 9:
 In deze week is niet heel veel gedaan. Eerst zijn wat algemene functies toegevoegd aan de simulatie, dingen zoals het kiezen van shows 
 om naartoe te gaan gebaseerd op populariteit, NPC's die weg gaan aan het einde van de show en NPC's die naar "neutrale" zones gaan als 
 ze niks doen. Ook heeft Timo gewerkt aan het implementeren van een manier om de tijd handmatig aan te passen. Hij heeft een manier 
@@ -75,9 +75,9 @@ ik ervoor gezorgd dat de NPC's de verandering van tijd ook goed verwerken, waarn
 programma. Ik denk dat de groep in het algemeen wel blij is dat de functies allemaal geïmplementeerd zijn, en ik moet zeggen dat ik ook 
 wel een beetje trots ben op het af hebben van het project, zelfs als ik er nog niet helemaal tevreden mee ben. 
 
-#Vakinhoudelijke reflectie
+# Vakinhoudelijke reflectie
 
-##Week 1:
+## Week 1:
 In deze week was inhoudelijk nog niet veel te doen. Voor het stukje achtergronden moest ik wel redelijk veel zoeken naar informatie over 
 het fictieve bedrijf dat ons heeft ingehuurd, de enige informatie die we hebben gehad is namelijk een bestand met een kort stukje tekst
 waarin staat dat we ingehuurd zijn door een festival planner. Er is geen naam of iets dergelijks verder genoemd, dus toen moest ik kiezen of
@@ -90,12 +90,12 @@ Hieronder eerst een foto van de bijgeleverde context over de proftaak, met daarn
 
 ![Zelf geschreven achtergronden](Achtergronden_zelf.png)
 
-##Week 2: 
+## Week 2: 
 In de wekelijkse reflectie is alles over deze week eigenlijk al uitgelegd: weinig werk om te doen en het beetje werk wat er wel was, was erg
 simpel buiten één taak die is gegaan naar twee andere groepsleden. Dit betekent ook dat er geen keuzes zijn gemaakt door mij en dat er geen
 interessante code is om hierin te laten zien. 
 
-##Week 3:
+## Week 3:
 Aan het begin van deze week had ik absoluut geen idee over wat ObjectIO inhoudt of hoe het gebruikt moet worden. Het enige wat ik wist 
 is dat ik data heb en dat die naar een bestand geschreven moet worden. Na een paar uur onderzoek heb ik uitgevonden hoe het moet en heb 
 ik twee klassen geschreven die data naar een bestand kunnen schrijven of uit een bestand kunnen uitlezen. Deze klassen worden hieronder afgebeeld.
@@ -107,7 +107,7 @@ is efficiëntie momenteel niet de grootste zorg voor mij.
  
  ![Nieuwere serializer klasse](Serializer.png)
  
- ##Week 4:
+ ## Week 4:
  Persoonlijk heb ik deze week vooral gewerkt aan het verbeteren van de ObjectIO code. Dit houdt in dat ik wat problemen heb opgelost en
  heb gezorgd dat de data ook goed in het programma werd opgenomen. Het grootste probleem wat in de code zat was dat er een error werd opgegeven 
  als een leeg bestand wordt uitgelezen. De meest robuuste manier om dit op te lossen leek mij door te zorgen dat als deze error optreed een 
@@ -146,7 +146,7 @@ Dit stuk code overschrijft wat in de bestanden staat met een lege `List<>`, wat 
 een manier om alle date te verwijderen, dus op deze manier heb ik een stuk code die in de meeste gevallen die error moet oplossen en 
 meteen als feature kan worden hergebruikt. 
 
-##Week 5:
+## Week 5:
 Het maken van het begin van de NPC klasse was niet moeilijk. Het begon met een Abstract klasse NPC die wat simpele variabelen zoals positie,
 draaihoek, snelheid en sprite had. Daarna heb ik besloten een aparte subklasse te maken voor Visitor en Artist. Ik heb gekozen dit te doen 
 omdat de Visitors en Artists allebei naar andere locaties zouden moeten gaan en op andere plekken toegestaan zijn om te lopen, dus het leek
@@ -154,11 +154,11 @@ me het makkelijkste om er aparte klassen van te maken, vooral als ze nog complex
 de Visitor en Artist klassen dat de Artist klasse een `String name` variabele heeft om te zorgen dat alle artiesten naar hun eigen stage gaan, 
 terwijl de Visitors geen namen hebben. 
 
-##Week 6:
+## Week 6:
 In deze week heb ik weinig aan de proftaak gewerkt omdat ik dingen had waardoor ik niet aanwezig kon zijn op school. Ik heb alleen 
 wat kleine stukjes code verbeterd en opgeschoont.
 
-##Week 7:
+## Week 7:
 Ook deze week is er weinig wat ik persoonlijk heb gemaakt. In de bijgevoegde afbeeldingen zijn wat voorbeelden te zien van de manier waarop
 wij als groep hebben besloten commentaar te schrijven. Deze manier van commentaar schrijven zorgt ervoor dat er een standaard format is
 waar iedereen zich makkelijk aan kan houden, maar ook dat er automatisch een Javadoc gegenereerd kan worden. Voor kleinere stukjes code 
@@ -169,7 +169,7 @@ waarvan ze denken dat wat extra uitleg geen kwaad kan.
 
 ![Voorbeeld commentaar 2](Commentaar_Artist.png)
 
-##Week 8:
+## Week 8:
 Deze week zijn drie verschillende features geïmplementeerd. De eerste was NPC's op de map laten lopen. Om dit werkend te krijgen hebben we 
 grotendeels code van een demo die in een les was gegeven gekopiëerd en omgeschreven om beter te werken voor ons. Het grootste deel van deze 
 feature gebeurt in de init methode, waaron met de volgende code alle NPC's worden aangemaakt zodat ze in de draw methode getekend kunnen worden:  
@@ -213,7 +213,7 @@ feature gebeurt in de init methode, waaron met de volgende code alle NPC's worde
  De laatste feature deze week was het koppelen van de agenda module met de simulatie module. Door de manier waarop we de agenda module hebben
  gemaakt was dit relatief simpel. Het enige wat we moesten doen was wat hardcoded waardes vervangen met calls naar de `DataStore` klasse.
  
- ##Week 9: 
+ ## Week 9: 
  De grootste feature die ik deze week heb geïmplementeerd was het meerekenen van de populariteit van een show als een Visitor besluit om naar 
  een show te gaan. Dit heb ik gedaan door middel van het volgende stukje code:
  
@@ -229,7 +229,7 @@ feature gebeurt in de init methode, waaron met de volgende code alle NPC's worde
  hoeveelheid Visitors worden weergegeven op de map. De manier die ik nu heb gebruikt werkt met percentages, wat betekent dat het werkt 
  ongeacht hoeveel Visitors er momenteel worden gesimuleerd en is om deze reden volgens mij ook robuustere code.
  
- #Reflectie op stelling
+ # Reflectie op stelling
  
 Ik ga reflecteren op de stelling "in het bedrijfsleven wordt steeds meer in software gesimuleerd".
 
@@ -253,15 +253,15 @@ spreadsheet.
 Op de website van de [ABSEL](https://absel.org/?page_id=35) is een lijst van games te vinden die gebruikt worden om mensen te laten
 experimenteren met management styles of om ze beter voor te bereiden als ze een manager positie bij een nieuw bedrijf aangewezen krijgen.
 
-#####Conclusie
+##### Conclusie
  Hoewel ik al wist dat in het bedrijfsleven simulaties werden gebruikt om een beter beeld te krijgen van het bedrijf in het algemeen en
  om risico's te verminderen, was ik me er niet van bewust dat er ook een markt is voor simulatie games. Deze games kunnen gebruikt worden 
  om nieuwe managers wat extra ervaring te geven in een veilige omgeving, of om ervaren managers een ruimte te geven waarin zij hun ideeën 
  kunnen testen zonder de werking van het bedrijf in gevaar te brengen.
  
- #JSON applicaties
+ # JSON applicaties
  
- ##Game modding
+ ## Game modding
  Dit is waar ik persoonlijk het meeste JSON bestanden gebruik. Voor het spel Blade and Sorcery worden voor alle items in het spel JSON 
  bestanden gemaakt met informatie over het wapen. Omdat JSON's de informatie in een simpele en leesbare manier weergeven is het heel 
  makkelijk om met deze datastructuur aspecten van bestaande items aan te passen naar je eigen wensen of om je eigen items in de game te 
@@ -269,11 +269,11 @@ experimenteren met management styles of om ze beter voor te bereiden als ze een 
  maar de simpele structuur van de bestanden maakt het veel simpeler dan het moeten programmeren van de items en maakt het troubleshooten en
  fine-tunen veel sneller en makkelijker.
  
- ##Websites
+ ## Websites
  Websites worden vaak gebouwd door middel van HTML. JavaScript, waar JSON ook een onderdeel van is, kan makkelijk omgezet worden naar HTML code,
  wat betekent dat het heel makkelijk is om een JSON te gebruiken om je instellingen op te slaan zodat het makkelijk is om snel terug te 
  kijken of aanpassingen te maken aan de code.
  
- ##Javascript applicaties
+ ## Javascript applicaties
  Dit is minder specifiek, maar aangezien JSON een onderdeel is van Javascript worden bij een groot deel van de applicaties die worden 
  gemaakt in Javascript JSON bestanden gebruikt voor het opslaan en uitwisselen van informatie. 
