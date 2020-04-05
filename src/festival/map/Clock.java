@@ -31,8 +31,8 @@ public class Clock {
 
         this.clockMiddle = new Point2D.Double(2800 + this.clock.getWidth()/2, this.clock.getHeight()/2);
 
-        this.bigHand = new Rectangle2D.Double((this.clockMiddle.getX() - 5), 300, 10, 280);
-        this.smallHand = new Rectangle2D.Double((this.clockMiddle.getX() - 5),300, 10, 150);
+        this.bigHand = new Rectangle2D.Double((this.clockMiddle.getX() - 5), 300, 10, 230);
+        this.smallHand = new Rectangle2D.Double((this.clockMiddle.getX() - 5),300, 10, 120);
     }
 
     /**
