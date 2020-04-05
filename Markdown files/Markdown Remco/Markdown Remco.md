@@ -4,6 +4,10 @@
 ## Jaar 1, periode 3, klas B
 
 #Weekelijkse reflectie
+##Week 1
+Deze week zijn wij begonnen met het plan van aanpak. Hierbij begon het met Dogukan die de taak met overleg had verdeeld. Hierdoor had iedereen zijn eigen hoofdstuk waar hij aan kon gaan werken. Zelf heb ik aan de projectorganisatie 
+gewerkt. Hier staat in hoe wij als groep comminuceren en welke rollen elk persoon heeft. Verder hebben wij nog een design gemaakt voor de GUI, die wij de komende weken gaan maken. Verder is er niet veel gebeurd in week 1.
+![PVA](PVA.png)
 
 ##Week 2
 In week twee zijn wij begonnen met het ontwerp van onze agenda module. Hierbij hebben wij een klassediagram gemaakt, de functionaliteit bedacht en een ontwerp van de module. Deze week werden de opdrachten opgedeeld. 
@@ -55,7 +59,8 @@ dan uit de datastore de arraylist halen met de juiste objecten en ze op de corre
 ##Week 7
 Deze week heb ik vooral op het debuggen gefocussed. Ik ben nog niet vlug met toevoegen van foutmeldingen, dus heb hier veel tijd aan besteed. Het debuggen bestaat vooral uit veel if statements en foreach loops die de database
 doorgaan en kijken of alle criteria voldoen. 
-`if (!this.stageField.getText().isEmpty()) {
+```
+if (!this.stageField.getText().isEmpty()) {
                   spacingSize(9);
                   agenda.data.Stage newStage = new agenda.data.Stage();
                   newStage.setName(this.stageField.getText());
@@ -81,12 +86,12 @@ doorgaan en kijken of alle criteria voldoen.
                       showStageList = DataStore.getStages();
                       showStageList.add(showStage);
                   }
-         }`
+         }
+````
+
 Een voorbeeld van 1 van de if statements dat de inputs valideert. 
 
 ##Week 9
 Deze week kreeg ik een vage error van een ClassCastException. Dit kon helemaal niet in regel waar dit gebeurd is, aangezien ze hier een Show met een Show vergelijkten. Na het zoeken in de code kon ik geen conclusie trekken 
 uit deze foutmelding. Toen ik het op het internet opzocht, kreeg ik te zien dat dit kon gebeuren als twee objecten door een andere ClassLoader worden aangemaakt. Ik heb geen ervaring met ClassLoaders, dus heb ik dit
-helaas niet kunnen oplossen. De error gebeurt onregelmatig en is nog niet opgelost. Ik ben ook de enigste die dit bij het runnen van de code tegenkomt. 
-
-
+helaas niet kunnen oplossen. De error gebeurt onregelmatig en is nog niet opgelost. Ik ben ook de enigste die dit bij het runnen van de code tegenkomt.

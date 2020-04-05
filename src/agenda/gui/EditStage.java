@@ -40,6 +40,7 @@ public class EditStage {
     private Text fillInAnArtist;
 
     private TextField artistField;
+    private TextField genreField;
     private TextField popularityField;
     private TextField beginTimeField;
     private TextField endTimeField;
@@ -82,6 +83,8 @@ public class EditStage {
 
         Label artistLabel = new Label("Artist: ");
         this.artistField = new TextField();
+        Label genreLabel = new Label("Genre:  ");
+        this.genreField = new TextField();
         Label popularityLabel = new Label("Popularity: ");
         this.popularityField = new TextField();
         Label stageLabel = new Label("Stage:");
@@ -102,7 +105,7 @@ public class EditStage {
         stageBox.getChildren().add(stageField);
 
         VBox labelBox = new VBox();
-        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
+        labelBox.getChildren().addAll(artistLabel, genreLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(30);
         fieldBox = new VBox();
         fieldBox.getChildren().add(artistBox);
@@ -155,6 +158,7 @@ public class EditStage {
             if(searched) {
                 if(inputValid) {
                     this.editedShow.setStage(editStage);
+                    this.editedShow.setGenre(genreField.getText());
                     this.editedShow.setPopularity(Integer.parseInt(popularityField.getText()));
                     this.editedShow.setBeginTime(Integer.parseInt(beginTimeField.getText()));
                     this.editedShow.setEndTime(Integer.parseInt(endTimeField.getText()));
@@ -162,9 +166,10 @@ public class EditStage {
 
                 //Checks if the begin time of a show is not equal or smaller than the end time of a shows
                 if(inputValid) {
-                    try { timeValid = (Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
-                            && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) && inputValid;
-                    }catch (NumberFormatException notANumberException ) {
+                    try {
+                        timeValid = (Integer.parseInt(beginTimeField.getText()) != Integer.parseInt(endTimeField.getText())
+                                && Integer.parseInt(beginTimeField.getText()) < Integer.parseInt(endTimeField.getText())) && inputValid;
+                    } catch (NumberFormatException notANumberException) {
                         inputValid = false;
                         timeValid = false;
                     }
@@ -172,8 +177,6 @@ public class EditStage {
                     timeChanged = this.editedShow.getStartTime() != Integer.parseInt(beginTimeField.getText()) ||
                             this.editedShow.getEndTime() != Integer.parseInt(endTimeField.getText());
                 }
-                System.out.println(inputValid);
-                System.out.println("TimeValid: " + timeValid + "\nTimeChanged: " + timeChanged);
                 if(timeValid && timeChanged) {
                     boolean oldShow;
                     //Will look if new times overlap
@@ -259,7 +262,7 @@ public class EditStage {
     public void search() {
         artistBox.getChildren().remove(artistNotFoundText);
         artistBox.getChildren().remove(fillInAnArtist);
-        fieldBox.getChildren().removeAll(popularityField, stageBox, beginTimeField, endTimeField);
+        fieldBox.getChildren().removeAll(popularityField, genreField, stageBox, beginTimeField, endTimeField);
 
         boolean valid = true;
         boolean found = false;
@@ -276,15 +279,14 @@ public class EditStage {
                 for(int i = 0; i < show.getArtistA().size() ; i++) {
                     String showArtist = show.getArtistA().get(i).getName() + "";
                     if (showArtist.equalsIgnoreCase(artistField.getText())){
-
                         found = true;
                         deletedShow = show;
                     }
                 }
                 if(found) {
-                    fieldBox.getChildren().removeAll(popularityField, stageBox, beginTimeField, endTimeField);
-                    fieldBox.getChildren().addAll(popularityField, stageBox, beginTimeField, endTimeField);
-
+                    fieldBox.getChildren().removeAll(genreField, popularityField, stageBox, beginTimeField, endTimeField);
+                    fieldBox.getChildren().addAll(genreField, popularityField, stageBox, beginTimeField, endTimeField);
+                    genreField.setText(show.getGenre());
                     popularityField.setText(Integer.toString(show.getPopularity()));
                     stageField.setText(show.getStage().getName());
                     beginTimeField.setText(Integer.toString(show.getStartTime()));
