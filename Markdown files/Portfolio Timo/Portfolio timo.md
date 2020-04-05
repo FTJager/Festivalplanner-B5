@@ -14,7 +14,7 @@ Datum: 05-04-2020
 - Week 7
 - Week 8
 - Week 9
-- Aantwoord op de stelling:“In het bedrijfsleven wordt gebruik gemaakt van JavaFX” 
+- Aantwoord op de stelling: “In het bedrijfsleven wordt steeds meer in software gesimuleerd”
 - Applicaties die gebruik maken van het JSON formaat
 
 ##Week 2
@@ -247,11 +247,50 @@ langzamer kan zetten.
 ![map met scrollbar en klok](klok_scrollbar.png)
 Dit is de map geworden met de scrollbar, klok en de knoppen om de tijds snelheid aan te passen.
 
-##Aantwoord op de stelling:“In het bedrijfsleven wordt gebruik gemaakt van JavaFX” 
+##Aantwoord op de stelling: “In het bedrijfsleven wordt steeds meer in software gesimuleerd”
 
+Met deze stelling ben ik het eens. Eerst heb ik voor mezelf is nagedacht. Het lijkt mij namelijk dat de stelling juist is.
+Er komt steeds betere software, waardoor je steeds meer dingen kunt simuleren. Ook zijn we nu met de huidige proftaak
+bezig om een festival te simuleren. Daarnaast is er in de 1e periode ook een hoorcollege geweest waar een 4e jaars
+ging vertellen over zijn stage. Hij was op dat moment ook bezig met het maken van een applicatie die gevechts omstandigheden
+simuleerde. Zelf heb ik ook ervaring in het bedrijfsleven, aangezien ik al een aantal stages heb gehad. Hier heb ik ook gezien
+dat ze applicaties gebruiken om bijvoorbeeld ontwerpen te simuleren, zoals SolidWorks.
 
+Daarna ben ik ook op internet gaan zoeken naar simulatie applicaties. Er bestaan heel veel simulatie applicaties zoals:
+SimScale, Simio, RoboLogix en nog veel meer. Ook zijn er bedrijven die gespecialiseerd zijn in het maken van 
+simulatie software zoals: Cards PLM Solution of Arena Simulation Software. 
 
+Het is natuurlijk ook een stuk handiger om iets van te voren te simuleren. Hierdoor kan je te weten komen of verschillende
+projecten wel haalbaar zijn. Dit bespaard op de lange termijn dan ook kosten. De kans dat een project fout loopt door
+ontwerp fouten wordt hierdoor namelijk verminderd. Ook kan je bij een simulatie al zien hoe iets er uit komt te zien. 
+Mocht bijvoorbeeld een klant het toch niet goed vinden, zijn er nog niet heel veel kosten gekomen.
+
+Met de stelling: "In het bedrijfsleven wordt steeds meer in software gesimuleerd" ben ik het dus eens. Het is fijn
+om dingen van te voren te simuleren zodat een project een grotere kans heeft om te slagen. Aangezien er nog altijd nieuwe
+dingen worden uitgevonden en de techniek niet still staat, denk ik dus dat het simuleren d.m.v. software steeds meer wordt.
+
+Bronnen: 
+- https://www.cardsplmsolutions.com/nl/producten/simcenter-3d/?gclid=CjwKCAjwg6b0BRBMEiwANd1_SGfO0_VKgJa6zbNgtqS84HshYKndYr1VDhH_FbUdwjdf0ey6teRzjBoC2q4QAvD_BwE
+- https://www.capterra.com/simulation-software/
+- https://www.arenasimulation.com/
 
 ##Applicaties die gebruik maken van het JSON formaat
+
+- Application Programming Interfaces (API)
+- Dataservers
+- Apple opdrachten applicatie
+
+Deze applicaties maken denk ik gebruik van JSON. Veel API's bieden gegevens aan
+in het formaat van JSON. 
+Ook dataservers maken gebruik van JSON. JSON wordt in zulke gevallen namelijk gebruikt om
+gegevens uit te wisselen tussen bijvoorbeeld een server en een webapplicatie.
+Daarnaast is het mogelijk om bij Apple Opdrachten gebruik te maken van JSON. Deze 
+applicatie maakt dus ook gebruik van JSON.
+
+Bronnen: 
+- https://www.hostinginnederland.nl/help/vragen/wat-is-json-192
+- http://home.hccnet.nl/s.f.boukes/html-3/html-329.htm
+- https://support.apple.com/nl-nl/guide/shortcuts/apd0f2e057df/ios
+
 
 
