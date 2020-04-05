@@ -121,17 +121,23 @@ public class DeleteStage {
             //If something is filled in the artist field, and not in the stage field
             else if(stageDeleteField.getText().isEmpty() && !artistField.getText().isEmpty()) {
                 //Loop through all the shows saved and checks for the one matching the given text in the textfield
-                for (Show show : DataStore.getShowsA()) {
-                    if (show.getShow().equals(artistField.getText())) {
-                        this.showIndex = this.artistIndex;
-                        popularityDisplay.setText(Integer.toString(show.getPopularity()));
-                        stageDisplay.setText(show.getStage().getName());
-                        beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
-                        endtimeDisplay.setText(Integer.toString(show.getEndTime()));
-                        found = true;
+//                try {
+//                System.out.println(DataStore.getShowsA().get(0).getClass());
+                    for (Show show : DataStore.getShowsA()) {
+                        if (show.getArtistA().get(0).getName().equals(artistField.getText())) {
+                            this.showIndex = this.artistIndex;
+                            popularityDisplay.setText(Integer.toString(show.getPopularity()));
+                            stageDisplay.setText(show.getStage().getName());
+                            beginTimeDisplay.setText(Integer.toString(show.getStartTime()));
+                            endtimeDisplay.setText(Integer.toString(show.getEndTime()));
+                            found = true;
+                        }
+                        this.artistIndex++;
                     }
-                    this.artistIndex++;
-                }
+//                } catch (ClassCastException c) {
+//                    System.out.println("Please restart the program!");
+//                }
+
                 //Displays error that it couldn't find an artist
                 if(!found) {
                     artistBox.getChildren().add(artistNotFoundText);
@@ -176,13 +182,17 @@ public class DeleteStage {
             }
             else if(stageDeleteField.getText().isEmpty() && !artistField.getText().isEmpty()) {
                 //Loop through all the shows saved and checks for the one matching the given text in the textfield
-                for (Show show : DataStore.getShowsA()) {
-                    if (show.getShow().equals(artistField.getText())) {
-                        this.showIndex = this.artistIndex;
-                        found = true;
+//                try {
+                    for (Show show : DataStore.getShowsA()) {
+                        if (show.getArtistA().get(0).getName().equals(artistField.getText())) {
+                            this.showIndex = this.artistIndex;
+                            found = true;
+                        }
+                        this.artistIndex++;
                     }
-                    this.artistIndex++;
-                }
+//                } catch (ClassCastException c) {
+//                    System.out.println("Please restart the program!");
+//                }
                 if (!found) {
                     artistBox.getChildren().add(artistNotFoundText);
                     closes = false;
@@ -203,8 +213,6 @@ public class DeleteStage {
                     closes = false;
                 }
             }
-            this.showIndex = 0;
-            this.stageFinalIndex = 0;
             if(closes) {
                 new SureStage(this.showIndex, this.stageFinalIndex);
                 delStage.close();

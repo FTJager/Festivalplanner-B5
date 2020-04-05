@@ -8,12 +8,12 @@ import java.util.ArrayList;
 public class Show implements Serializable {
     private String show;
     private ArrayList<Artist> artistA;
+    private String genre;
     private int startTime;
     private int endTime;
     private int popularity;
     private Stage stage;
     private int stageX;
-
 
     public Show() {}
 
@@ -80,5 +80,17 @@ public class Show implements Serializable {
     public int getStageX() {
         final int finalStageX = stageX;
         return finalStageX;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getGenre() {
+        if(genre != null) {
+            return this.genre;
+        } else {
+            throw new NullPointerException("Genre doenst exist yet!");
+        }
     }
 }

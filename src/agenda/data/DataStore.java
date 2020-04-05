@@ -53,7 +53,7 @@ public class DataStore {
         if(showsAS == null){
             throw new NullPointerException("The list has not been initialized yet!");
         }
-        return showsAS;
+        return new ArrayList<Show>(showsAS);
     }
 
     public static void setArtistsS(List<Artist> artists){

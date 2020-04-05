@@ -16,6 +16,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import org.jfree.fx.FXGraphics2D;
+import sun.plugin.ClassLoaderInfo;
+
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -45,9 +47,14 @@ public class GUI extends Application {
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setStages(this.deserializer.ReadStages());
 
-        for(Show show : DataStore.getShowsA()){
-            DataStore.setArtistsS(show.getArtistA());
+        try {
+            for(Show show : DataStore.getShowsA()){
+                DataStore.setArtistsS(show.getArtistA());
+            }
+        } catch (ClassCastException c) {
+            System.out.println("Please clear the program!");
         }
+
 
         this.stageList = new ArrayList<>();
         

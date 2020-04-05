@@ -18,6 +18,7 @@ public class StageInformation {
         informationStage.setTitle("Show information");
 
         Label artistLabel = new Label("Artist: ");
+        Label genreLabel = new Label("Genre: ");
         Label popularityLabel = new Label("Popularity: ");
         Label stageLabel = new Label("Stage:");
         Label beginTimeLabel = new Label("BeginTime: ");
@@ -32,6 +33,7 @@ public class StageInformation {
         artists = artists.substring(0, artists.length()-2);
 
         Label artistInformationLabel = new Label(artists);
+        Label genreInformationLabel = new Label(show.getGenre());
         Label popularityInformationLabel = new Label(show.getPopularity() + "");
         Label stageInformationLabel = new Label(show.getStage().getName() + "");
         Label beginTimeInformationLabel = new Label(show.getStartTime() + "");
@@ -40,10 +42,10 @@ public class StageInformation {
         Button doneButton = new Button("Done");
 
         VBox labelBox = new VBox();
-        labelBox.getChildren().addAll(artistLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
+        labelBox.getChildren().addAll(artistLabel, genreLabel, popularityLabel, stageLabel, beginTimeLabel, endTimeLabel);
         labelBox.setSpacing(20);
         VBox informationBox = new VBox();
-        informationBox.getChildren().addAll(artistInformationLabel, popularityInformationLabel, stageInformationLabel, beginTimeInformationLabel, endTimeInformationLabel);
+        informationBox.getChildren().addAll(artistInformationLabel, genreInformationLabel, popularityInformationLabel, stageInformationLabel, beginTimeInformationLabel, endTimeInformationLabel);
         informationBox.setSpacing(20);
 
         HBox hBox = new HBox();
