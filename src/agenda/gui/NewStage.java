@@ -57,7 +57,7 @@ public class NewStage {
         State state = new State();
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
-        DataStore.setStages(this.deserializer.ReadStages());
+        DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
         this.newStage = new Stage();
         this.newStage.setTitle("New show");
 
@@ -430,7 +430,7 @@ public class NewStage {
             //Add the newly created show into the dataStore
             if (inputValid) {
                 this.serializer.Write(DataStore.getArtistsS(), Serializer.ARTISTS);
-                this.serializer.WriteStage(showStageList);
+                this.serializer.Write(showStageList, Serializer.STAGES);
                 DataStore.setShowA(this.newShow);
                 this.serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
                 this.newStage.close();

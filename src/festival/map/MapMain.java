@@ -262,7 +262,6 @@ public class MapMain extends Application {
         this.bfs.BFS(new Point2D.Double(this.foodArea.getX() / 32 + 1, this.foodArea.getY() / 32 + 1), this.route10);
 
         //This part prints out small black circles to display each NPC's current target location.
-        //TODO disable this for the final version, only used for testing
         if (!this.people.isEmpty()) {
             for (NPC person : this.people) {
                 person.draw(graphics, this.camera);
@@ -321,7 +320,7 @@ public class MapMain extends Application {
                                 visitorAction = 1;
                             }
                         }
-                    } else if (show.getEndTime() <= this.hours) {     //Verifies whether the current time matches the end time of the show
+                    } else if (show.getEndTime() == this.hours) {     //Verifies whether the current time matches the end time of the show
                         if (this.lastUpdateTime != this.hours) {
                             visitor.setWander(false);
                             visitorAction = -1;

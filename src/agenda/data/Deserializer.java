@@ -21,6 +21,7 @@ public class Deserializer implements Serializable {
     public List Read(int type) {
         List<Show> shows = null;
         List<Artist> artists = null;
+        List<Stage> stages = null;
 
         try {
             FileInputStream fileIn = null;
@@ -38,6 +39,12 @@ public class Deserializer implements Serializable {
                 objIn = new ObjectInputStream(fileIn);
 
                 artists = (List<Artist>) objIn.readObject();
+            //Return all Stages saved in the file
+            }else if (type ==Serializer.STAGES){
+                fileIn = new FileInputStream("Resources/stageStore.ser");
+                objIn = new ObjectInputStream(fileIn);
+
+                stages = (List<Stage>) objIn.readObject();
             }
 
             objIn.close();
@@ -57,6 +64,8 @@ public class Deserializer implements Serializable {
             return shows;
         }else if (type == Serializer.ARTISTS){
             return artists;
+        }else if (type == Serializer.STAGES){
+            return stages;
         }
 
         return null;

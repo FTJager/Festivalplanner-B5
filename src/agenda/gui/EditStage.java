@@ -238,7 +238,8 @@ public class EditStage {
                 }
                 if(!stageExists) {
                     DataStore.setNewStages(editedShow.getStage());
-                    serializer.WriteStage(DataStore.getStages());
+//                    serializer.WriteStage(DataStore.getStages());
+                    serializer.Write(DataStore.getStages(), Serializer.STAGES);
                 }
                 editShow.close();
                 DataStore.getShowsA().remove(deletedShow);
