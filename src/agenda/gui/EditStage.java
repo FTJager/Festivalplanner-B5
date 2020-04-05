@@ -282,7 +282,7 @@ public class EditStage {
                     }
                 }
                 if(found) {
-
+                    fieldBox.getChildren().removeAll(popularityField, stageBox, beginTimeField, endTimeField);
                     fieldBox.getChildren().addAll(popularityField, stageBox, beginTimeField, endTimeField);
 
                     popularityField.setText(Integer.toString(show.getPopularity()));
@@ -297,6 +297,7 @@ public class EditStage {
         }
         //No artist found, so artistNotFoundText is displayed
         if(!found && valid) {
+            artistBox.getChildren().remove(artistNotFoundText);
             artistBox.getChildren().add(artistNotFoundText);
         }
         //Prevents clicking on done, when the search failed

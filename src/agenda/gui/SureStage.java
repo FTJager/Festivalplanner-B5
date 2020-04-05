@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 
 public class SureStage {
     Deserializer deserializer = new Deserializer();
@@ -46,35 +47,40 @@ public class SureStage {
                 if (!deserializer.Read(Serializer.ARTISTS).isEmpty()){
                     DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
                 }
-                DataStore.getShowsA().remove(artistIndex-1);
+                ArrayList deletedArray = new ArrayList(DataStore.getShowsA());
+                deletedArray.remove(DataStore.getShowsA().remove(artistIndex - 1));
+                DataStore.setShowsA(deletedArray);
                 serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
             }
             //If nothing is filled in the artist field, we know we need to delete a stage
             else if(artistIndex == 0) {
-                Show deletedShow = null;
+                ArrayList<Show> deletedStages = new ArrayList();
                 if(!this.deserializer.ReadStages().isEmpty()) {
                     DataStore.setStages(this.deserializer.ReadStages());
                 }
                 for(Show show : DataStore.getShowsA()) {
                     if(show.getStage().getName().equalsIgnoreCase(DataStore.getStages().get(stageIndex-1).getName())) {
-                        deletedShow = show;
-
+                        deletedStages.add(show);
+                        System.out.println("Artist found:  " + show.getArtistA().get(0).getName());
                     }
                 }
-                if(deletedShow != null) {
-                    DataStore.getShowsA().remove(deletedShow);
+                if(!deletedStages.isEmpty()) {
+                    for(Show show : deletedStages) {
+                        System.out.println("Artist removed:  " + show.getArtistA().get(0).getName());
+                        ArrayList<Show> deletedShows = new ArrayList<>(DataStore.getShowsA());
+                        deletedShows.remove(show);
+                        DataStore.setShowsA(deletedShows);
+
+                    }
+
                 }
                 DataStore.getStages().remove(stageIndex-1);
+                serializer.Clear();
                 this.serializer.WriteStage(DataStore.getStages());
-                for(Show show : DataStore.getShowsA()) {
-                    System.out.println(show.getArtistA().get(0));
-                }
                 this.serializer.Write(DataStore.getShowsA(), Serializer.SHOWS);
             }
             //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
-            System.out.println("Current saved shows: " + DataStore.getShowsA().size());
-            System.out.println("Current saved stages: " + DataStore.getStages().size());
         });
 
         //When pressed on the "no" button, the desired show or stage will not be deleted from the existing shows
