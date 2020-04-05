@@ -42,7 +42,7 @@ public abstract class NPC {
         this.target = target;
         this.angle = 0;
         this.rotationSpeed = 0.20;
-        wander = false;
+        this.wander = false;
         this.speed = Math.random() + 2.5;
         this.baseSpeed = this.speed;
     }

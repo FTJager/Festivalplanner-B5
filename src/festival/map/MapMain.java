@@ -222,7 +222,6 @@ public class MapMain extends Application {
         //Create a number of Visitors
         while (this.visitors.size() < 20) {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 320 + (50 * 32), Math.random() * 320 + 40 * 32);
-//            Point2D spawnPoint = new Point2D.Double(spawnX + (90 * 32), spawnY + (90 * 32));
             Visitor visitor = new Visitor(spawnPoint, imageVisitor, this.toiletVisitor);
             boolean spaceTaken = false;
             if (this.visitors.isEmpty()) {
