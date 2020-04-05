@@ -17,7 +17,7 @@ Ik ben daarom begonnen aan een schets voor het ontwerp van de GUI,
 die ik op basis van wat we al van het ontwerp besproken hadden ging maken,
 met daarnaast nog wat eigen bepaalde functionaliteiten.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 De podium klasse was snel af, en het was een erg linear proces.
 Voor de GUI waren er nog veel losse eindes. 
 We hadden met elkaar vorige week en deze week de globale ontwerp van de GUI besproken.
@@ -40,7 +40,7 @@ Het maken van de tilemap was erg simpel, alleen het zoeken van de juiste tileset
 Naast het maken van de map, hadden wij ook als taak om de PVA uit te bereiden voor P&OC.
 Hierbij heb ik de hoofdstukken kwaliteitsbewaking en projectgrenzen gemaakt.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 Deze week heb ik dus voornamelijk met Timo aan de tilemap gewerkt.
 We hadden alle vrijheid en konden de tilemap eruit laten zien zoals wij dat willen.
 Wel hadden we een begrenzing met de tilesets, het was lastig om één goede uit te kiezen.
@@ -64,7 +64,7 @@ Nadat Timo een begin had gemaakt, ging ik verder werken.
 Hierbij had ik ervoor gezorgd dat er meerdere layers en meerdere tilesets uitgelezen konden worden.
 Waardoor we aan het eind van de week de tilemap fatsoenlijk uit hebben kunnen lezen met json.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 Timo heeft een heel goed begin gemaakt, 
 alsnog was het best lastig om dit om te zetten voor meerdere layers en tilesets.
 Om meerdere layers en tilesets uit te lezen met json, moest ik de code van timo wel wat veranderen.
@@ -100,7 +100,7 @@ Timo en ik zijn dus weer gaan zitten en hebben de tilemap verder uitgebreid met 
 Daarnaast ben ik deze week begonnen om een camera klasse te maken en goed te laten functioneren.
 Helaas is dit mij deze week niet gelukt.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 We moesten de tilemap deze week uitbereiden.
 We wilden alseerst weten hoe groot we het dan moesten maken.
 Uiteindelijk hebben we gekozen voor 110 bij 80, 
@@ -122,7 +122,7 @@ Er is nu wel wat lag, maar de camera werkt, en we zijn van plan om de lag komend
 Deze week hadden we ons al verdiept om te kijken of de tilemap één afbeelding kan worden.
 Dit is nog niet gelukt.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 Voor de camera klasse waren er niet veel keuzes die ik anders kon maken.
 Bij de object layer hebben we wel wat moeten overleggen.
 We hadden namelijk de keuze voor de grootte van elke target voor en op het podium.
@@ -139,7 +139,7 @@ Het leek erg makkelijk, maar ik had het onderschat omdat de afbeelding na het li
 Ik heb er uiteindelijk nog best lang aan gezeten.
 Daarnaast had ik deze week mijn deel van het PVA verbeterd.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 De camera werkte, maar voor een goed beeld is het het beste om een limiet te stellen aan de zoom.
 Ik heb dit deze week proberen te doen. 
 Maar de tilemap versprong toch altijd na het limiet.
@@ -179,7 +179,7 @@ Als laatst hebben we deze week samen de simulatie verbonden met de data store,
 en de NPC's onderverdeeld in artists en bezoekers.
 Ik heb deze week daarnaast ook de afbeeldingen voor de NPC's gemaakt.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 Aangezien het deze week allemaal gezamelijk was, waren er niet veel keuzes die ik kon maken voor de NPC code.
 Wel heb ik de poppetjes zelf gemaakt, hierbij heb ik wel een keuze gemaakt.
 Ik kon namelijk kiezen of ik iets van het internet zal halen, of zelf zal maken.
@@ -199,7 +199,7 @@ We hadden alles al bijna af en hadden begin van de week de taken verdeeld.
 Ik heb hierbij gekozen om de presentatie te maken.
 Daarnaast hebben we afgelopen dagen nog samen de laatste dingen verbeterd.
 
-###vakinhoudeijk:
+###vakinhoudelijk:
 Ik heb deze week alleen de presentatie in mijn eentje gedaan.
 We hadden minder informatie van wat er in de presentatie moest staan dan normaal.
 Ik had daarom een ruime keuze voor welke hoofdstukken ik erin zou willen hebben.
@@ -210,6 +210,7 @@ ALs laatst hebben we de evaluatie.
 
 #Stelling
 **In het bedrijfsleven wordt gebruik gemaakt van JavaFX**
+
 In veel bedrijven die java gebruiken wordt er nog gebruik gemaakt van java swing. 
 Veel van deze bedrijven weten niet hoeveel beter javafx is.
 Daarnaast kan het voor andere bedrijven te duur zijn om al hun aplicaties van java swing naar javafx te veranderen.
