@@ -206,7 +206,7 @@ public class MapMain extends Application {
         }
 
         //Create a number of Visitors
-        while (this.visitors.size() < 20) {
+        while (this.visitors.size() < 50) {
             Point2D spawnPoint = new Point2D.Double(Math.random() * 320 + (50 * 32), Math.random() * 320 + 40 * 32);
             Visitor visitor = new Visitor(spawnPoint, imageVisitor, this.toiletVisitor);
             boolean spaceTaken = false;
@@ -266,10 +266,10 @@ public class MapMain extends Application {
         if (!this.people.isEmpty()) {
             for (NPC person : this.people) {
                 person.draw(graphics, this.camera);
-                graphics.setColor(Color.BLUE);
-                graphics.drawOval((int) person.getTarget().getX(), (int) person.getTarget().getY(), 25, 25);
-                graphics.setColor(Color.PINK);
-                graphics.drawOval((int) person.getEndPoint().getX(), (int) person.getEndPoint().getY(), 25, 25);
+//                graphics.setColor(Color.BLUE);
+//                graphics.drawOval((int) person.getTarget().getX(), (int) person.getTarget().getY(), 25, 25);
+//                graphics.setColor(Color.PINK);
+//                graphics.drawOval((int) person.getEndPoint().getX(), (int) person.getEndPoint().getY(), 25, 25);
             }
         }
         //Prints a clock on the break room
