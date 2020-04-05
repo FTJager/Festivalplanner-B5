@@ -46,6 +46,7 @@ public class GUI extends Application {
     public void start(Stage stage) {
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
+        DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
 
         try {
             for(Show show : DataStore.getShowsA()){
@@ -160,8 +161,9 @@ public class GUI extends Application {
 
         //Updates the canvas so whenever the mouse reenters the main stage it draws all shows
         this.canvas.setOnMouseEntered(event -> {
-            DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
             DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
+            DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
+            DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
 
             graphics.clearRect(0, 0, (int)this.canvas.getWidth(), (int)this.canvas.getHeight());
 

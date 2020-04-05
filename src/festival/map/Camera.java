@@ -82,7 +82,7 @@ public class Camera {
 		} else {
 			this.zoom *= (1 + e.getDeltaY() / 250.0f);
 		}
-		System.out.println(this.zoom);
+//		System.out.println(this.zoom);
 
 
 	}

@@ -50,7 +50,7 @@ public class SureStage {
             }
             //If nothing is filled in the artist field, we know we need to delete a stage
             else if(artistIndex == 0) {
-                if(!this.deserializer.ReadStages().isEmpty()) {
+                if(!this.deserializer.Read(Serializer.STAGES).isEmpty()) {
                     DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
                 }
                 DataStore.getStages().remove(stageIndex-1);

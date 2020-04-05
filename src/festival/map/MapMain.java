@@ -165,6 +165,11 @@ public class MapMain extends Application {
         this.people = new ArrayList<>();
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
+        DataStore.setStages(this.deserializer.Read(Serializer.STAGES));
+
+        System.out.println("artists: " + DataStore.getArtistsS());
+        System.out.println("shows: " + DataStore.getShowsA());
+        System.out.println("stages: " + DataStore.getStages());
 
         //Sprite selection
         BufferedImage imageArtist = null;

@@ -95,20 +95,19 @@ public class Serializer implements Serializable{
         }
     }
 
-    //TODO Voeg samen met de Write methode
-    public void WriteStage(List<Stage> stages){
-        try {
-            FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
-            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+//    public void WriteStage(List<Stage> stages){
+//        try {
+//            FileOutputStream fileOut = new FileOutputStream("Resources/stageStore.ser");
+//            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
 
-            objOut.writeObject(stages);
+//            objOut.writeObject(stages);
 
-            objOut.close();
-            fileOut.close();
+//            objOut.close();
+//            fileOut.close();
 
-        }catch (IOException i){
-            i.printStackTrace();
-        }
+//        }catch (IOException i){
+//            i.printStackTrace();
+//        }
 
-    }
+//    }
 }
