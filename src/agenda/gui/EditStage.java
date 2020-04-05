@@ -168,8 +168,8 @@ public class EditStage {
                 timeChanged = this.editedShow.getStartTime() != Integer.parseInt(beginTimeField.getText()) ||
                         this.editedShow.getEndTime() != Integer.parseInt(endTimeField.getText());
             }
-            System.out.println(inputValid);
-            System.out.println("TimeValid: " + timeValid + "\nTimeChanged: " + timeChanged);
+//            System.out.println(inputValid);
+//            System.out.println("TimeValid: " + timeValid + "\nTimeChanged: " + timeChanged);
             if(timeValid && timeChanged) {
                 boolean oldShow;
                 //Will look if new times overlap

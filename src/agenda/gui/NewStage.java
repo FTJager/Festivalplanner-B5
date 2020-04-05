@@ -314,7 +314,6 @@ public class NewStage {
                 showStage.setName(this.stageField.getText());
                 //looks at the data store, if it is empty, there is no stage to compare
                 if(!DataStore.getStages().isEmpty()) {
-                    System.out.println(DataStore.getStages());
                     //Goes trough all stages and tries to find an equal stage
                     for(agenda.data.Stage stage : DataStore.getStages()) {
                         //if found, stage found = true
@@ -345,13 +344,15 @@ public class NewStage {
 
             if (!DataStore.getArtistsS().isEmpty()) {
                 List<Artist> artistsNotAdded = new ArrayList<>();
-                for (Artist artist : DataStore.getArtistsS()) {
+//                for (Artist artist : DataStore.getArtistsS()) {
                     for (Artist artistNew : newShow.getArtistA()) {
-                        if (!artist.getName().equalsIgnoreCase(artistNew.getName())) {
+                        if (!DataStore.getArtistsS().contains(artistNew)){
                             artistsNotAdded.add(artistNew);
                         }
+//                        if (!artist.getName().equalsIgnoreCase(artistNew.getName())) {
+//                        }
                     }
-                }
+//                }
                 List<Artist> artistsInList = DataStore.getArtistsS();
                 artistsInList.addAll(artistsNotAdded);
                 DataStore.setArtistsS(artistsInList);

@@ -9,8 +9,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollBar;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -20,7 +18,6 @@ import org.jfree.fx.ResizableCanvas;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +25,7 @@ import java.util.ArrayList;
 public class MapMain extends Application {
     private int hours;
     private double minutes;
+    private int lastUpdateTime = 0;
     Deserializer deserializer = new Deserializer();
     Serializer serializer = new Serializer();
 
@@ -167,7 +165,6 @@ public class MapMain extends Application {
         this.people = new ArrayList<>();
         DataStore.setShowsA(this.deserializer.Read(Serializer.SHOWS));
         DataStore.setArtistsS(this.deserializer.Read(Serializer.ARTISTS));
-        System.out.println(DataStore.getShowsA().get(0).getArtistA().get(0).getName());
 
         //Sprite selection
         BufferedImage imageArtist = null;
@@ -198,23 +195,12 @@ public class MapMain extends Application {
             } else if (!this.people.isEmpty()) {
                 for (NPC npc : this.people) {
                     if (npc.getPosition().distance(spawnPoint) <= NPC.SPRITESIZE) {
-                        spaceTaken = true;
+                        spawnPoint = new Point2D.Double(Math.random() * 320 + (10 * 32), Math.random() * 320 + 10 * 32);
                     }
                 }
-                if (!spaceTaken) {
-                    artistNpc.setRoute(this.route7);
-                    this.people.add(artistNpc);
-                    this.artists.add(artistNpc);
-                    //TODO Tweak the spawning of the NPC in general
-                    //Spawning feature, unfinished
-//                    if (spawnX < (NPC.SPRITESIZE + NPC.SPRITESIZE / 2) * 12){
-//                        spawnX += (NPC.SPRITESIZE  + NPC.SPRITESIZE / 2);
-//                    } else {
-//                        spawnX = NPC.SPRITESIZE;
-//                        spawnY += NPC.SPRITESIZE +  + NPC.SPRITESIZE / 2;
-//                    }
-
-                }
+                artistNpc.setRoute(this.route7);
+                this.people.add(artistNpc);
+                this.artists.add(artistNpc);
             }
 
         }
@@ -329,17 +315,17 @@ public class MapMain extends Application {
                     int visitorAction = 0;      //Integer that indicates what the visitor needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
                     if (show.getStartTime() == this.hours) {    //Verifies whether the current time matches the starting time of the show
                         //TODO use the Datastore to get the stage names, instead of hardcoding it
-                        if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
+                        if (this.lastUpdateTime != this.hours) {
                             visitor.setWander(false);
-                        }
-                        if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
-                            visitorAction = 1;
+                            if ((Math.random() * 100) <= (double)show.getPopularity()){    //Used the popularity to determine if the visitor will go to the show
+                                visitorAction = 1;
+                            }
                         }
                     } else if (show.getEndTime() <= this.hours) {     //Verifies whether the current time matches the end time of the show
-                        if (this.minutes <= 5) { //In the first 5 minutes of the hour all wander states are disabled if the target gets a new destination
+                        if (this.lastUpdateTime != this.hours) {
                             visitor.setWander(false);
+                            visitorAction = -1;
                         }
-                        visitorAction = -1;
                     }
                     //This part translates the desired actions into an actual goal and route for the visitors.
                     if (visitorAction != 0) {
@@ -389,13 +375,13 @@ public class MapMain extends Application {
                 for (Show show : DataStore.getShowsA()) {   //Loops through all shows in the show list
                     int artistAction = 0;       //Integer that indicates what the artist needs to do; 0 means nothing, 1 means go to show, -1 means leave the show.
                     if (show.getStartTime() == this.hours) {    //Checks if the current time matches the start time of any shows
-                        if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
+                        if (this.lastUpdateTime != this.hours) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
                             artist.setWander(false);
                         }
                         artistAction = 1;
                     }
                     if (show.getEndTime() <= this.hours) {
-                        if (this.minutes <= 5) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
+                        if (this.lastUpdateTime != this.hours) {     //In the first 5 minutes of the hour all wander states are disabled for artist that get a new destination
                             artist.setWander(false);
                         }
                         artistAction = -1;
@@ -446,6 +432,7 @@ public class MapMain extends Application {
 
             artist.update(this.people, this.bfs, this.map);
         }
+        this.lastUpdateTime = this.hours;
     }
 
     /**

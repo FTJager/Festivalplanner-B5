@@ -90,7 +90,6 @@ public class AddStage {
                 DataStore.setNewStages(newStage);
                 serializer.WriteStage(DataStore.getStages());
                 addStage.close();
-                System.out.println("Stage " + stageField.getText() + " added!");
             }
         });
 

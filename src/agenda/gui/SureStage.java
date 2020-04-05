@@ -58,8 +58,6 @@ public class SureStage {
             }
             //When confirmed, close the deleteStage and the show will be deleted
             delStage.close();
-            System.out.println("Current saved shows: " + DataStore.getShowsA().size());
-            System.out.println("Current saved stages: " + DataStore.getStages().size());
         });
 
         //When pressed on the "no" button, the desired show or stage will not be deleted from the existing shows
